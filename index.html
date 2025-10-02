@@ -5,166 +5,198 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pedido Bio-Fix</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 500px;
-      margin: auto;
-      padding: 20px;
-    }
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
+    body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; }
+    .container { max-width: 500px; margin: auto; padding: 20px; }
+    h2 { text-align: center; color: #333; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
     input, select, textarea, button {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
+      width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px;
     }
-    button {
-      background: #2e7d32;
-      color: white;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #1b5e20;
-    }
-    .hidden {
-      display: none;
-    }
+    button { background: #2e7d32; color: white; font-weight: bold; border: none; cursor: pointer; margin-top: 10px; }
+    button:hover { background: #1b5e20; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Pantalla 1: Datos -->
+
+    <!-- PANTALLA 1: Datos -->
     <div id="pantalla1">
       <h2>Datos del Profesional</h2>
-      <div class="form-group">
-        <label>Nombre</label>
-        <input type="text" id="nombre" required>
-      </div>
-      <div class="form-group">
-        <label>Apellido</label>
-        <input type="text" id="apellido" required>
-      </div>
-      <div class="form-group">
-        <label>DNI</label>
-        <input type="number" id="dni" required>
-      </div>
+      <div class="form-group"><label>Nombre</label><input type="text" id="nombre" required></div>
+      <div class="form-group"><label>Apellido</label><input type="text" id="apellido" required></div>
+      <div class="form-group"><label>DNI</label><input type="number" id="dni" required></div>
       <div class="form-group">
         <label>Provincia</label>
         <select id="provincia" required>
           <option value="">Seleccione...</option>
-          <option>Buenos Aires</option>
-          <option>Córdoba</option>
-          <option>Santa Fe</option>
-          <option>Mendoza</option>
-          <option>Tucumán</option>
-          <option>Entre Ríos</option>
-          <option>Misiones</option>
-          <option>Chaco</option>
-          <option>Salta</option>
-          <option>Jujuy</option>
-          <option>Neuquén</option>
-          <option>Río Negro</option>
-          <option>Chubut</option>
-          <option>Santa Cruz</option>
-          <option>La Pampa</option>
-          <option>San Juan</option>
-          <option>San Luis</option>
-          <option>Catamarca</option>
-          <option>La Rioja</option>
-          <option>Formosa</option>
-          <option>Santiago del Estero</option>
-          <option>Tierra del Fuego</option>
+          <option>Buenos Aires</option><option>Córdoba</option><option>Santa Fe</option><option>Mendoza</option>
+          <option>Tucumán</option><option>Entre Ríos</option><option>Misiones</option><option>Chaco</option>
+          <option>Salta</option><option>Jujuy</option><option>Neuquén</option><option>Río Negro</option>
+          <option>Chubut</option><option>Santa Cruz</option><option>La Pampa</option><option>San Juan</option>
+          <option>San Luis</option><option>Catamarca</option><option>La Rioja</option><option>Formosa</option>
+          <option>Santiago del Estero</option><option>Tierra del Fuego</option>
         </select>
       </div>
-      <div class="form-group">
-        <label>Localidad</label>
-        <input type="text" id="localidad" required>
-      </div>
-      <div class="form-group">
-        <label>Matrícula</label>
-        <input type="text" id="matricula" required>
-      </div>
-      <button onclick="irPantalla2()">Siguiente</button>
+      <div class="form-group"><label>Localidad</label><input type="text" id="localidad" required></div>
+      <div class="form-group"><label>Matrícula</label><input type="text" id="matricula" required></div>
+      <button onclick="irPantalla('pantalla2')">Siguiente</button>
     </div>
 
-    <!-- Pantalla 2: Selección de productos -->
+    <!-- PANTALLA 2: Categorías -->
     <div id="pantalla2" class="hidden">
-      <h2>Pedido</h2>
+      <h2>Seleccione categoría</h2>
+      <button onclick="irPantalla('implantes')">Implantes</button>
+      <button onclick="irPantalla('analogicos')">Comp. Protésicos Analógicos</button>
+      <button onclick="irPantalla('digitales')">Comp. Protésicos Digitales</button>
+      <button onclick="irPantalla('herramental')">Herramental</button>
+      <button onclick="irPantalla('final')">Finalizar Pedido</button>
+    </div>
 
+    <!-- PANTALLA IMPLANTES -->
+    <div id="implantes" class="hidden">
+      <h2>Sistemas de Implantes</h2>
+      <button onclick="irPantalla('hi')">Hexágono Interno</button>
+      <button onclick="irPantalla('he')">Hexágono Externo</button>
+      <button onclick="irPantalla('cono')">Cono Morse</button>
+      <button onclick="irPantalla('mono')">Monopieza</button>
+      <button onclick="irPantalla('basal')">Monopieza Basal</button>
+      <button onclick="irPantalla('multiunit')">Compresivo Multiunit</button>
+      <button onclick="irPantalla('minipilar')">Minipilares</button>
+      <button onclick="irPantalla('pantalla2')">⬅ Volver</button>
+    </div>
+
+    <!-- EJEMPLO SISTEMA: Hexágono Interno -->
+    <div id="hi" class="hidden">
+      <h2>Implantes - Hexágono Interno</h2>
       <div class="form-group">
-        <label>Implantes</label>
-        <select id="implanteSistema" onchange="mostrarOpcionesImplantes()">
-          <option value="">Seleccione sistema...</option>
-          <option>Hexágono Interno</option>
-          <option>Hexágono Externo</option>
-          <option>Cono Morse</option>
-          <option>Monopieza</option>
-          <option>Monopieza Basal</option>
-          <option>Compresivo Multiunit</option>
-          <option>Minipilares</option>
+        <label>Seleccione medidas</label>
+        <select multiple id="hi_medidas">
+          <!-- Cargar aquí todas las medidas HI -->
+          <option>Ø3.3 x 8.5 mm</option>
+          <option>Ø3.3 x 10 mm</option>
+          <option>Ø3.75 x 11.5 mm</option>
+          <option>Ø4.0 x 13 mm</option>
+          <option>Ø5.0 x 15 mm</option>
         </select>
       </div>
+      <button onclick="guardarSeleccion('hi_medidas','Implantes HI')">Agregar</button>
+      <button onclick="irPantalla('implantes')">⬅ Volver</button>
+    </div>
 
-      <div class="form-group hidden" id="implantesMedidas">
-        <label>Medidas disponibles</label>
-        <textarea id="implanteSeleccion" placeholder="Ej: HI Ø3.3 x 10mm, HE Ø4.0 x 11.5mm"></textarea>
-      </div>
-
+    <!-- Hexágono Externo -->
+    <div id="he" class="hidden">
+      <h2>Implantes - Hexágono Externo</h2>
       <div class="form-group">
-        <label>Componentes Protésicos Analógicos</label>
-        <textarea id="componentesAnalogicos" placeholder="Escriba aquí lo que necesita..."></textarea>
+        <label>Seleccione medidas</label>
+        <select multiple id="he_medidas">
+          <!-- Medidas HE -->
+        </select>
       </div>
+      <button onclick="guardarSeleccion('he_medidas','Implantes HE')">Agregar</button>
+      <button onclick="irPantalla('implantes')">⬅ Volver</button>
+    </div>
 
-      <div class="form-group">
-        <label>Componentes Protésicos Digitales</label>
-        <textarea id="componentesDigitales" placeholder="Escriba aquí lo que necesita..."></textarea>
-      </div>
+    <!-- Cono Morse -->
+    <div id="cono" class="hidden">
+      <h2>Implantes - Cono Morse</h2>
+      <div class="form-group"><select multiple id="cono_medidas"></select></div>
+      <button onclick="guardarSeleccion('cono_medidas','Implantes Cono Morse')">Agregar</button>
+      <button onclick="irPantalla('implantes')">⬅ Volver</button>
+    </div>
 
-      <div class="form-group">
-        <label>Herramental</label>
-        <textarea id="herramental" placeholder="Escriba aquí lo que necesita..."></textarea>
-      </div>
+    <!-- Monopieza -->
+    <div id="mono" class="hidden">
+      <h2>Implantes - Monopieza</h2>
+      <div class="form-group"><select multiple id="mono_medidas"></select></div>
+      <button onclick="guardarSeleccion('mono_medidas','Implantes Monopieza')">Agregar</button>
+      <button onclick="irPantalla('implantes')">⬅ Volver</button>
+    </div>
 
+    <!-- Basal -->
+    <div id="basal" class="hidden">
+      <h2>Implantes - Basal</h2>
+      <div class="form-group"><select multiple id="basal_medidas"></select></div>
+      <button onclick="guardarSeleccion('basal_medidas','Implantes Basal')">Agregar</button>
+      <button onclick="irPantalla('implantes')">⬅ Volver</button>
+    </div>
+
+    <!-- Multiunit -->
+    <div id="multiunit" class="hidden">
+      <h2>Implantes - Compresivo Multiunit</h2>
+      <div class="form-group"><select multiple id="multi_medidas"></select></div>
+      <button onclick="guardarSeleccion('multi_medidas','Implantes Multiunit')">Agregar</button>
+      <button onclick="irPantalla('implantes')">⬅ Volver</button>
+    </div>
+
+    <!-- Minipilares -->
+    <div id="minipilar" class="hidden">
+      <h2>Implantes - Minipilares</h2>
+      <div class="form-group"><select multiple id="minipilar_medidas"></select></div>
+      <button onclick="guardarSeleccion('minipilar_medidas','Implantes Minipilares')">Agregar</button>
+      <button onclick="irPantalla('implantes')">⬅ Volver</button>
+    </div>
+
+    <!-- COMPONENTES ANALÓGICOS -->
+    <div id="analogicos" class="hidden">
+      <h2>Componentes Analógicos</h2>
+      <select multiple id="analogicos_lista">
+        <!-- Cargar aquí todos los componentes -->
+      </select>
+      <button onclick="guardarSeleccion('analogicos_lista','Componentes Analógicos')">Agregar</button>
+      <button onclick="irPantalla('pantalla2')">⬅ Volver</button>
+    </div>
+
+    <!-- COMPONENTES DIGITALES -->
+    <div id="digitales" class="hidden">
+      <h2>Componentes Digitales</h2>
+      <select multiple id="digitales_lista">
+        <!-- Cargar aquí todos los componentes -->
+      </select>
+      <button onclick="guardarSeleccion('digitales_lista','Componentes Digitales')">Agregar</button>
+      <button onclick="irPantalla('pantalla2')">⬅ Volver</button>
+    </div>
+
+    <!-- HERRAMENTAL -->
+    <div id="herramental" class="hidden">
+      <h2>Herramental</h2>
+      <select multiple id="herramental_lista">
+        <!-- Cargar herramientas -->
+      </select>
+      <button onclick="guardarSeleccion('herramental_lista','Herramental')">Agregar</button>
+      <button onclick="irPantalla('pantalla2')">⬅ Volver</button>
+    </div>
+
+    <!-- PANTALLA FINAL -->
+    <div id="final" class="hidden">
+      <h2>Finalizar Pedido</h2>
       <div class="form-group">
-        <label>Enviar pedido a:</label>
+        <label>Enviar a:</label>
         <select id="vendedor">
           <option value="5491122223333">Vendedor 1</option>
           <option value="5491133334444">Vendedor 2</option>
-          <option value="5491144445555">Vendedor 3</option>
         </select>
       </div>
-
       <button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
+      <button onclick="irPantalla('pantalla2')">⬅ Volver</button>
     </div>
+
   </div>
 
   <script>
-    function irPantalla2() {
-      document.getElementById("pantalla1").classList.add("hidden");
-      document.getElementById("pantalla2").classList.remove("hidden");
+    let pedido = [];
+
+    function irPantalla(id) {
+      document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
     }
 
-    function mostrarOpcionesImplantes() {
-      document.getElementById("implantesMedidas").classList.remove("hidden");
+    function guardarSeleccion(selectId, titulo) {
+      let select = document.getElementById(selectId);
+      let seleccion = Array.from(select.selectedOptions).map(opt => opt.value).join(", ");
+      if (seleccion) pedido.push(`${titulo}: ${seleccion}`);
+      alert("Agregado al pedido");
     }
 
     function enviarWhatsApp() {
@@ -174,12 +206,6 @@
       let provincia = document.getElementById("provincia").value;
       let localidad = document.getElementById("localidad").value;
       let matricula = document.getElementById("matricula").value;
-
-      let implantes = document.getElementById("implanteSeleccion").value;
-      let analogicos = document.getElementById("componentesAnalogicos").value;
-      let digitales = document.getElementById("componentesDigitales").value;
-      let herramental = document.getElementById("herramental").value;
-
       let vendedor = document.getElementById("vendedor").value;
 
       let mensaje = `🦷 *Nuevo Pedido Bio-Fix* 🦷%0A
@@ -188,10 +214,7 @@
 🌎 Provincia: ${provincia}, Localidad: ${localidad}%0A
 📄 Matrícula: ${matricula}%0A
 --------------------%0A
-📌 Implantes: ${implantes}%0A
-📌 Componentes Analógicos: ${analogicos}%0A
-📌 Componentes Digitales: ${digitales}%0A
-📌 Herramental: ${herramental}`;
+${pedido.join("%0A")}`;
 
       let url = `https://wa.me/${vendedor}?text=${mensaje}`;
       window.open(url, "_blank");

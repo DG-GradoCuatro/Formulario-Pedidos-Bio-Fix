@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedido Bio-Fix</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      background: #2e7d32;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1b5e20;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Pantalla 1: Datos -->
+    <div id="pantalla1">
+      <h2>Datos del Profesional</h2>
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" id="nombre" required>
+      </div>
+      <div class="form-group">
+        <label>Apellido</label>
+        <input type="text" id="apellido" required>
+      </div>
+      <div class="form-group">
+        <label>DNI</label>
+        <input type="number" id="dni" required>
+      </div>
+      <div class="form-group">
+        <label>Provincia</label>
+        <select id="provincia" required>
+          <option value="">Seleccione...</option>
+          <option>Buenos Aires</option>
+          <option>Córdoba</option>
+          <option>Santa Fe</option>
+          <option>Mendoza</option>
+          <option>Tucumán</option>
+          <option>Entre Ríos</option>
+          <option>Misiones</option>
+          <option>Chaco</option>
+          <option>Salta</option>
+          <option>Jujuy</option>
+          <option>Neuquén</option>
+          <option>Río Negro</option>
+          <option>Chubut</option>
+          <option>Santa Cruz</option>
+          <option>La Pampa</option>
+          <option>San Juan</option>
+          <option>San Luis</option>
+          <option>Catamarca</option>
+          <option>La Rioja</option>
+          <option>Formosa</option>
+          <option>Santiago del Estero</option>
+          <option>Tierra del Fuego</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Localidad</label>
+        <input type="text" id="localidad" required>
+      </div>
+      <div class="form-group">
+        <label>Matrícula</label>
+        <input type="text" id="matricula" required>
+      </div>
+      <button onclick="irPantalla2()">Siguiente</button>
+    </div>
+
+    <!-- Pantalla 2: Selección de productos -->
+    <div id="pantalla2" class="hidden">
+      <h2>Pedido</h2>
+
+      <div class="form-group">
+        <label>Implantes</label>
+        <select id="implanteSistema" onchange="mostrarOpcionesImplantes()">
+          <option value="">Seleccione sistema...</option>
+          <option>Hexágono Interno</option>
+          <option>Hexágono Externo</option>
+          <option>Cono Morse</option>
+          <option>Monopieza</option>
+          <option>Monopieza Basal</option>
+          <option>Compresivo Multiunit</option>
+          <option>Minipilares</option>
+        </select>
+      </div>
+
+      <div class="form-group hidden" id="implantesMedidas">
+        <label>Medidas disponibles</label>
+        <textarea id="implanteSeleccion" placeholder="Ej: HI Ø3.3 x 10mm, HE Ø4.0 x 11.5mm"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Componentes Protésicos Analógicos</label>
+        <textarea id="componentesAnalogicos" placeholder="Escriba aquí lo que necesita..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Componentes Protésicos Digitales</label>
+        <textarea id="componentesDigitales" placeholder="Escriba aquí lo que necesita..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Herramental</label>
+        <textarea id="herramental" placeholder="Escriba aquí lo que necesita..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Enviar pedido a:</label>
+        <select id="vendedor">
+          <option value="5491122223333">Vendedor 1</option>
+          <option value="5491133334444">Vendedor 2</option>
+          <option value="5491144445555">Vendedor 3</option>
+        </select>
+      </div>
+
+      <button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
+    </div>
+  </div>
+
+  <script>
+    function irPantalla2() {
+      document.getElementById("pantalla1").classList.add("hidden");
+      document.getElementById("pantalla2").classList.remove("hidden");
+    }
+
+    function mostrarOpcionesImplantes() {
+      document.getElementById("implantesMedidas").classList.remove("hidden");
+    }
+
+    function enviarWhatsApp() {
+      let nombre = document.getElementById("nombre").value;
+      let apellido = document.getElementById("apellido").value;
+      let dni = document.getElementById("dni").value;
+      let provincia = document.getElementById("provincia").value;
+      let localidad = document.getElementById("localidad").value;
+      let matricula = document.getElementById("matricula").value;
+
+      let implantes = document.getElementById("implanteSeleccion").value;
+      let analogicos = document.getElementById("componentesAnalogicos").value;
+      let digitales = document.getElementById("componentesDigitales").value;
+      let herramental = document.getElementById("herramental").value;
+
+      let vendedor = document.getElementById("vendedor").value;
+
+      let mensaje = `🦷 *Nuevo Pedido Bio-Fix* 🦷%0A
+👤 Nombre: ${nombre} ${apellido}%0A
+🪪 DNI: ${dni}%0A
+🌎 Provincia: ${provincia}, Localidad: ${localidad}%0A
+📄 Matrícula: ${matricula}%0A
+--------------------%0A
+📌 Implantes: ${implantes}%0A
+📌 Componentes Analógicos: ${analogicos}%0A
+📌 Componentes Digitales: ${digitales}%0A
+📌 Herramental: ${herramental}`;
+
+      let url = `https://wa.me/${vendedor}?text=${mensaje}`;
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>

@@ -17,6 +17,7 @@ button:hover{background:#1ebe5c;}
 </style>
 </head>
 <body>
+
 <h2>Formulario de Pedido Bio-Fix</h2>
 
 <!-- SECCIÓN 1: DATOS ODONTÓLOGO -->
@@ -52,6 +53,7 @@ button:hover{background:#1ebe5c;}
 <h3 id="tituloProductos">Productos</h3>
 <div id="productos-list"></div>
 <button onclick="agregarProducto()">+ Agregar Producto</button>
+<button onclick="guardarProductos()">Guardar y volver a Categorías</button>
 <button onclick="mostrarResumen()">Ver Pedido</button>
 <button onclick="volverACategorias()">Volver</button>
 </div>
@@ -152,7 +154,7 @@ const catalogo = {
 let datosSeleccionados = { "Implantes":[], "Componentes Analógicos":[], "Herramental":[] };
 let categoriaActual = "";
 
-// --- FUNCIONES MOSTRAR PRODUCTOS, AGREGAR PRODUCTO, RESUMEN Y ENVIO ---
+// --- FUNCIONES MOSTRAR PRODUCTOS, AGREGAR PRODUCTO, GUARDAR, RESUMEN Y ENVIO ---
 function mostrarProductos(categoria){
   categoriaActual = categoria;
   document.getElementById("categorias-section").style.display="none";
@@ -187,38 +189,8 @@ function agregarProducto(){
   inputCantidad.style.display="none";
 
   // Eventos
-  selectProducto.addEventListener("change", ()=>{
-    const p = catalogo[categoriaActual][selectProducto.value];
-    selectSubtipo.innerHTML="<option value=''>Sub-opción</option>";
-    selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
-    selectSubtipo.style.display="none";
-    selectMedida.style.display="none";
-    inputCantidad.style.display="none";
-
-    if(Array.isArray(p)){
-      if(p.length>0){
-        selectMedida.style.display="block";
-        p.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`);
-        inputCantidad.style.display="block";
-      } else {
-        inputCantidad.style.display="block";
-      }
-    } else if(typeof p==="object"){
-      selectSubtipo.style.display="block";
-      for(let s in p){ selectSubtipo.innerHTML += `<option value="${s}">${s}</option>`; }
-    }
-  });
-
-  selectSubtipo.addEventListener("change", ()=>{
-    const p = catalogo[categoriaActual][selectProducto.value];
-    const medidas = p[selectSubtipo.value];
-    selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
-    if(medidas.length>0){
-      selectMedida.style.display="block";
-      medidas.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`);
-    } else { selectMedida.style.display="none"; }
-    inputCantidad.style.display="block";
-  });
+  selectProducto.addEventListener("change", ()=>{ manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad); });
+  selectSubtipo.addEventListener("change", ()=>{ manejarSubtipoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad); });
 
   div.appendChild(selectProducto);
   div.appendChild(selectSubtipo);
@@ -227,27 +199,49 @@ function agregarProducto(){
   lista.appendChild(div);
 }
 
+function manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad){
+  const p = catalogo[categoriaActual][selectProducto.value];
+  selectSubtipo.innerHTML="<option value=''>Sub-opción</option>";
+  selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
+  selectSubtipo.style.display="none";
+  selectMedida.style.display="none";
+  inputCantidad.style.display="none";
+
+  if(Array.isArray(p)){
+    if(p.length>0){ selectMedida.style.display="block"; p.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); inputCantidad.style.display="block"; } 
+    else { inputCantidad.style.display="block"; }
+  } else if(typeof p==="object"){
+    selectSubtipo.style.display="block";
+    for(let s in p){ selectSubtipo.innerHTML += `<option value="${s}">${s}</option>`; }
+  }
+}
+
+function manejarSubtipoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad){
+  const p = catalogo[categoriaActual][selectProducto.value];
+  const medidas = p[selectSubtipo.value];
+  selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
+  if(medidas.length>0){ selectMedida.style.display="block"; medidas.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); } 
+  else { selectMedida.style.display="none"; }
+  inputCantidad.style.display="block";
+}
+
 function cargarProductosGuardados(){
-  document.getElementById("productos-list").innerHTML="";
+  const lista = document.getElementById("productos-list");
+  lista.innerHTML="";
   datosSeleccionados[categoriaActual].forEach(item=>{
     const div = document.createElement("div");
     div.classList.add("item");
 
     const selectProducto = document.createElement("select");
     selectProducto.innerHTML = "<option value=''>Seleccionar producto</option>";
-    for(let p in catalogo[categoriaActual]){
-      selectProducto.innerHTML += `<option value="${p}" ${p===item.producto?'selected':''}>${p}</option>`;
-    }
+    for(let p in catalogo[categoriaActual]){ selectProducto.innerHTML += `<option value="${p}" ${p===item.producto?'selected':''}>${p}</option>`; }
 
     const selectSubtipo = document.createElement("select");
     selectSubtipo.innerHTML = "<option value=''>Sub-opción</option>";
     selectSubtipo.style.display=item.subtipo?"block":"none";
-
     if(item.subtipo){
       const opciones = catalogo[categoriaActual][item.producto];
-      for(let s in opciones){
-        selectSubtipo.innerHTML += `<option value="${s}" ${s===item.subtipo?'selected':''}>${s}</option>`;
-      }
+      for(let s in opciones){ selectSubtipo.innerHTML += `<option value="${s}" ${s===item.subtipo?'selected':''}>${s}</option>`; }
     }
 
     const selectMedida = document.createElement("select");
@@ -262,29 +256,45 @@ function cargarProductosGuardados(){
     inputCantidad.value=item.cantidad || "";
     inputCantidad.style.display="block";
 
+    selectProducto.addEventListener("change", ()=>{ manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad); });
+    selectSubtipo.addEventListener("change", ()=>{ manejarSubtipoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad); });
+
     div.appendChild(selectProducto);
     div.appendChild(selectSubtipo);
     div.appendChild(selectMedida);
     div.appendChild(inputCantidad);
-    document.getElementById("productos-list").appendChild(div);
+    lista.appendChild(div);
   });
 }
 
-function mostrarResumen(){
-  const resumenDiv = document.getElementById("resumenPedido");
-  resumenDiv.innerHTML="";
-  datosSeleccionados[categoriaActual]=[];
-  document.querySelectorAll("#productos-list .item").forEach(item=>{
+function guardarProductos(){
+  const lista = document.querySelectorAll("#productos-list .item");
+  datosSeleccionados[categoriaActual] = [];
+  lista.forEach(item=>{
     const producto = item.querySelector("select:nth-child(1)").value;
     const subtipo = item.querySelector("select:nth-child(2)").value;
     const medida = item.querySelector("select:nth-child(3)").value;
     const cantidad = item.querySelector("input").value;
-    if(producto && cantidad){
-      datosSeleccionados[categoriaActual].push({producto,subtipo,medida,cantidad});
-      resumenDiv.innerHTML += `• ${producto}${subtipo?' - '+subtipo:''}${medida?' : '+medida:''} x${cantidad}\n`;
-    }
+    if(producto && cantidad){ datosSeleccionados[categoriaActual].push({producto,subtipo,medida,cantidad}); }
   });
   document.getElementById("productos-section").style.display="none";
+  document.getElementById("categorias-section").style.display="block";
+}
+
+function mostrarResumen(){
+  guardarProductos(); // Guardamos antes de mostrar resumen
+  const resumenDiv = document.getElementById("resumenPedido");
+  resumenDiv.innerHTML="";
+  for(let cat in datosSeleccionados){
+    if(datosSeleccionados[cat].length>0){
+      resumenDiv.innerHTML += `📂 ${cat}:\n`;
+      datosSeleccionados[cat].forEach(item=>{
+        resumenDiv.innerHTML += `• ${item.producto}${item.subtipo?' - '+item.subtipo:''}${item.medida?' : '+item.medida:''} x${item.cantidad}\n`;
+      });
+    }
+  }
+  document.getElementById("productos-section").style.display="none";
+  document.getElementById("categorias-section").style.display="none";
   document.getElementById("resumen-section").style.display="block";
 }
 
@@ -312,7 +322,7 @@ function enviarPedido(){
   const link = `https://wa.me/${vendedores[0]}?text=${encodeURIComponent(mensaje)}`;
   window.open(link,"_blank");
 }
-
 </script>
+
 </body>
 </html>

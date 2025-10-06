@@ -145,11 +145,7 @@ const catalogo = {
 }
 };
 
-// --- GUARDAR DATOS SELECCIONADOS ---
-let datosSeleccionados = { "Implantes":[], "Componentes Analógicos":[], "Herramental":[] };
-let categoriaActual = "";
-
-// --- PRODUCTOS SIN MEDIDA ---
+// Productos que no usan Medida/Largo
 const sinMedida = [
   "Fresa Lanza",
   "Fresa Lanza Guiada",
@@ -158,6 +154,10 @@ const sinMedida = [
   "Pilar recto c/tornillo",
   "Pilar angulado c/tornillo"
 ];
+
+// --- GUARDAR DATOS SELECCIONADOS ---
+let datosSeleccionados = { "Implantes":[], "Componentes Analógicos":[], "Herramental":[] };
+let categoriaActual = "";
 
 // --- FUNCIONES ---
 function mostrarProductos(categoria){
@@ -205,26 +205,31 @@ function agregarProducto(){
 
 function manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad){
   const p = catalogo[categoriaActual][selectProducto.value];
-  selectSubtipo.innerHTML="<option value=''>Sub-opción</option>";
-  selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
-  selectSubtipo.style.display="none";
-  selectMedida.style.display="none";
-  inputCantidad.style.display="none";
 
+  selectSubtipo.innerHTML = "<option value=''>Sub-opción</option>";
+  selectMedida.innerHTML = "<option value=''>Medida / Largo</option>";
+  selectSubtipo.style.display = "none";
+  selectMedida.style.display = "none";
+  inputCantidad.style.display = "none";
+
+  // Productos sin medida
+  if(sinMedida.includes(selectProducto.value)){
+    if(Array.isArray(p)){
+      selectSubtipo.style.display = "block";
+      p.forEach(o => selectSubtipo.innerHTML += `<option value="${o}">${o}</option>`);
+    }
+    inputCantidad.style.display = "block";
+    return;
+  }
+
+  // Lógica normal
   if(Array.isArray(p)){
-    if(sinMedida.includes(selectProducto.value)){
-      // Mostrar opciones directamente como subtipo
-      selectSubtipo.style.display="block";
-      p.forEach(m => selectSubtipo.innerHTML += `<option value="${m}">${m}</option>`);
-      inputCantidad.style.display="block";
-    } else {
-      if(p.length>0 && p[0]!==""){ 
-        selectMedida.style.display="block"; 
-        p.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); 
-        inputCantidad.style.display="block"; 
-      } else { 
-        inputCantidad.style.display="block"; 
-      }
+    if(p.length>0 && p[0]!==""){ 
+      selectMedida.style.display="block"; 
+      p.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); 
+      inputCantidad.style.display="block"; 
+    } else { 
+      inputCantidad.style.display="block"; 
     }
   } else if(typeof p==="object"){
     selectSubtipo.style.display="block";
@@ -235,22 +240,16 @@ function manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inpu
 function manejarSubtipoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad){
   const p = catalogo[categoriaActual][selectProducto.value];
   const medidas = p[selectSubtipo.value];
-
-  if(sinMedida.includes(selectProducto.value)){
-    selectMedida.style.display="none";
-  } else {
-    selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
-    if(medidas && medidas.length>0 && medidas[0]!==""){ 
-      selectMedida.style.display="block"; 
-      medidas.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); 
-    } else { 
-      selectMedida.style.display="none"; 
-    }
+  selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
+  if(medidas && medidas.length>0 && medidas[0]!==""){ 
+    selectMedida.style.display="block"; 
+    medidas.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); 
+  } else { 
+    selectMedida.style.display="none"; 
   }
   inputCantidad.style.display="block";
 }
 
-// --- CARGAR Y GUARDAR PRODUCTOS ---
 function cargarProductosGuardados(){
   const lista = document.getElementById("productos-list");
   lista.innerHTML="";
@@ -344,7 +343,7 @@ function enviarPedido(){
     }
   }
 
-  const vendedores = ["5491123456789"];
+  const vendedores = ["5491134019090"];
   const link = `https://wa.me/${vendedores[0]}?text=${encodeURIComponent(mensaje)}`;
   window.open(link,"_blank");
 }

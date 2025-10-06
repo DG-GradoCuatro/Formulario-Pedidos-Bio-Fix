@@ -73,8 +73,14 @@ button:hover{background:#1ebe5c;}
 const campos = ["nombre","apellido","dni","matricula","provincia","localidad"];
 const btnSiguienteDatos = document.getElementById("btnSiguienteDatos");
 
+// CORRECCIÓN: input para inputs, change para selects
 campos.forEach(id => {
-  document.getElementById(id).addEventListener("input", validarDatos);
+  const el = document.getElementById(id);
+  if(el.tagName === "SELECT"){
+    el.addEventListener("change", validarDatos);
+  } else {
+    el.addEventListener("input", validarDatos);
+  }
 });
 
 function validarDatos(){
@@ -122,7 +128,7 @@ const catalogo = {
                        "Ø4.5 x 10 mm","Ø4.5 x 12 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 21 mm","Ø4.5 x 23 mm","Ø4.5 x 24 mm","Ø4.5 x 26 mm","Ø4.5 x 28 mm","Ø4.5 x 24 mm C14","Ø4.5 x 26 mm C16","Ø4.5 x 28 mm C18",
                        "Ø5.5 x 10 mm","Ø4.5 x 12 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm",
                        "Ø6.5 X 10 mm","Ø6.5 x 12 mm","Ø6.5 x 15 mm",
-                       "Ø8.5 X 10 mm","Ø8.5 x 12 mm","Ø8.5 x 15 mm",]
+                       "Ø8.5 X 10 mm","Ø8.5 x 12 mm","Ø8.5 x 15 mm",],
   "Compresivo Multiunit": ["Ø3.75 x 10 mm","Ø4.0 x 13 mm"]
 },
 "Componentes Analógicos": {

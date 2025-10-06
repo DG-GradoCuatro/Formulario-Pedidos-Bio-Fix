@@ -8,13 +8,12 @@
 body { font-family: Arial, sans-serif; padding: 15px; background: #f4f4f4; }
 h2,h3{text-align:center;margin-bottom:10px;}
 .section{background:#fff;padding:15px;border-radius:10px;margin-bottom:20px;display:none;}
-.item{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
-select,input{padding:5px;flex:1;}
-button{background:#25d366;color:#fff;border:none;padding:10px;border-radius:8px;cursor:pointer;margin-top:10px;}
+.item{display:flex;flex-direction:column;gap:10px;margin-bottom:10px;}
+select,input{padding:10px;font-size:16px;width:100%;}
+button{background:#25d366;color:#fff;border:none;padding:12px;border-radius:8px;cursor:pointer;margin-top:10px;font-size:16px;}
 button:hover{background:#1ebe5c;}
 .nota-seguridad{font-size:12px;color:#555;text-align:center;margin-top:10px;}
 #resumenPedido{white-space:pre-line; background:#eee; padding:10px; border-radius:8px;}
-input[type=text], input[type=number], select {width:100%; margin-bottom:10px;}
 </style>
 </head>
 <body>
@@ -45,6 +44,7 @@ input[type=text], input[type=number], select {width:100%; margin-bottom:10px;}
 <button onclick="mostrarProductos('Implantes')">Implantes</button>
 <button onclick="mostrarProductos('Componentes Analógicos')">Componentes Analógicos</button>
 <button onclick="mostrarProductos('Herramental')">Herramental</button>
+<button onclick="volverADatos()">Volver</button>
 </div>
 
 <!-- SECCIÓN 3: PRODUCTOS -->
@@ -53,6 +53,7 @@ input[type=text], input[type=number], select {width:100%; margin-bottom:10px;}
 <div id="productos-list"></div>
 <button onclick="agregarProducto()">+ Agregar Producto</button>
 <button onclick="mostrarResumen()">Ver Pedido</button>
+<button onclick="volverACategorias()">Volver</button>
 </div>
 
 <!-- SECCIÓN 4: RESUMEN -->
@@ -60,6 +61,7 @@ input[type=text], input[type=number], select {width:100%; margin-bottom:10px;}
 <h3>Resumen del Pedido</h3>
 <div id="resumenPedido"></div>
 <button onclick="enviarPedido()">Enviar por WhatsApp</button>
+<button onclick="volverAProductos()">Volver</button>
 </div>
 
 <p class="nota-seguridad">🔒 Tu información se procesa de forma segura.</p>
@@ -79,6 +81,11 @@ btnSiguienteDatos.addEventListener("click", ()=>{
   document.getElementById("categorias-section").style.display="block";
 });
 
+// BOTONES VOLVER
+function volverADatos(){ document.getElementById("categorias-section").style.display="none"; document.getElementById("datos-section").style.display="block"; }
+function volverACategorias(){ document.getElementById("productos-section").style.display="none"; document.getElementById("categorias-section").style.display="block"; }
+function volverAProductos(){ document.getElementById("resumen-section").style.display="none"; document.getElementById("productos-section").style.display="block"; }
+
 // CATALOGO COMPLETO
 const catalogo = {
   "Implantes": {
@@ -86,17 +93,16 @@ const catalogo = {
                          "Ø3.75 x 6.5 mm","Ø3.75 x 8 mm","Ø3.75 x 10 mm","Ø3.75 x 11.5 mm","Ø3.75 x 13 mm","Ø3.75 x 16 mm",
                          "Ø4.2 x 6.5 mm","Ø4.2 x 8 mm","Ø4.2 x 10 mm","Ø4.2 x 11.5 mm","Ø4.2 x 13 mm","Ø4.2 x 16 mm",
                          "Ø5.0 x 6.5 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm","Ø5.0 x 16 mm"],
-    "Hexágono Externo": {"Ø3.30 (Plataforma Ø3.4)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
-                         "Ø3.75 (Plataforma Ø4.1)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
-                         "Ø4.0 (Plataforma Ø4.1)": ["6 mm","8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
-                         "Ø5.0 (Plataforma Ø5.0)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"]},
+    "Hexágono Externo": {
+      "Ø3.30 (Plataforma Ø3.4)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
+      "Ø3.75 (Plataforma Ø4.1)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
+      "Ø4.0 (Plataforma Ø4.1)": ["6 mm","8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
+      "Ø5.0 (Plataforma Ø5.0)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"]
+    },
     "Cono Morse": ["Ø3.5 x 11.5 mm","Ø4.0 x 13 mm"],
     "Monopieza": ["Ø3.0 x 10 mm","Ø3.5 x 13 mm"],
     "Monopieza Basal": ["Ø3.5 x 10 mm","Ø4.0 x 12 mm"],
-    "Compresivo Multiunit": ["Ø3.75 x 10 mm","Ø4.0 x 13 mm"],
-    "Minipilares": {"Hexágono Interno":["H1","H2","H3","H4","H5"],
-                    "Hexágono Externo":["H1","H2","H3","H4","H5"],
-                    "Cono Morse":["H0.8","H1.5","H2.5","H3.5","H4.5","H5.5"]}
+    "Compresivo Multiunit": ["Ø3.75 x 10 mm","Ø4.0 x 13 mm"]
   },
   "Componentes Analógicos": {
     "Hexágono Interno": {
@@ -157,50 +163,77 @@ function mostrarProductos(cat){
   document.getElementById("productos-list").innerHTML="";
 }
 
-// Aquí agregamos la lógica de agregar productos según categoría
+// FUNCIONES PARA AGREGAR PRODUCTOS
 function agregarProducto(){
-  const div = document.createElement("div");
+  const div=document.createElement("div");
   div.classList.add("item");
 
   if(categoriaActual==="Implantes"){
-    // Código de implantes como antes...
+    const selectSistema=document.createElement("select");
+    selectSistema.innerHTML="<option value=''>Seleccionar sistema</option>";
+    for(let s in catalogo["Implantes"]) selectSistema.innerHTML+=`<option value="${s}">${s}</option>`;
+    const selectSubtipo=document.createElement("select");
+    selectSubtipo.innerHTML="<option value=''>Seleccionar subtipo</option>";
+    selectSubtipo.style.display="none";
+    const selectMedida=document.createElement("select");
+    selectMedida.innerHTML="<option value=''>Seleccionar medida</option>";
+    selectMedida.style.display="none";
+    const inputCantidad=document.createElement("input");
+    inputCantidad.type="number"; inputCantidad.placeholder="Cantidad"; inputCantidad.min=1;
+
+    selectSistema.addEventListener("change", ()=>{
+      selectSubtipo.innerHTML="<option value=''>Seleccionar subtipo</option>";
+      selectSubtipo.style.display="none";
+      selectMedida.innerHTML="<option value=''>Seleccionar medida</option>";
+      selectMedida.style.display="none";
+      const sis=selectSistema.value;
+      if(typeof catalogo.Implantes[sis]==="object" && !Array.isArray(catalogo.Implantes[sis])){
+        selectSubtipo.style.display="inline-block";
+        for(let st in catalogo.Implantes[sis]) selectSubtipo.innerHTML+=`<option value="${st}">${st}</option>`;
+      } else {
+        selectMedida.style.display="inline-block";
+        catalogo.Implantes[sis].forEach(m=> selectMedida.innerHTML+=`<option value="${m}">${m}</option>`);
+      }
+    });
+
+    selectSubtipo.addEventListener("change", ()=>{
+      selectMedida.innerHTML="<option value=''>Seleccionar medida</option>";
+      const sis=selectSistema.value;
+      const st=selectSubtipo.value;
+      catalogo.Implantes[sis][st].forEach(m=> selectMedida.innerHTML+=`<option value="${m}">${m}</option>`);
+      selectMedida.style.display="inline-block";
+    });
+
+    div.appendChild(selectSistema);
+    div.appendChild(selectSubtipo);
+    div.appendChild(selectMedida);
+    div.appendChild(inputCantidad);
   }
 
   if(categoriaActual==="Componentes Analógicos"){
     const selectSistema=document.createElement("select");
     selectSistema.innerHTML="<option value=''>Seleccionar sistema</option>";
     for(let s in catalogo["Componentes Analógicos"]) selectSistema.innerHTML+=`<option value="${s}">${s}</option>`;
-    
     const selectProducto=document.createElement("select");
     selectProducto.innerHTML="<option value=''>Seleccionar producto</option>";
-    
     const selectAltura=document.createElement("select");
     selectAltura.innerHTML="<option value=''>Seleccionar altura/opción</option>";
     selectAltura.style.display="none";
-
     const inputCantidad=document.createElement("input");
-    inputCantidad.type="number";
-    inputCantidad.placeholder="Cantidad";
-    inputCantidad.min=1;
+    inputCantidad.type="number"; inputCantidad.placeholder="Cantidad"; inputCantidad.min=1;
 
     selectSistema.addEventListener("change", ()=>{
       selectProducto.innerHTML="<option value=''>Seleccionar producto</option>";
       selectAltura.innerHTML="<option value=''>Seleccionar altura/opción</option>";
       selectAltura.style.display="none";
-      const productos = catalogo["Componentes Analógicos"][selectSistema.value];
-      for(let p in productos) selectProducto.innerHTML+=`<option value="${p}">${p}</option>`;
+      for(let p in catalogo["Componentes Analógicos"][selectSistema.value]) selectProducto.innerHTML+=`<option value="${p}">${p}</option>`;
     });
 
     selectProducto.addEventListener("change", ()=>{
       selectAltura.innerHTML="<option value=''>Seleccionar altura/opción</option>";
-      const sis = selectSistema.value;
-      const prod = selectProducto.value;
-      if(catalogo["Componentes Analógicos"][sis][prod].length>0){
-        selectAltura.style.display="inline-block";
-        catalogo["Componentes Analógicos"][sis][prod].forEach(a=>{
-          selectAltura.innerHTML+=`<option value="${a}">${a}</option>`;
-        });
-      }else selectAltura.style.display="none";
+      const alturas=catalogo["Componentes Analógicos"][selectSistema.value][selectProducto.value];
+      if(alturas.length>0) selectAltura.style.display="inline-block";
+      alturas.forEach(a=> selectAltura.innerHTML+=`<option value="${a}">${a}</option>`);
     });
 
     div.appendChild(selectSistema);
@@ -210,52 +243,57 @@ function agregarProducto(){
   }
 
   if(categoriaActual==="Herramental"){
-    const selectProducto=document.createElement("select");
-    selectProducto.innerHTML="<option value=''>Seleccionar producto</option>";
-    catalogo.Herramental.forEach(p=> selectProducto.innerHTML+=`<option value="${p}">${p}</option>`);
+    const selectHerramienta=document.createElement("select");
+    selectHerramienta.innerHTML="<option value=''>Seleccionar herramienta</option>";
+    catalogo["Herramental"].forEach(h=> selectHerramienta.innerHTML+=`<option value="${h}">${h}</option>`);
     const inputCantidad=document.createElement("input");
-    inputCantidad.type="number";
-    inputCantidad.placeholder="Cantidad";
-    inputCantidad.min=1;
-    div.appendChild(selectProducto);
+    inputCantidad.type="number"; inputCantidad.placeholder="Cantidad"; inputCantidad.min=1;
+
+    div.appendChild(selectHerramienta);
     div.appendChild(inputCantidad);
   }
 
   document.getElementById("productos-list").appendChild(div);
 }
 
-// Resumen y envío
+// MOSTRAR RESUMEN
 function mostrarResumen(){
-  const resumenDiv=document.getElementById("resumenPedido");
-  let texto="";
-  campos.forEach(c=>{texto+=`${c.toUpperCase()}: ${document.getElementById(c).value}\n`;});
+  let resumen="";
   document.querySelectorAll("#productos-list .item").forEach(item=>{
     const selects=item.querySelectorAll("select");
-    const inputs=item.querySelectorAll("input");
-    let linea="";
+    const input=item.querySelector("input");
+    const cant=input.value;
+    if(categoriaActual==="Implantes"){
+      const s=selects[0].value, st=selects[1].value, m=selects[2].value;
+      if(s && m && cant) resumen+=st ? `🦷 ${s} - ${st}: ${m} x${cant}\n` : `🦷 ${s}: ${m} x${cant}\n`;
+    }
     if(categoriaActual==="Componentes Analógicos"){
-      const sis=selects[0].value;
-      const prod=selects[1].value;
-      const alt=selects[2].value;
-      const cant=inputs[0].value;
-      if(sis && prod && cant) linea=`🦷 ${sis} - ${prod}${alt? " - "+alt:""} x${cant}`;
+      const s=selects[0].value, p=selects[1].value, a=selects[2].value;
+      if(s && p && cant) resumen+=a ? `🦷 ${s} - ${p}: ${a} x${cant}\n` : `🦷 ${s} - ${p}: x${cant}\n`;
     }
     if(categoriaActual==="Herramental"){
-      const prod=selects[0].value;
-      const cant=inputs[0].value;
-      if(prod && cant) linea=`🛠️ ${prod} x${cant}`;
+      const h=selects[0].value;
+      if(h && cant) resumen+=`🛠️ ${h} x${cant}\n`;
     }
-    texto+=linea? linea+"\n":"";
   });
-  resumenDiv.textContent=texto;
   document.getElementById("productos-section").style.display="none";
   document.getElementById("resumen-section").style.display="block";
+  const nombre=document.getElementById("nombre").value;
+  const apellido=document.getElementById("apellido").value;
+  const dni=document.getElementById("dni").value;
+  const matricula=document.getElementById("matricula").value;
+  const provincia=document.getElementById("provincia").value;
+  const localidad=document.getElementById("localidad").value;
+  document.getElementById("resumenPedido").textContent=
+    `🆕 Pedido Bio-Fix\n👤 ${nombre} ${apellido}\n🪪 DNI: ${dni}\n📄 Matrícula: ${matricula}\n📍 ${provincia}, ${localidad}\n--------------------\n`+resumen;
 }
 
+// ENVIAR POR WHATSAPP
 function enviarPedido(){
   const mensaje=document.getElementById("resumenPedido").textContent;
-  const vendedor="5491123456789";
-  window.open("https://wa.me/"+vendedor+"?text="+encodeURIComponent(mensaje), "_blank");
+  const vendedores=["5491123456789"]; // Cambiar por tu número real
+  const link=`https://wa.me/${vendedores[0]}?text=${encodeURIComponent(mensaje)}`;
+  window.open(link,"_blank");
 }
 </script>
 </body>

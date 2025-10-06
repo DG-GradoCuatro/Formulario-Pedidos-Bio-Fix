@@ -339,9 +339,12 @@ function enviarPedido(){
     }
   }
 
-  const vendedores = ["5491134019090"];
-  const link = `https://wa.me/${vendedores[0]}?text=${encodeURIComponent(mensaje)}`;
-  window.open(link,"_blank");
+  const vendedores = ["5491134019090","5491164336112"]; // más de un vendedor
+
+  vendedores.forEach(vendedor => {
+    const link = `https://wa.me/${vendedor}?text=${encodeURIComponent(mensaje)}`;
+    window.open(link, "_blank");
+  });
 }
 </script>
 

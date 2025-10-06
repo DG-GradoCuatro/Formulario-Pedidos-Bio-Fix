@@ -154,7 +154,7 @@ const catalogo = {
 let datosSeleccionados = { "Implantes":[], "Componentes Analógicos":[], "Herramental":[] };
 let categoriaActual = "";
 
-// --- FUNCIONES MOSTRAR PRODUCTOS, AGREGAR PRODUCTO, GUARDAR, RESUMEN Y ENVIO ---
+// --- FUNCIONES ---
 function mostrarProductos(categoria){
   categoriaActual = categoria;
   document.getElementById("categorias-section").style.display="none";
@@ -208,7 +208,7 @@ function manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inpu
   inputCantidad.style.display="none";
 
   if(Array.isArray(p)){
-    if(p.length>0){ selectMedida.style.display="block"; p.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); inputCantidad.style.display="block"; } 
+    if(p.length>0 && p[0]!==""){ selectMedida.style.display="block"; p.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); inputCantidad.style.display="block"; } 
     else { inputCantidad.style.display="block"; }
   } else if(typeof p==="object"){
     selectSubtipo.style.display="block";
@@ -220,7 +220,7 @@ function manejarSubtipoChange(selectProducto, selectSubtipo, selectMedida, input
   const p = catalogo[categoriaActual][selectProducto.value];
   const medidas = p[selectSubtipo.value];
   selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
-  if(medidas.length>0){ selectMedida.style.display="block"; medidas.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); } 
+  if(medidas.length>0 && medidas[0]!==""){ selectMedida.style.display="block"; medidas.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); } 
   else { selectMedida.style.display="none"; }
   inputCantidad.style.display="block";
 }
@@ -282,14 +282,14 @@ function guardarProductos(){
 }
 
 function mostrarResumen(){
-  guardarProductos(); // Guardamos antes de mostrar resumen
+  guardarProductos(); 
   const resumenDiv = document.getElementById("resumenPedido");
   resumenDiv.innerHTML="";
   for(let cat in datosSeleccionados){
     if(datosSeleccionados[cat].length>0){
-      resumenDiv.innerHTML += `📂 ${cat}:\n`;
+      resumenDiv.innerHTML += `${cat}:\n`;
       datosSeleccionados[cat].forEach(item=>{
-        resumenDiv.innerHTML += `• ${item.producto}${item.subtipo?' - '+item.subtipo:''}${item.medida?' : '+item.medida:''} x${item.cantidad}\n`;
+        resumenDiv.innerHTML += `- ${item.producto}${item.subtipo?' - '+item.subtipo:''}${item.medida?' : '+item.medida:''} x${item.cantidad}\n`;
       });
     }
   }
@@ -306,14 +306,14 @@ function enviarPedido(){
   const provincia = document.getElementById("provincia").value;
   const localidad = document.getElementById("localidad").value;
 
-  let mensaje = `🆕 Nuevo Pedido Bio-Fix\n`;
-  mensaje += `👤 Nombre: ${nombre} ${apellido}\n🪪 DNI: ${dni}\n📄 Matrícula: ${matricula}\n📍 Provincia: ${provincia}, Localidad: ${localidad}\n--------------------\n`;
+  let mensaje = `Nuevo Pedido Bio-Fix\n`;
+  mensaje += `Nombre: ${nombre} ${apellido}\nDNI: ${dni}\nMatrícula: ${matricula}\nProvincia: ${provincia}, Localidad: ${localidad}\n--------------------\n`;
 
   for(let cat in datosSeleccionados){
     if(datosSeleccionados[cat].length>0){
-      mensaje += `📂 ${cat}:\n`;
+      mensaje += `${cat}:\n`;
       datosSeleccionados[cat].forEach(item=>{
-        mensaje += `• ${item.producto}${item.subtipo?' - '+item.subtipo:''}${item.medida?' : '+item.medida:''} x${item.cantidad}\n`;
+        mensaje += `- ${item.producto}${item.subtipo?' - '+item.subtipo:''}${item.medida?' : '+item.medida:''} x${item.cantidad}\n`;
       });
     }
   }
@@ -326,3 +326,4 @@ function enviarPedido(){
 
 </body>
 </html>
+

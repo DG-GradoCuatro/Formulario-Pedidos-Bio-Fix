@@ -145,15 +145,8 @@ const catalogo = {
 }
 };
 
-// Productos que no usan Medida/Largo
-const sinMedida = [
-  "Fresa Lanza",
-  "Fresa Lanza Guiada",
-  "Tapa de cicatrización",
-  "Transfer cubeta",
-  "Pilar recto c/tornillo",
-  "Pilar angulado c/tornillo"
-];
+// --- Productos sin medida (solo opciones fijas) ---
+const sinMedida = ["Fresa Lanza","Fresa Lanza Guiada"];
 
 // --- GUARDAR DATOS SELECCIONADOS ---
 let datosSeleccionados = { "Implantes":[], "Componentes Analógicos":[], "Herramental":[] };
@@ -181,11 +174,9 @@ function agregarProducto(){
 
   const selectSubtipo = document.createElement("select");
   selectSubtipo.style.display="none";
-  selectSubtipo.innerHTML = "<option value=''>Sub-opción</option>";
 
   const selectMedida = document.createElement("select");
   selectMedida.style.display="none";
-  selectMedida.innerHTML = "<option value=''>Medida / Largo</option>";
 
   const inputCantidad = document.createElement("input");
   inputCantidad.type="number";
@@ -206,33 +197,34 @@ function agregarProducto(){
 function manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad){
   const p = catalogo[categoriaActual][selectProducto.value];
 
-  selectSubtipo.innerHTML = "<option value=''>Sub-opción</option>";
-  selectMedida.innerHTML = "<option value=''>Medida / Largo</option>";
   selectSubtipo.style.display = "none";
   selectMedida.style.display = "none";
   inputCantidad.style.display = "none";
+  selectSubtipo.innerHTML = "";
+  selectMedida.innerHTML = "";
 
-  // Productos sin medida
+  if(!p) return;
+
+  // Productos sin medida → mostrar directamente opciones
   if(sinMedida.includes(selectProducto.value)){
-    if(Array.isArray(p)){
-      selectSubtipo.style.display = "block";
-      p.forEach(o => selectSubtipo.innerHTML += `<option value="${o}">${o}</option>`);
-    }
+    selectSubtipo.style.display = "block";
+    selectSubtipo.innerHTML = "<option value=''>Seleccionar</option>";
+    p.forEach(o => selectSubtipo.innerHTML += `<option value="${o}">${o}</option>`);
     inputCantidad.style.display = "block";
     return;
   }
 
-  // Lógica normal
+  // Si es array → medidas
   if(Array.isArray(p)){
-    if(p.length>0 && p[0]!==""){ 
-      selectMedida.style.display="block"; 
-      p.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); 
-      inputCantidad.style.display="block"; 
-    } else { 
-      inputCantidad.style.display="block"; 
-    }
-  } else if(typeof p==="object"){
-    selectSubtipo.style.display="block";
+    selectMedida.style.display = "block"; 
+    selectMedida.innerHTML = "<option value=''>Seleccionar</option>";
+    p.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); 
+    inputCantidad.style.display = "block"; 
+  }
+  // Si es objeto → subtipo con medidas
+  else if(typeof p === "object"){
+    selectSubtipo.style.display = "block";
+    selectSubtipo.innerHTML = "<option value=''>Seleccionar</option>";
     for(let s in p){ selectSubtipo.innerHTML += `<option value="${s}">${s}</option>`; }
   }
 }
@@ -240,8 +232,8 @@ function manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inpu
 function manejarSubtipoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad){
   const p = catalogo[categoriaActual][selectProducto.value];
   const medidas = p[selectSubtipo.value];
-  selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
-  if(medidas && medidas.length>0 && medidas[0]!==""){ 
+  selectMedida.innerHTML = "<option value=''>Seleccionar</option>";
+  if(medidas && medidas.length>0){ 
     selectMedida.style.display="block"; 
     medidas.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); 
   } else { 
@@ -262,17 +254,21 @@ function cargarProductosGuardados(){
     for(let p in catalogo[categoriaActual]){ selectProducto.innerHTML += `<option value="${p}" ${p===item.producto?'selected':''}>${p}</option>`; }
 
     const selectSubtipo = document.createElement("select");
-    selectSubtipo.innerHTML = "<option value=''>Sub-opción</option>";
     selectSubtipo.style.display=item.subtipo?"block":"none";
     if(item.subtipo){
       const opciones = catalogo[categoriaActual][item.producto];
-      for(let s in opciones){ selectSubtipo.innerHTML += `<option value="${s}" ${s===item.subtipo?'selected':''}>${s}</option>`; }
+      if(Array.isArray(opciones)){
+        selectSubtipo.innerHTML = "<option value=''>Seleccionar</option>";
+        opciones.forEach(o=>selectSubtipo.innerHTML+=`<option value="${o}" ${o===item.subtipo?'selected':''}>${o}</option>`);
+      } else if(typeof opciones==="object"){
+        selectSubtipo.innerHTML = "<option value=''>Seleccionar</option>";
+        for(let s in opciones){ selectSubtipo.innerHTML += `<option value="${s}" ${s===item.subtipo?'selected':''}>${s}</option>`; }
+      }
     }
 
     const selectMedida = document.createElement("select");
-    selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
     selectMedida.style.display=item.medida?"block":"none";
-    if(item.medida) selectMedida.innerHTML+=`<option value="${item.medida}" selected>${item.medida}</option>`;
+    if(item.medida) selectMedida.innerHTML=`<option value="${item.medida}" selected>${item.medida}</option>`;
 
     const inputCantidad = document.createElement("input");
     inputCantidad.type="number";

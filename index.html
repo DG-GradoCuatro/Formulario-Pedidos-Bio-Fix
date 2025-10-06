@@ -12,12 +12,25 @@
     select, input { padding: 5px; flex: 1; }
     button { background: #25d366; color: #fff; border: none; padding: 10px; border-radius: 8px; cursor: pointer; }
     button:hover { background: #1ebe5c; }
+
+    /* Ocultamos secciones hasta que se completen los datos */
+    #implantes-section,
+    #boton-whatsapp {
+      display: none;
+    }
+
+    .nota-seguridad {
+      font-size: 12px;
+      color: #555;
+      text-align: center;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <h2>Formulario de Pedido</h2>
 
-  <!-- DATOS DEL CLIENTE -->
+  <!-- DATOS DEL ODONTÓLOGO -->
   <div class="section">
     <h3>Datos del odontólogo</h3>
     <input type="text" placeholder="Nombre" id="nombre"><br><br>
@@ -36,35 +49,69 @@
   </div>
 
   <!-- SECCIÓN IMPLANTES -->
-  <div class="section">
+  <div class="section" id="implantes-section">
     <h3>Implantes</h3>
     <div id="implantes-list"></div>
     <button type="button" onclick="agregarImplante()">+ Agregar Implante</button>
   </div>
 
   <!-- BOTÓN ENVIAR -->
-  <button onclick="enviarPedido()">Enviar por WhatsApp</button>
+  <button id="boton-whatsapp" onclick="enviarPedido()">Enviar por WhatsApp</button>
+
+  <p class="nota-seguridad">
+    🔒 Tu información se procesa de forma segura. El pedido se genera localmente y se envía cifrado por WhatsApp.
+  </p>
 
   <script>
-    // Opciones de sistemas y medidas
+    // ✅ Estructura completa de sistemas y medidas
     const sistemas = {
-      "Hexágono Interno": ["Ø3.0 x 6.5 mm", "Ø3.0 x 8 mm", "Ø3.0 x10 mm", "Ø3.0 x 11.5 mm", "Ø3.0 x 13 mm", "Ø3.0 x 16 mm", "Ø3.75 x 6.5 mm", "Ø3.75 x 8 mm", "Ø3.75 x 10 mm", "Ø3.75 x 10 mm", "Ø3.75 x 11.5 mm", "Ø3.75 x 13 mm", "Ø3.75 x 16 mm", "Ø4.2 x 6.5 mm", "Ø4.2 x 8mm", "Ø4.2 x 10mm", "Ø4.2 x 11.5mm", "Ø4.2 x 13mm", "Ø4.2 x 13mm", "Ø4.2 x 16mm", "Ø5.0 x 6.5mm", "Ø5.0 x 8mm", "Ø5.0 x 10mm", "Ø5.0 x 11.5mm", "Ø5.0 x 13mm", "Ø5.0 x 16mm"],
+      "Hexágono Interno": [
+        "Ø3.0 x 6.5 mm", "Ø3.0 x 8 mm", "Ø3.0 x 10 mm", "Ø3.0 x 11.5 mm", "Ø3.0 x 13 mm", "Ø3.0 x 16 mm",
+        "Ø3.75 x 6.5 mm", "Ø3.75 x 8 mm", "Ø3.75 x 10 mm", "Ø3.75 x 11.5 mm", "Ø3.75 x 13 mm", "Ø3.75 x 16 mm",
+        "Ø4.2 x 6.5 mm", "Ø4.2 x 8 mm", "Ø4.2 x 10 mm", "Ø4.2 x 11.5 mm", "Ø4.2 x 13 mm", "Ø4.2 x 16 mm",
+        "Ø5.0 x 6.5 mm", "Ø5.0 x 8 mm", "Ø5.0 x 10 mm", "Ø5.0 x 11.5 mm", "Ø5.0 x 13 mm", "Ø5.0 x 16 mm"
+      ],
+
       "Hexágono Externo": {
-    "Ø3.30 (Plataforma Ø3.4)": ["8.5 mm", "10 mm", "11.5 mm", "13 mm", "15 mm"],
-    "Ø3.75 (Plataforma Ø4.1)": ["8.5 mm", "10 mm", "11.5 mm", "13 mm", "15 mm"],
-    "Ø4.0 (Plataforma Ø4.1)": ["6.0 mm", "8.5 mm", "10 mm", "11.5 mm", "13 mm", "15 mm"],
-    "Ø5.0 (Plataforma Ø5.0)": ["8.5 mm", "10 mm", "11.5 mm", "13 mm", "15 mm"],
+        "Ø3.30 (Plataforma Ø3.4)": ["8.5 mm", "10 mm", "11.5 mm", "13 mm", "15 mm"],
+        "Ø3.75 (Plataforma Ø4.1)": ["8.5 mm", "10 mm", "11.5 mm", "13 mm", "15 mm"],
+        "Ø4.0 (Plataforma Ø4.1)": ["6.0 mm", "8.5 mm", "10 mm", "11.5 mm", "13 mm", "15 mm"],
+        "Ø5.0 (Plataforma Ø5.0)": ["8.5 mm", "10 mm", "11.5 mm", "13 mm", "15 mm"]
+      },
+
       "Cono Morse": ["Ø3.5 x 11.5 mm", "Ø4.0 x 13 mm"],
       "Monopieza": ["Ø3.0 x 10 mm", "Ø3.5 x 13 mm"],
       "Monopieza Basal": ["Ø3.5 x 10 mm", "Ø4.0 x 12 mm"],
       "Compresivo Multiunit": ["Ø3.75 x 10 mm", "Ø4.0 x 13 mm"],
+
       "Minipilares": {
-    "Hexágono Interno": ["H1", "H2", "H3", "H4", "H5"],
-    "Hexágono Externo": ["H1", "H2", "H3", "H4", "H5"],
-    "Cono Morse": ["H0.8", "H1.5", "H2.5", "H3.5", "H4.5", "H5.5"]
+        "Hexágono Interno": ["H1", "H2", "H3", "H4", "H5"],
+        "Hexágono Externo": ["H1", "H2", "H3", "H4", "H5"],
+        "Cono Morse": ["H0.8", "H1.5", "H2.5", "H3.5", "H4.5", "H5.5"]
+      }
     };
 
-    // Agregar implante al formulario
+    // Mostrar secciones cuando los campos estén completos
+    const campos = ["nombre", "apellido", "dni", "matricula", "provincia", "localidad"];
+    campos.forEach(id => {
+      document.getElementById(id).addEventListener("input", verificarCampos);
+    });
+
+    function verificarCampos() {
+      const completos = campos.every(id => document.getElementById(id).value.trim() !== "");
+      const implantesSection = document.getElementById("implantes-section");
+      const botonWhatsApp = document.getElementById("boton-whatsapp");
+
+      if (completos) {
+        implantesSection.style.display = "block";
+        botonWhatsApp.style.display = "block";
+      } else {
+        implantesSection.style.display = "none";
+        botonWhatsApp.style.display = "none";
+      }
+    }
+
+    // Función para agregar implante
     function agregarImplante() {
       const div = document.createElement("div");
       div.classList.add("item");
@@ -75,13 +122,39 @@
         selectSistema.innerHTML += `<option value="${s}">${s}</option>`;
       }
 
+      const selectSubtipo = document.createElement("select");
+      selectSubtipo.innerHTML = "<option value=''>Subtipo</option>";
+      selectSubtipo.style.display = "none";
+
       const selectMedida = document.createElement("select");
       selectMedida.innerHTML = "<option value=''>Medida</option>";
 
-      // Cuando cambia el sistema, carga las medidas
       selectSistema.addEventListener("change", () => {
         selectMedida.innerHTML = "<option value=''>Medida</option>";
-        sistemas[selectSistema.value].forEach(m => {
+        selectSubtipo.style.display = "none";
+
+        const sistemaSeleccionado = sistemas[selectSistema.value];
+
+        if (typeof sistemaSeleccionado === "object" && !Array.isArray(sistemaSeleccionado)) {
+          // Es un objeto (como Hexágono Externo o Minipilares)
+          selectSubtipo.style.display = "inline-block";
+          selectSubtipo.innerHTML = "<option value=''>Subtipo</option>";
+          for (let subtipo in sistemaSeleccionado) {
+            selectSubtipo.innerHTML += `<option value="${subtipo}">${subtipo}</option>`;
+          }
+        } else {
+          // Es un array normal
+          sistemaSeleccionado.forEach(m => {
+            selectMedida.innerHTML += `<option value="${m}">${m}</option>`;
+          });
+        }
+      });
+
+      selectSubtipo.addEventListener("change", () => {
+        selectMedida.innerHTML = "<option value=''>Medida</option>";
+        const sistemaSeleccionado = sistemas[selectSistema.value];
+        const medidas = sistemaSeleccionado[selectSubtipo.value];
+        medidas.forEach(m => {
           selectMedida.innerHTML += `<option value="${m}">${m}</option>`;
         });
       });
@@ -92,6 +165,7 @@
       inputCantidad.min = 1;
 
       div.appendChild(selectSistema);
+      div.appendChild(selectSubtipo);
       div.appendChild(selectMedida);
       div.appendChild(inputCantidad);
 
@@ -107,7 +181,6 @@
       const provincia = document.getElementById("provincia").value;
       const localidad = document.getElementById("localidad").value;
 
-      // Mensaje base
       let mensaje = `🆕 Nuevo Pedido Bio-Fix\n`;
       mensaje += `👤 Nombre: ${nombre} ${apellido}\n`;
       mensaje += `🪪 DNI: ${dni}\n`;
@@ -115,20 +188,22 @@
       mensaje += `📍 Provincia: ${provincia}, Localidad: ${localidad}\n`;
       mensaje += "--------------------\n";
 
-      // Implantes seleccionados
       document.querySelectorAll("#implantes-list .item").forEach(item => {
         const sistema = item.querySelector("select:nth-child(1)").value;
-        const medida = item.querySelector("select:nth-child(2)").value;
+        const subtipo = item.querySelector("select:nth-child(2)").value;
+        const medida = item.querySelector("select:nth-child(3)").value;
         const cantidad = item.querySelector("input").value;
+
         if (sistema && medida && cantidad) {
-          mensaje += `🦷 Implantes ${sistema}: ${medida} x${cantidad}\n`;
+          if (subtipo) {
+            mensaje += `🦷 ${sistema} - ${subtipo}: ${medida} x${cantidad}\n`;
+          } else {
+            mensaje += `🦷 ${sistema}: ${medida} x${cantidad}\n`;
+          }
         }
       });
 
-      // Números de vendedores
-      const vendedores = ["5491123456789", "549351234567"]; // 👉 cambiar por los números reales
-
-      // Armar link con encodeURIComponent
+      const vendedores = ["5491123456789"]; // ⚠️ Cambiar por tu número real
       const link = `https://wa.me/${vendedores[0]}?text=${encodeURIComponent(mensaje)}`;
       window.open(link, "_blank");
     }

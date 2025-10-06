@@ -307,65 +307,50 @@ function mostrarResumen(){
   const resumenDiv = document.getElementById("resumenPedido");
   resumenDiv.innerHTML="";
 
-  // Construir texto del resumen para mostrar
+  // --- Construir el texto del pedido ---
   let textoResumen = "";
+
+  // Datos odontólogo
+  const nombre = document.getElementById("nombre").value;
+  const apellido = document.getElementById("apellido").value;
+  const dni = document.getElementById("dni").value;
+  const matricula = document.getElementById("matricula").value;
+  const provincia = document.getElementById("provincia").value;
+  const localidad = document.getElementById("localidad").value;
+
+  textoResumen += `Nuevo Pedido Bio-Fix\n`;
+  textoResumen += `Nombre: ${nombre} ${apellido}\nDNI: ${dni}\nMatrícula: ${matricula}\nProvincia: ${provincia}, Localidad: ${localidad}\n--------------------\n`;
+
+  // Productos
   for(let cat in datosSeleccionados){
     if(datosSeleccionados[cat].length>0){
       textoResumen += `${cat}:\n`;
       datosSeleccionados[cat].forEach(item=>{
-        textoResumen += `- ${item.producto}${item.subtipo?' - '+item.subtipo:''}${item.medida?' : '+item.medida:''} x${item.cantidad}\n`;
+        textoResumen += `* ${item.producto}${item.subtipo?' - '+item.subtipo:''}${item.medida?' : '+item.medida:''} x${item.cantidad}\n`;
       });
     }
   }
 
-  resumenDiv.innerText = textoResumen;
+  // Mostrar resumen en pantalla
+  resumenDiv.innerHTML = `<pre>${textoResumen}</pre>`;
 
-  // Botones para cada vendedor
+  // --- Crear botones de envío para cada vendedor ---
   const vendedores = [
     {nombre:"Vendedor 1", numero:"5491134019090"},
     {nombre:"Vendedor 2", numero:"5491164336112"}
   ];
 
-  const botonesDiv = document.createElement("div");
-  botonesDiv.style.marginTop="10px";
-  botonesDiv.style.display="flex";
-  botonesDiv.style.flexDirection="column";
-  botonesDiv.style.gap="5px";
-
   vendedores.forEach(vendedor => {
     const btn = document.createElement("button");
     btn.textContent = `Enviar a ${vendedor.nombre}`;
-    btn.style.width="200px";
-    btn.style.alignSelf="center";
     btn.onclick = () => {
-      // Generar mensaje directamente desde los datos
-      const nombre = document.getElementById("nombre").value;
-      const apellido = document.getElementById("apellido").value;
-      const dni = document.getElementById("dni").value;
-      const matricula = document.getElementById("matricula").value;
-      const provincia = document.getElementById("provincia").value;
-      const localidad = document.getElementById("localidad").value;
-
-      let mensaje = `Nuevo Pedido Bio-Fix\n`;
-      mensaje += `Nombre: ${nombre} ${apellido}\nDNI: ${dni}\nMatrícula: ${matricula}\nProvincia: ${provincia}, Localidad: ${localidad}\n--------------------\n`;
-
-      for(let cat in datosSeleccionados){
-        if(datosSeleccionados[cat].length>0){
-          mensaje += `${cat}:\n`;
-          datosSeleccionados[cat].forEach(item=>{
-            mensaje += `- ${item.producto}${item.subtipo?' - '+item.subtipo:''}${item.medida?' : '+item.medida:''} x${item.cantidad}\n`;
-          });
-        }
-      }
-
-      const link = `https://wa.me/${vendedor.numero}?text=${encodeURIComponent(mensaje)}`;
-      window.open(link, "_blank");
+      const link = `https://wa.me/${vendedor.numero}?text=${encodeURIComponent(textoResumen)}`;
+      window.open(link,"_blank");
     }
-    botonesDiv.appendChild(btn);
+    resumenDiv.appendChild(btn);
   });
 
-  resumenDiv.appendChild(botonesDiv);
-
+  // Mostrar sección de resumen
   document.getElementById("productos-section").style.display="none";
   document.getElementById("categorias-section").style.display="none";
   document.getElementById("resumen-section").style.display="block";

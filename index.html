@@ -307,14 +307,18 @@ function mostrarResumen(){
   const resumenDiv = document.getElementById("resumenPedido");
   resumenDiv.innerHTML="";
 
+  // Construir texto del resumen para mostrar
+  let textoResumen = "";
   for(let cat in datosSeleccionados){
     if(datosSeleccionados[cat].length>0){
-      resumenDiv.innerHTML += `${cat}:\n`;
+      textoResumen += `${cat}:\n`;
       datosSeleccionados[cat].forEach(item=>{
-        resumenDiv.innerHTML += `- ${item.producto}${item.subtipo?' - '+item.subtipo:''}${item.medida?' : '+item.medida:''} x${item.cantidad}\n`;
+        textoResumen += `- ${item.producto}${item.subtipo?' - '+item.subtipo:''}${item.medida?' : '+item.medida:''} x${item.cantidad}\n`;
       });
     }
   }
+
+  resumenDiv.innerText = textoResumen;
 
   // Botones para cada vendedor
   const vendedores = [
@@ -322,7 +326,6 @@ function mostrarResumen(){
     {nombre:"Vendedor 2", numero:"5491164336112"}
   ];
 
-  // Contenedor de botones
   const botonesDiv = document.createElement("div");
   botonesDiv.style.marginTop="10px";
   botonesDiv.style.display="flex";
@@ -335,7 +338,27 @@ function mostrarResumen(){
     btn.style.width="200px";
     btn.style.alignSelf="center";
     btn.onclick = () => {
-      const link = `https://wa.me/${vendedor.numero}?text=${encodeURIComponent(resumenDiv.innerText)}`;
+      // Generar mensaje directamente desde los datos
+      const nombre = document.getElementById("nombre").value;
+      const apellido = document.getElementById("apellido").value;
+      const dni = document.getElementById("dni").value;
+      const matricula = document.getElementById("matricula").value;
+      const provincia = document.getElementById("provincia").value;
+      const localidad = document.getElementById("localidad").value;
+
+      let mensaje = `Nuevo Pedido Bio-Fix\n`;
+      mensaje += `Nombre: ${nombre} ${apellido}\nDNI: ${dni}\nMatrícula: ${matricula}\nProvincia: ${provincia}, Localidad: ${localidad}\n--------------------\n`;
+
+      for(let cat in datosSeleccionados){
+        if(datosSeleccionados[cat].length>0){
+          mensaje += `${cat}:\n`;
+          datosSeleccionados[cat].forEach(item=>{
+            mensaje += `- ${item.producto}${item.subtipo?' - '+item.subtipo:''}${item.medida?' : '+item.medida:''} x${item.cantidad}\n`;
+          });
+        }
+      }
+
+      const link = `https://wa.me/${vendedor.numero}?text=${encodeURIComponent(mensaje)}`;
       window.open(link, "_blank");
     }
     botonesDiv.appendChild(btn);

@@ -49,12 +49,19 @@
     // Opciones de sistemas y medidas
     const sistemas = {
       "Hexágono Interno": ["Ø3.0 x 6.5 mm", "Ø3.0 x 8 mm", "Ø3.0 x10 mm", "Ø3.0 x 11.5 mm", "Ø3.0 x 13 mm", "Ø3.0 x 16 mm", "Ø3.75 x 6.5 mm", "Ø3.75 x 8 mm", "Ø3.75 x 10 mm", "Ø3.75 x 10 mm", "Ø3.75 x 11.5 mm", "Ø3.75 x 13 mm", "Ø3.75 x 16 mm", "Ø4.2 x 6.5 mm", "Ø4.2 x 8mm", "Ø4.2 x 10mm", "Ø4.2 x 11.5mm", "Ø4.2 x 13mm", "Ø4.2 x 13mm", "Ø4.2 x 16mm", "Ø5.0 x 6.5mm", "Ø5.0 x 8mm", "Ø5.0 x 10mm", "Ø5.0 x 11.5mm", "Ø5.0 x 13mm", "Ø5.0 x 16mm"],
-      "Hexágono Externo": ["Ø3.75 x 8.5 mm", "Ø4.0 x 10 mm", "Ø5.0 x 13 mm"],
+      "Hexágono Externo": {
+    "Ø3.30 (Plataforma Ø3.4)": ["8.5 mm", "10 mm", "11.5 mm", "13 mm", "15 mm"],
+    "Ø3.75 (Plataforma Ø4.1)": ["8.5 mm", "10 mm", "11.5 mm", "13 mm", "15 mm"],
+    "Ø4.0 (Plataforma Ø4.1)": ["6.0 mm", "8.5 mm", "10 mm", "11.5 mm", "13 mm", "15 mm"],
+    "Ø5.0 (Plataforma Ø5.0)": ["8.5 mm", "10 mm", "11.5 mm", "13 mm", "15 mm"],
       "Cono Morse": ["Ø3.5 x 11.5 mm", "Ø4.0 x 13 mm"],
       "Monopieza": ["Ø3.0 x 10 mm", "Ø3.5 x 13 mm"],
       "Monopieza Basal": ["Ø3.5 x 10 mm", "Ø4.0 x 12 mm"],
       "Compresivo Multiunit": ["Ø3.75 x 10 mm", "Ø4.0 x 13 mm"],
-      "Minipilares": ["Corto", "Mediano", "Largo"]
+      "Minipilares": {
+    "Hexágono Interno": ["H1", "H2", "H3", "H4", "H5"],
+    "Hexágono Externo": ["H1", "H2", "H3", "H4", "H5"],
+    "Cono Morse": ["H0.8", "H1.5", "H2.5", "H3.5", "H4.5", "H5.5"]
     };
 
     // Agregar implante al formulario

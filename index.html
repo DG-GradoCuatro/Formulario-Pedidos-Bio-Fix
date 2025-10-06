@@ -72,12 +72,19 @@ button:hover{background:#1ebe5c;}
 // --- DATOS ODONTÓLOGO ---
 const campos = ["nombre","apellido","dni","matricula","provincia","localidad"];
 const btnSiguienteDatos = document.getElementById("btnSiguienteDatos");
+
 campos.forEach(id => {
-  document.getElementById(id).addEventListener("input", ()=>{
-    const completos = campos.every(c=>document.getElementById(c).value.trim()!=="");
-    btnSiguienteDatos.style.display = completos ? "block" : "none";
-  });
+  document.getElementById(id).addEventListener("input", validarDatos);
 });
+
+function validarDatos(){
+  const completos = campos.every(c=>{
+    const val = document.getElementById(c).value.trim();
+    return val !== "";
+  });
+  btnSiguienteDatos.style.display = completos ? "block" : "none";
+}
+
 btnSiguienteDatos.addEventListener("click", ()=>{
   document.getElementById("datos-section").style.display="none";
   document.getElementById("categorias-section").style.display="block";
@@ -111,11 +118,7 @@ const catalogo = {
                        "Ø4.5 x 6 mm","Ø4.5 x 8 mm","Ø4.5 x 10 mm","Ø4.5 x 11.5 mm","Ø4.5 x 13 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 20 mm",
                        "Ø5.0 x 6 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm",
                        "Ø5.5 x 6 mm","Ø5.5 x 8 mm","Ø5.5 x 10 mm","Ø5.5 x 11.5 mm","Ø5.5 x 13 mm"],
-  "Monopieza Basal": ["Ø3.5 x 10 mm","Ø3.5 x 12 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 21 mm","Ø3.5 x 23 mm","Ø3.5 x 24 mm","Ø3.5 x 26 mm","Ø3.5 x 28 mm","Ø3.5 x 24 mm C14","Ø3.5 x 26 mm C16","Ø3.5 x 28 mm C18",
-                       "Ø4.5 x 10 mm","Ø4.5 x 12 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 21 mm","Ø4.5 x 23 mm","Ø4.5 x 24 mm","Ø4.5 x 26 mm","Ø4.5 x 28 mm","Ø4.5 x 24 mm C14","Ø4.5 x 26 mm C16","Ø3.5 x 28 mm C18",
-                       "Ø5.5 x 9 mm","Ø5.5 x 10 mm","Ø5.5 x 12 mm","Ø5.5 x 15 mm","Ø5.5 x 18 mm",
-                       "Ø6.5 x 9 mm","Ø6.5 x 10 mm","Ø6.5 x 12 mm","Ø6.5 x 15 mm"],
-                       "Ø8.5 x 9 mm","Ø8.5 x 10 mm","Ø8.5 x 12 mm","Ø8.5 x 15 mm"],
+  "Monopieza Basal": ["Ø3.5 x 10 mm","Ø3.5 x 12 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 21 mm","Ø3.5 x 23 mm","Ø3.5 x 24 mm","Ø3.5 x 26 mm","Ø3.5 x 28 mm"],
   "Compresivo Multiunit": ["Ø3.75 x 10 mm","Ø4.0 x 13 mm"]
 },
 "Componentes Analógicos": {
@@ -123,42 +126,13 @@ const catalogo = {
     "Tapa de cicatrización":["H1","H2","H3","H4"],
     "Transfer cubeta":["Abierta","Cerrada"],
     "Pilar recto c/tornillo":["H1","H2","H3","H4"],
-    "Pilar angulado c/tornillo":["15°","25°"],
-    "Análogo de Titanio":[],
-    "Ball attached y cazoleta c/o´ring":["H1","H2","H3","H4"],
-    "Cazoleta c/o´ring":[],
-    "Ucla calcinable rotacional c/tornillo":[],
-    "Ucla calcinable anti-rotacional c/tornillo":[],
-    "Tornillo protésico hexagonal":[],
-    "Tornillo protésico cuadrado":[]
+    "Pilar angulado c/tornillo":["15°","25°"]
   }
 },
 "Herramental": {
   "Fresa Lanza":["Corta","Larga"],
   "Fresa Lanza Guiada":["Corta","Larga"],
-  "Fresa Helicoidal":["Ø2.0","Ø2.5","Ø2.8","Ø3.2","Ø3.6","Ø4.0","Ø4.3","Ø4.6","Ø5.0","Ø5.3"],
-  "Expansor de hueso (Kit de 3 unidades)":[""],
-  "Torquímetro dinamométrico":[""],
-  "Mango Rígido(Punta 4x4) para expansor óseo":[""],
-  "Extractor de raíz residual":[""],
-  "Destornillador para torquímetro":{
-    "Cuadrado":["Corto 0.050","Estándar 0.050","Largo 0.050","Extra Largo 0.050"],
-    "Hexagonal":["Corto 0.048","Estándar 0.048","Largo 0.048","Extra Largo 0.048"]
-  },
-  "Destornillador Digital":{
-    "Cuadrado":["Corto 0.050","Estándar 0.050","Largo 0.050","Extra Largo 0.050"],
-    "Hexagonal":["Corto 0.048","Estándar 0.048","Largo 0.048","Extra Largo 0.048"]
-  },
-  "Llave conectora Monopieza para torquímetro":["Corta","Larga"],
-  "Llave CMU conectora para torquímetro":["Corta","Larga"],
-  "Mango Rígido para Angulación del Pilar MP":[""],
-  "Llave digital para multiunit":[""],
-  "Driver Retráctil":[""],
-  "Anilla Cirugía Guiada":["Medida1","Medida2","Medida3"],
-  "Conector para torquímetro de implante CMHI":[""],
-  "Prolongador de Fresa":[""],
-  "Prolongador 4x4":[""],
-  "Punch":[""]
+  "Fresa Helicoidal":["Ø2.0","Ø2.5","Ø2.8","Ø3.2","Ø3.6","Ø4.0","Ø4.3","Ø4.6","Ø5.0","Ø5.3"]
 }
 };
 
@@ -200,7 +174,6 @@ function agregarProducto(){
   inputCantidad.placeholder="Cantidad";
   inputCantidad.style.display="none";
 
-  // Eventos
   selectProducto.addEventListener("change", ()=>{ manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad); });
   selectSubtipo.addEventListener("change", ()=>{ manejarSubtipoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad); });
 
@@ -220,8 +193,13 @@ function manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inpu
   inputCantidad.style.display="none";
 
   if(Array.isArray(p)){
-    if(p.length>0 && p[0]!==""){ selectMedida.style.display="block"; p.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); inputCantidad.style.display="block"; } 
-    else { inputCantidad.style.display="block"; }
+    if(p.length>0 && p[0]!==""){ 
+      selectMedida.style.display="block"; 
+      p.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); 
+      inputCantidad.style.display="block"; 
+    } else { 
+      inputCantidad.style.display="block"; 
+    }
   } else if(typeof p==="object"){
     selectSubtipo.style.display="block";
     for(let s in p){ selectSubtipo.innerHTML += `<option value="${s}">${s}</option>`; }
@@ -232,8 +210,12 @@ function manejarSubtipoChange(selectProducto, selectSubtipo, selectMedida, input
   const p = catalogo[categoriaActual][selectProducto.value];
   const medidas = p[selectSubtipo.value];
   selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
-  if(medidas.length>0 && medidas[0]!==""){ selectMedida.style.display="block"; medidas.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); } 
-  else { selectMedida.style.display="none"; }
+  if(medidas.length>0 && medidas[0]!==""){ 
+    selectMedida.style.display="block"; 
+    medidas.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`); 
+  } else { 
+    selectMedida.style.display="none"; 
+  }
   inputCantidad.style.display="block";
 }
 
@@ -338,4 +320,3 @@ function enviarPedido(){
 
 </body>
 </html>
-

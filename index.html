@@ -67,7 +67,7 @@ button:hover{background:#1ebe5c;}
 <p class="nota-seguridad">🔒 Tu información se procesa de forma segura.</p>
 
 <script>
-// CAMPOS DATOS ODONTÓLOGO
+// --- DATOS ODONTÓLOGO ---
 const campos = ["nombre","apellido","dni","matricula","provincia","localidad"];
 const btnSiguienteDatos = document.getElementById("btnSiguienteDatos");
 campos.forEach(id => {
@@ -81,220 +81,238 @@ btnSiguienteDatos.addEventListener("click", ()=>{
   document.getElementById("categorias-section").style.display="block";
 });
 
-// BOTONES VOLVER
+// --- VOLVER ---
 function volverADatos(){ document.getElementById("categorias-section").style.display="none"; document.getElementById("datos-section").style.display="block"; }
 function volverACategorias(){ document.getElementById("productos-section").style.display="none"; document.getElementById("categorias-section").style.display="block"; }
 function volverAProductos(){ document.getElementById("resumen-section").style.display="none"; document.getElementById("productos-section").style.display="block"; }
 
-// CATALOGO COMPLETO
+// --- CATALOGO ---
 const catalogo = {
-  "Implantes": {
-    "Hexágono Interno": ["Ø3.0 x 6.5 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 16 mm",
-                         "Ø3.75 x 6.5 mm","Ø3.75 x 8 mm","Ø3.75 x 10 mm","Ø3.75 x 11.5 mm","Ø3.75 x 13 mm","Ø3.75 x 16 mm",
-                         "Ø4.2 x 6.5 mm","Ø4.2 x 8 mm","Ø4.2 x 10 mm","Ø4.2 x 11.5 mm","Ø4.2 x 13 mm","Ø4.2 x 16 mm",
-                         "Ø5.0 x 6.5 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm","Ø5.0 x 16 mm"],
-    "Hexágono Externo": {
-      "Ø3.30 (Plataforma Ø3.4)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
-      "Ø3.75 (Plataforma Ø4.1)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
-      "Ø4.0 (Plataforma Ø4.1)": ["6 mm","8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
-      "Ø5.0 (Plataforma Ø5.0)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"]
-    },
-    "Cono Morse": ["Ø3.5 x 11.5 mm","Ø4.0 x 13 mm"],
-    "Monopieza": ["Ø3.0 x 10 mm","Ø3.5 x 13 mm"],
-    "Monopieza Basal": ["Ø3.5 x 10 mm","Ø4.0 x 12 mm"],
-    "Compresivo Multiunit": ["Ø3.75 x 10 mm","Ø4.0 x 13 mm"]
+"Implantes": {
+  "Hexágono Interno": ["Ø3.0 x 6.5 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 16 mm",
+                       "Ø3.75 x 6.5 mm","Ø3.75 x 8 mm","Ø3.75 x 10 mm","Ø3.75 x 11.5 mm","Ø3.75 x 13 mm","Ø3.75 x 16 mm",
+                       "Ø4.2 x 6.5 mm","Ø4.2 x 8 mm","Ø4.2 x 10 mm","Ø4.2 x 11.5 mm","Ø4.2 x 13 mm","Ø4.2 x 16 mm",
+                       "Ø5.0 x 6.5 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm","Ø5.0 x 16 mm"],
+  "Hexágono Externo": {
+    "Ø3.30 (Plataforma Ø3.4)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
+    "Ø3.75 (Plataforma Ø4.1)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
+    "Ø4.0 (Plataforma Ø4.1)": ["6 mm","8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
+    "Ø5.0 (Plataforma Ø5.0)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"]
   },
-  "Componentes Analógicos": {
-    "Hexágono Interno": {
-      "Tapa de cicatrización":["H1","H2","H3","H4"],
-      "Transfer cubeta":["Abierta","Cerrada"],
-      "Pilar recto c/tornillo":["H1","H2","H3","H4"],
-      "Pilar angulado c/tornillo":["15°","25°"],
-      "Análogo de Titanio":[],
-      "Ball attached y cazoleta c/o´ring":["H1","H2","H3","H4"],
-      "Cazoleta c/o´ring":[],
-      "Ucla calcinable rotacional c/tornillo":[],
-      "Ucla calcinable anti-rotacional c/tornillo":[],
-      "Tornillo protésico hexagonal":[],
-      "Tornillo protésico cuadrado":[]
-    },
-    "Hexágono Externo": {
-      "Tapa de cicatrización":["H1","H2","H3","H4"],
-      "Transfer cubeta":["Abierta","Cerrada"],
-      "Pilar recto c/tornillo":["H1","H2","H3","H4"],
-      "Pilar angulado c/tornillo":["15°","25°"],
-      "Análogo de Titanio":[],
-      "Ball attached y cazoleta c/o´ring":["H1","H2","H3","H4"],
-      "Cazoleta c/o´ring":[],
-      "Ucla calcinable rotacional c/tornillo":[],
-      "Ucla calcinable anti-rotacional c/tornillo":[],
-      "Tornillo protésico hexagonal":[],
-      "Tornillo protésico cuadrado":[],
-      "Minipilar angulado + llave transportadora + tornillo":["H1","H2","H3","H4"]
-    },
-    "Multiunit": {
-      "Pilar rotacional c/microtornillo":[],
-      "Pilar antirrotacional c/microtornillo":[],
-      "Ucla calcinable rotacional c/microtornillo":[],
-      "Análogo":[],
-      "Tapón cicatrizal plástico c/microtornillo":[],
-      "Transfer cubeta abierta c/microtornillo":[],
-      "Transfer cubeta cerrada c/microtornillo":[]
-    }
+  "Cono Morse": ["Ø3.5 x 11.5 mm","Ø4.0 x 13 mm"],
+  "Monopieza": ["Ø3.0 x 10 mm","Ø3.5 x 13 mm"],
+  "Monopieza Basal": ["Ø3.5 x 10 mm","Ø4.0 x 12 mm"],
+  "Compresivo Multiunit": ["Ø3.75 x 10 mm","Ø4.0 x 13 mm"]
+},
+"Componentes Analógicos": {
+  "Hexágono Interno": {
+    "Tapa de cicatrización":["H1","H2","H3","H4"],
+    "Transfer cubeta":["Abierta","Cerrada"],
+    "Pilar recto c/tornillo":["H1","H2","H3","H4"],
+    "Pilar angulado c/tornillo":["15°","25°"],
+    "Análogo de Titanio":[],
+    "Ball attached y cazoleta c/o´ring":["H1","H2","H3","H4"],
+    "Cazoleta c/o´ring":[],
+    "Ucla calcinable rotacional c/tornillo":[],
+    "Ucla calcinable anti-rotacional c/tornillo":[],
+    "Tornillo protésico hexagonal":[],
+    "Tornillo protésico cuadrado":[]
+  }
+},
+"Herramental": {
+  "Fresa Lanza":["Corta","Larga"],
+  "Fresa Lanza Guiada":["Corta","Larga"],
+  "Fresa Helicoidal":["Ø2.0","Ø2.5","Ø2.8","Ø3.2","Ø3.6","Ø4.0","Ø4.3","Ø4.6","Ø5.0","Ø5.3"],
+  "Expansor de hueso (Kit de 3 unidades)":[""],
+  "Torquímetro dinamométrico":[""],
+  "Mango Rígido(Punta 4x4) para expansor óseo":[""],
+  "Extractor de raíz residual":[""],
+  "Destornillador para torquímetro":{
+    "Cuadrado":["Corto 0.050","Estándar 0.050","Largo 0.050","Extra Largo 0.050"],
+    "Hexagonal":["Corto 0.048","Estándar 0.048","Largo 0.048","Extra Largo 0.048"]
   },
-  "Herramental": [
-    "Fresa Lanza","Fresa Lanza Guiada","Fresa Helicoidal","Expansor de hueso (Kit de 3 unidades)",
-    "Torquímetro dinamométrico","Mango Rígido(Punta de 4x4) para expansor óseo","Extractor de raíz residual",
-    "Destornillador para torquímetro","Destornillador Digital","Llave conectora Monopieza para torquímetro",
-    "Llave CMU conectora para torquímetro","Mango Rígido para Angulación del Pilar MP","Llave digital para multiunit",
-    "Driver Retráctil","Anilla Cirugía Guiada","Conector para torquímetro de implante CMHI",
-    "Prolongador de Fresa","Prolongador 4x4","Punch","Caja organizadora de Instrumental metálica -Apta estufa y autoclave (Vacía)",
-    "Caja quirúrgica Premium- Completa con instrumental (Apta autoclave)","Caja quirúrgica de Cirugía Guiada Bio-Fix",
-    "Kit de fresas de condensación/compactación"
-  ]
+  "Destornillador Digital":{
+    "Cuadrado":["Corto 0.050","Estándar 0.050","Largo 0.050","Extra Largo 0.050"],
+    "Hexagonal":["Corto 0.048","Estándar 0.048","Largo 0.048","Extra Largo 0.048"]
+  },
+  "Llave conectora Monopieza para torquímetro":["Corta","Larga"],
+  "Llave CMU conectora para torquímetro":["Corta","Larga"],
+  "Mango Rígido para Angulación del Pilar MP":[""],
+  "Llave digital para multiunit":[""],
+  "Driver Retráctil":[""],
+  "Anilla Cirugía Guiada":["Medida1","Medida2","Medida3"],
+  "Conector para torquímetro de implante CMHI":[""],
+  "Prolongador de Fresa":[""],
+  "Prolongador 4x4":[""],
+  "Punch":[""]
+}
 };
 
-let categoriaActual="";
-function mostrarProductos(cat){
-  categoriaActual=cat;
+// --- GUARDAR DATOS SELECCIONADOS ---
+let datosSeleccionados = { "Implantes":[], "Componentes Analógicos":[], "Herramental":[] };
+let categoriaActual = "";
+
+// --- FUNCIONES MOSTRAR PRODUCTOS, AGREGAR PRODUCTO, RESUMEN Y ENVIO ---
+function mostrarProductos(categoria){
+  categoriaActual = categoria;
   document.getElementById("categorias-section").style.display="none";
   document.getElementById("productos-section").style.display="block";
-  document.getElementById("tituloProductos").textContent=cat;
-  document.getElementById("productos-list").innerHTML="";
+  document.getElementById("tituloProductos").innerText = categoria;
+  cargarProductosGuardados();
 }
 
-// FUNCIONES PARA AGREGAR PRODUCTOS
 function agregarProducto(){
-  const div=document.createElement("div");
+  const lista = document.getElementById("productos-list");
+  const div = document.createElement("div");
   div.classList.add("item");
 
-  if(categoriaActual==="Implantes"){
-    const selectSistema=document.createElement("select");
-    selectSistema.innerHTML="<option value=''>Seleccionar sistema</option>";
-    for(let s in catalogo["Implantes"]) selectSistema.innerHTML+=`<option value="${s}">${s}</option>`;
-    const selectSubtipo=document.createElement("select");
-    selectSubtipo.innerHTML="<option value=''>Seleccionar subtipo</option>";
+  const selectProducto = document.createElement("select");
+  selectProducto.innerHTML = "<option value=''>Seleccionar producto</option>";
+  for(let p in catalogo[categoriaActual]){
+    selectProducto.innerHTML += `<option value="${p}">${p}</option>`;
+  }
+
+  const selectSubtipo = document.createElement("select");
+  selectSubtipo.style.display="none";
+  selectSubtipo.innerHTML = "<option value=''>Sub-opción</option>";
+
+  const selectMedida = document.createElement("select");
+  selectMedida.style.display="none";
+  selectMedida.innerHTML = "<option value=''>Medida / Largo</option>";
+
+  const inputCantidad = document.createElement("input");
+  inputCantidad.type="number";
+  inputCantidad.min="1";
+  inputCantidad.placeholder="Cantidad";
+  inputCantidad.style.display="none";
+
+  // Eventos
+  selectProducto.addEventListener("change", ()=>{
+    const p = catalogo[categoriaActual][selectProducto.value];
+    selectSubtipo.innerHTML="<option value=''>Sub-opción</option>";
+    selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
     selectSubtipo.style.display="none";
-    const selectMedida=document.createElement("select");
-    selectMedida.innerHTML="<option value=''>Seleccionar medida</option>";
     selectMedida.style.display="none";
-    const inputCantidad=document.createElement("input");
-    inputCantidad.type="number"; inputCantidad.placeholder="Cantidad"; inputCantidad.min=1;
+    inputCantidad.style.display="none";
 
-    selectSistema.addEventListener("change", ()=>{
-      selectSubtipo.innerHTML="<option value=''>Seleccionar subtipo</option>";
-      selectSubtipo.style.display="none";
-      selectMedida.innerHTML="<option value=''>Seleccionar medida</option>";
-      selectMedida.style.display="none";
-      const sis=selectSistema.value;
-      if(typeof catalogo.Implantes[sis]==="object" && !Array.isArray(catalogo.Implantes[sis])){
-        selectSubtipo.style.display="inline-block";
-        for(let st in catalogo.Implantes[sis]) selectSubtipo.innerHTML+=`<option value="${st}">${st}</option>`;
+    if(Array.isArray(p)){
+      if(p.length>0){
+        selectMedida.style.display="block";
+        p.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`);
+        inputCantidad.style.display="block";
       } else {
-        selectMedida.style.display="inline-block";
-        catalogo.Implantes[sis].forEach(m=> selectMedida.innerHTML+=`<option value="${m}">${m}</option>`);
+        inputCantidad.style.display="block";
       }
-    });
+    } else if(typeof p==="object"){
+      selectSubtipo.style.display="block";
+      for(let s in p){ selectSubtipo.innerHTML += `<option value="${s}">${s}</option>`; }
+    }
+  });
 
-    selectSubtipo.addEventListener("change", ()=>{
-      selectMedida.innerHTML="<option value=''>Seleccionar medida</option>";
-      const sis=selectSistema.value;
-      const st=selectSubtipo.value;
-      catalogo.Implantes[sis][st].forEach(m=> selectMedida.innerHTML+=`<option value="${m}">${m}</option>`);
-      selectMedida.style.display="inline-block";
-    });
+  selectSubtipo.addEventListener("change", ()=>{
+    const p = catalogo[categoriaActual][selectProducto.value];
+    const medidas = p[selectSubtipo.value];
+    selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
+    if(medidas.length>0){
+      selectMedida.style.display="block";
+      medidas.forEach(m=>selectMedida.innerHTML+=`<option value="${m}">${m}</option>`);
+    } else { selectMedida.style.display="none"; }
+    inputCantidad.style.display="block";
+  });
 
-    div.appendChild(selectSistema);
+  div.appendChild(selectProducto);
+  div.appendChild(selectSubtipo);
+  div.appendChild(selectMedida);
+  div.appendChild(inputCantidad);
+  lista.appendChild(div);
+}
+
+function cargarProductosGuardados(){
+  document.getElementById("productos-list").innerHTML="";
+  datosSeleccionados[categoriaActual].forEach(item=>{
+    const div = document.createElement("div");
+    div.classList.add("item");
+
+    const selectProducto = document.createElement("select");
+    selectProducto.innerHTML = "<option value=''>Seleccionar producto</option>";
+    for(let p in catalogo[categoriaActual]){
+      selectProducto.innerHTML += `<option value="${p}" ${p===item.producto?'selected':''}>${p}</option>`;
+    }
+
+    const selectSubtipo = document.createElement("select");
+    selectSubtipo.innerHTML = "<option value=''>Sub-opción</option>";
+    selectSubtipo.style.display=item.subtipo?"block":"none";
+
+    if(item.subtipo){
+      const opciones = catalogo[categoriaActual][item.producto];
+      for(let s in opciones){
+        selectSubtipo.innerHTML += `<option value="${s}" ${s===item.subtipo?'selected':''}>${s}</option>`;
+      }
+    }
+
+    const selectMedida = document.createElement("select");
+    selectMedida.innerHTML="<option value=''>Medida / Largo</option>";
+    selectMedida.style.display=item.medida?"block":"none";
+    if(item.medida) selectMedida.innerHTML+=`<option value="${item.medida}" selected>${item.medida}</option>`;
+
+    const inputCantidad = document.createElement("input");
+    inputCantidad.type="number";
+    inputCantidad.min="1";
+    inputCantidad.placeholder="Cantidad";
+    inputCantidad.value=item.cantidad || "";
+    inputCantidad.style.display="block";
+
+    div.appendChild(selectProducto);
     div.appendChild(selectSubtipo);
     div.appendChild(selectMedida);
     div.appendChild(inputCantidad);
-  }
-
-  if(categoriaActual==="Componentes Analógicos"){
-    const selectSistema=document.createElement("select");
-    selectSistema.innerHTML="<option value=''>Seleccionar sistema</option>";
-    for(let s in catalogo["Componentes Analógicos"]) selectSistema.innerHTML+=`<option value="${s}">${s}</option>`;
-    const selectProducto=document.createElement("select");
-    selectProducto.innerHTML="<option value=''>Seleccionar producto</option>";
-    const selectAltura=document.createElement("select");
-    selectAltura.innerHTML="<option value=''>Seleccionar altura/opción</option>";
-    selectAltura.style.display="none";
-    const inputCantidad=document.createElement("input");
-    inputCantidad.type="number"; inputCantidad.placeholder="Cantidad"; inputCantidad.min=1;
-
-    selectSistema.addEventListener("change", ()=>{
-      selectProducto.innerHTML="<option value=''>Seleccionar producto</option>";
-      selectAltura.innerHTML="<option value=''>Seleccionar altura/opción</option>";
-      selectAltura.style.display="none";
-      for(let p in catalogo["Componentes Analógicos"][selectSistema.value]) selectProducto.innerHTML+=`<option value="${p}">${p}</option>`;
-    });
-
-    selectProducto.addEventListener("change", ()=>{
-      selectAltura.innerHTML="<option value=''>Seleccionar altura/opción</option>";
-      const alturas=catalogo["Componentes Analógicos"][selectSistema.value][selectProducto.value];
-      if(alturas.length>0) selectAltura.style.display="inline-block";
-      alturas.forEach(a=> selectAltura.innerHTML+=`<option value="${a}">${a}</option>`);
-    });
-
-    div.appendChild(selectSistema);
-    div.appendChild(selectProducto);
-    div.appendChild(selectAltura);
-    div.appendChild(inputCantidad);
-  }
-
-  if(categoriaActual==="Herramental"){
-    const selectHerramienta=document.createElement("select");
-    selectHerramienta.innerHTML="<option value=''>Seleccionar herramienta</option>";
-    catalogo["Herramental"].forEach(h=> selectHerramienta.innerHTML+=`<option value="${h}">${h}</option>`);
-    const inputCantidad=document.createElement("input");
-    inputCantidad.type="number"; inputCantidad.placeholder="Cantidad"; inputCantidad.min=1;
-
-    div.appendChild(selectHerramienta);
-    div.appendChild(inputCantidad);
-  }
-
-  document.getElementById("productos-list").appendChild(div);
+    document.getElementById("productos-list").appendChild(div);
+  });
 }
 
-// MOSTRAR RESUMEN
 function mostrarResumen(){
-  let resumen="";
+  const resumenDiv = document.getElementById("resumenPedido");
+  resumenDiv.innerHTML="";
+  datosSeleccionados[categoriaActual]=[];
   document.querySelectorAll("#productos-list .item").forEach(item=>{
-    const selects=item.querySelectorAll("select");
-    const input=item.querySelector("input");
-    const cant=input.value;
-    if(categoriaActual==="Implantes"){
-      const s=selects[0].value, st=selects[1].value, m=selects[2].value;
-      if(s && m && cant) resumen+=st ? `🦷 ${s} - ${st}: ${m} x${cant}\n` : `🦷 ${s}: ${m} x${cant}\n`;
-    }
-    if(categoriaActual==="Componentes Analógicos"){
-      const s=selects[0].value, p=selects[1].value, a=selects[2].value;
-      if(s && p && cant) resumen+=a ? `🦷 ${s} - ${p}: ${a} x${cant}\n` : `🦷 ${s} - ${p}: x${cant}\n`;
-    }
-    if(categoriaActual==="Herramental"){
-      const h=selects[0].value;
-      if(h && cant) resumen+=`🛠️ ${h} x${cant}\n`;
+    const producto = item.querySelector("select:nth-child(1)").value;
+    const subtipo = item.querySelector("select:nth-child(2)").value;
+    const medida = item.querySelector("select:nth-child(3)").value;
+    const cantidad = item.querySelector("input").value;
+    if(producto && cantidad){
+      datosSeleccionados[categoriaActual].push({producto,subtipo,medida,cantidad});
+      resumenDiv.innerHTML += `• ${producto}${subtipo?' - '+subtipo:''}${medida?' : '+medida:''} x${cantidad}\n`;
     }
   });
   document.getElementById("productos-section").style.display="none";
   document.getElementById("resumen-section").style.display="block";
-  const nombre=document.getElementById("nombre").value;
-  const apellido=document.getElementById("apellido").value;
-  const dni=document.getElementById("dni").value;
-  const matricula=document.getElementById("matricula").value;
-  const provincia=document.getElementById("provincia").value;
-  const localidad=document.getElementById("localidad").value;
-  document.getElementById("resumenPedido").textContent=
-    `🆕 Pedido Bio-Fix\n👤 ${nombre} ${apellido}\n🪪 DNI: ${dni}\n📄 Matrícula: ${matricula}\n📍 ${provincia}, ${localidad}\n--------------------\n`+resumen;
 }
 
-// ENVIAR POR WHATSAPP
 function enviarPedido(){
-  const mensaje=document.getElementById("resumenPedido").textContent;
-  const vendedores=["5491123456789"]; // Cambiar por tu número real
-  const link=`https://wa.me/${vendedores[0]}?text=${encodeURIComponent(mensaje)}`;
+  const nombre = document.getElementById("nombre").value;
+  const apellido = document.getElementById("apellido").value;
+  const dni = document.getElementById("dni").value;
+  const matricula = document.getElementById("matricula").value;
+  const provincia = document.getElementById("provincia").value;
+  const localidad = document.getElementById("localidad").value;
+
+  let mensaje = `🆕 Nuevo Pedido Bio-Fix\n`;
+  mensaje += `👤 Nombre: ${nombre} ${apellido}\n🪪 DNI: ${dni}\n📄 Matrícula: ${matricula}\n📍 Provincia: ${provincia}, Localidad: ${localidad}\n--------------------\n`;
+
+  for(let cat in datosSeleccionados){
+    if(datosSeleccionados[cat].length>0){
+      mensaje += `📂 ${cat}:\n`;
+      datosSeleccionados[cat].forEach(item=>{
+        mensaje += `• ${item.producto}${item.subtipo?' - '+item.subtipo:''}${item.medida?' : '+item.medida:''} x${item.cantidad}\n`;
+      });
+    }
+  }
+
+  const vendedores = ["5491123456789"];
+  const link = `https://wa.me/${vendedores[0]}?text=${encodeURIComponent(mensaje)}`;
   window.open(link,"_blank");
 }
+
 </script>
 </body>
 </html>

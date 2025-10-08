@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Pedido Bio-Fix</title>
 <style>
-body { font-family: Arial, sans-serif; padding: 15px; background: #f4f4f4; }
-h2,h3{text-align:center;margin-bottom:10px;}
-.section{background:#fff;padding:15px;border-radius:10px;margin-bottom:20px;display:none;}
-.item{display:flex;flex-direction:column;gap:10px;margin-bottom:10px;}
-select,input{padding:10px;font-size:16px;width:100%;}
-button{background:#25d366;color:#fff;border:none;padding:12px;border-radius:8px;cursor:pointer;margin-top:10px;font-size:16px;}
-button:hover{background:#1ebe5c;}
-.nota-seguridad{font-size:12px;color:#555;text-align:center;margin-top:10px;}
-#resumenPedido{white-space:pre-line; background:#eee; padding:10px; border-radius:8px;}
-.categorias-grid{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
-.categorias-grid button{background:#007bff;}
-.categorias-grid button:hover{background:#0062cc;}
+  body { font-family: Arial, sans-serif; padding: 15px; background: #f4f4f4; }
+  h2,h3{text-align:center;margin-bottom:10px;}
+  .section{background:#fff;padding:15px;border-radius:10px;margin-bottom:20px;display:none;}
+  .item{display:flex;flex-direction:column;gap:10px;margin-bottom:10px;}
+  select,input{padding:10px;font-size:16px;width:100%;}
+  button{background:#25d366;color:#fff;border:none;padding:12px;border-radius:8px;cursor:pointer;margin-top:10px;font-size:16px;}
+  button:hover{background:#1ebe5c;}
+  .nota-seguridad{font-size:12px;color:#555;text-align:center;margin-top:10px;}
+  #resumenPedido{white-space:pre-line; background:#eee; padding:10px; border-radius:8px;}
+  .categorias-grid{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+  .categorias-grid button{background:#007bff;}
+  .categorias-grid button:hover{background:#0062cc;}
 </style>
 </head>
 <body>
@@ -105,8 +105,10 @@ function volverADatos(){ document.getElementById("categorias-section").style.dis
 function volverACategorias(){ document.getElementById("productos-section").style.display="none"; document.getElementById("categorias-section").style.display="block"; }
 function volverAProductos(){ document.getElementById("resumen-section").style.display="none"; document.getElementById("productos-section").style.display="block"; }
 
-// --- CATALOGO (top-level: Implantes, Componentes Analógicos, Herramental) ---
-// He movido Cono Morse, Monopieza y Compresivo Multiunit dentro de "Componentes Analógicos"
+// --- CATÁLOGO ---
+// Top-level solo: "Implantes", "Componentes Analógicos", "Herramental"
+// Implantes contiene Hexágono Interno, Hexágono Externo, Cono Morse, Monopieza, Monopieza Basal y Compresivo Multiunit
+// Componentes Analógicos repite las subcategorías (componentes por tipo de implante)
 const catalogo = {
   "Implantes": {
     "Hexágono Interno": [
@@ -121,6 +123,20 @@ const catalogo = {
       "Ø4.0 (Plataforma Ø4.1)": ["6 mm","8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
       "Ø5.0 (Plataforma Ø5.0)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"]
     },
+    "Cono Morse": [
+      "Ø3.30 x 8 mm","Ø3.30 x 10 mm","Ø3.0 x 11.5 mm","Ø3.30 x 13 mm","Ø3.30 x 16 mm",
+      "Ø3.75 x 8 mm","Ø3.75 x 10 mm","Ø3.75 x 11.5 mm","Ø3.75 x 13 mm","Ø3.75 x 16 mm",
+      "Ø4.2 x 8 mm","Ø4.2 x 10 mm","Ø4.2 x 11.5 mm","Ø4.2 x 13 mm","Ø4.2 x 16 mm",
+      "Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm","Ø5.0 x 16 mm"
+    ],
+    "Monopieza": [
+      "Ø3.0 x 6 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 15 mm","Ø3.0 x 18 mm","Ø3.0 x 20 mm",
+      "Ø3.5 x 6 mm","Ø3.5 x 8 mm","Ø3.5 x 10 mm","Ø3.5 x 11.5 mm","Ø3.5 x 13 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 20 mm",
+      "Ø4.0 x 6 mm","Ø4.0 x 8 mm","Ø4.0 x 10 mm","Ø4.0 x 11.5 mm","Ø4.0 x 13 mm","Ø4.0 x 15 mm","Ø4.0 x 18 mm","Ø4.0 x 20 mm",
+      "Ø4.5 x 6 mm","Ø4.5 x 8 mm","Ø4.5 x 10 mm","Ø4.5 x 11.5 mm","Ø4.5 x 13 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 20 mm",
+      "Ø5.0 x 6 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm",
+      "Ø5.5 x 6 mm","Ø5.5 x 8 mm","Ø5.5 x 10 mm","Ø5.5 x 11.5 mm","Ø5.5 x 13 mm"
+    ],
     "Monopieza Basal": {
       "Pulido": [
         "Ø3.5 x 10 mm","Ø3.5 x 12 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 21 mm","Ø3.5 x 23 mm","Ø3.5 x 24 mm","Ø3.5 x 26 mm","Ø3.5 x 28 mm",
@@ -136,7 +152,22 @@ const catalogo = {
         "Ø6.5 x 10 mm","Ø6.5 x 12 mm","Ø6.5 x 15 mm",
         "Ø8.5 x 10 mm","Ø8.5 x 12 mm","Ø8.5 x 15 mm"
       ]
-    }
+    },
+    // --- Lista completa de Implantes Compresivo Multi Unit (según lo que me pasaste) ---
+    "Compresivo Multiunit": [
+  "Ø3.0 x 6 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 15 mm","Ø3.0 x 18 mm","Ø3.0 x 20 mm",
+  "Ø3.5 x 6 mm","Ø3.5 x 8 mm","Ø3.5 x 10 mm","Ø3.5 x 11.5 mm","Ø3.5 x 13 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 20 mm",
+  "Ø4.0 x 6 mm","Ø4.0 x 8 mm","Ø4.0 x 10 mm","Ø4.0 x 11.5 mm","Ø4.0 x 13 mm","Ø4.0 x 15 mm","Ø4.0 x 18 mm","Ø4.0 x 20 mm",
+  "Ø4.5 x 6 mm","Ø4.5 x 8 mm","Ø4.5 x 10 mm","Ø4.5 x 11.5 mm","Ø4.5 x 13 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 20 mm",
+  "Ø5.0 x 6 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm",
+  "Ø5.5 x 6 mm","Ø5.5 x 8 mm","Ø5.5 x 10 mm","Ø5.5 x 11.5 mm","Ø5.5 x 13 mm",
+  "Ø3.0 x 6 mm C3","Ø3.0 x 8 mm C3","Ø3.0 x 10 mm C3","Ø3.0 x 11.5 mm C3","Ø3.0 x 13 mm C3","Ø3.0 x 15 mm C3","Ø3.0 x 18 mm C3","Ø3.0 x 20 mm C3",
+  "Ø3.5 x 6 mm C3","Ø3.5 x 8 mm C3","Ø3.5 x 10 mm C3","Ø3.5 x 11.5 mm C3","Ø3.5 x 13 mm C3","Ø3.5 x 15 mm C3","Ø3.5 x 18 mm C3","Ø3.5 x 20 mm C3",
+  "Ø4.0 x 6 mm C3","Ø4.0 x 8 mm C3","Ø4.0 x 10 mm C3","Ø4.0 x 11.5 mm C3","Ø4.0 x 13 mm C3","Ø4.0 x 15 mm C3","Ø4.0 x 18 mm C3","Ø4.0 x 20 mm C3",
+  "Ø4.5 x 6 mm C3","Ø4.5 x 8 mm C3","Ø4.5 x 10 mm C3","Ø4.5 x 11.5 mm C3","Ø4.5 x 13 mm C3","Ø4.5 x 15 mm C3","Ø4.5 x 18 mm C3","Ø4.5 x 20 mm C3",
+  "Ø5.0 x 6 mm C3","Ø5.0 x 8 mm C3","Ø5.0 x 10 mm C3","Ø5.0 x 11.5 mm C3","Ø5.0 x 13 mm C3",
+  "Ø5.5 x 6 mm C3","Ø5.5 x 8 mm C3","Ø5.5 x 10 mm C3","Ø5.5 x 11.5 mm C3","Ø5.5 x 13 mm C3"
+    ]
   },
 
   "Componentes Analógicos": {
@@ -188,8 +219,6 @@ const catalogo = {
         "Plat Ø4.1": ["15°","25°"]
       }
     },
-
-    // === MOVIDOS AQUÍ: Cono Morse, Monopieza y Compresivo Multiunit ===
     "Cono Morse": {
       "Pilares estándar": {
         "Ø3.3": [
@@ -218,20 +247,17 @@ const catalogo = {
       "Análogo Universal": [],
       "BallAttach y Cazoleta": ["H1.5","H2.5","H3.5","H4.5","H5.5"]
     },
-
     "Monopieza": {
       "Análogo": [],
       "Ucla Calcinable": ["Ø3.0","Ø3.5","Ø4.0","Ø4.5","Ø5.0"],
       "Transfer Rotacional": []
     },
-
     "Compresivo Multiunit": {
       "Transfer Cubeta Abierta": [],
       "Cicatrizal c/tornillo": ["H2","H3","H4"],
       "Ballattach y cazoleta": ["H2","H3","H4"],
       "Pilar Recto c/tornillo": []
     }
-
   },
 
   "Herramental": {
@@ -289,6 +315,8 @@ function crearBotonesCategorias(){
 crearBotonesCategorias();
 
 // --- FUNCIONES DE PRODUCTOS ---
+function mostrarProdutosDebug() { console.log('catalogo keys:', Object.keys(catalogo)); }
+
 function mostrarProductos(categoria){
   categoriaActual = categoria;
   document.getElementById("categorias-section").style.display = "none";
@@ -357,6 +385,7 @@ function manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inpu
     p.forEach(m => selectMedida.innerHTML += `<option value="${m}">${m}</option>`);
     inputCantidad.style.display = "block";
   } else if (typeof p === "object"){
+    // Si es objeto (un nivel), mostramos sus keys como subtipo
     selectSubtipo.style.display = "block";
     selectSubtipo.innerHTML = "<option value=''>Seleccionar</option>";
     for (let s in p) selectSubtipo.innerHTML += `<option value="${s}">${s}</option>`;
@@ -367,9 +396,15 @@ function manejarSubtipoChange(selectProducto, selectSubtipo, selectMedida, input
   const p = catalogo[categoriaActual][selectProducto.value];
   const medidas = p ? p[selectSubtipo.value] : null;
   selectMedida.innerHTML = "<option value=''>Seleccionar</option>";
-  if (medidas && medidas.length > 0){
+  if (Array.isArray(medidas) && medidas.length > 0){
     selectMedida.style.display = "block";
     medidas.forEach(m => selectMedida.innerHTML += `<option value="${m}">${m}</option>`);
+  } else if (medidas && typeof medidas === 'object') {
+    // Caso de objetos anidados (ej: Ucla Calcinable -> Rotacional -> Plat Ø3.4 ...)
+    // Si es objeto, mostramos sus keys como nuevo select (sobreescribimos selectMedida con esas keys)
+    selectMedida.style.display = "block";
+    selectMedida.innerHTML = "<option value=''>Seleccionar</option>";
+    for (let k in medidas) selectMedida.innerHTML += `<option value="${k}">${k}</option>`;
   } else {
     selectMedida.style.display = "none";
   }

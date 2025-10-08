@@ -23,8 +23,17 @@
 
 <h2>Formulario de Pedido Bio-Fix</h2>
 
+<!-- SECCIÓN INICIAL -->
+<div class="section" id="inicio-section" style="display:block;">
+  <h3>¿Es tu primer pedido o eres cliente recurrente?</h3>
+  <div style="display:flex;gap:15px;justify-content:center;margin-top:15px;">
+    <button onclick="primerPedido()">Primer Pedido</button>
+    <button onclick="clienteRecurrente()">Cliente Recurrente</button>
+  </div>
+</div>
+
 <!-- SECCIÓN 1: DATOS ODONTÓLOGO -->
-<div class="section" id="datos-section" style="display:block;">
+<div class="section" id="datos-section">
   <h3>Datos del odontólogo</h3>
   <input type="text" placeholder="Nombre" id="nombre">
   <input type="text" placeholder="Apellido" id="apellido">
@@ -67,6 +76,12 @@
 <div class="section" id="resumen-section">
   <h3>Resumen del Pedido</h3>
   <div id="resumenPedido"></div>
+  <div style="margin-top:10px;">
+    <label>Selecciona vendedor habitual:</label>
+    <select id="vendedorSeleccionado" style="width:100%;padding:10px;margin-top:5px;">
+      <!-- Se llena dinámicamente -->
+    </select>
+  </div>
   <div id="vendedoresBtns" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;"></div>
   <div style="margin-top:10px;">
     <button onclick="volverAProductos()" style="background:#6c757d;">Volver</button>
@@ -76,6 +91,16 @@
 <p class="nota-seguridad">🔒 Tu información se procesa de forma segura.</p>
 
 <script>
+// --- FLUJO INICIAL ---
+function primerPedido(){
+  document.getElementById("inicio-section").style.display = "none";
+  document.getElementById("datos-section").style.display = "block";
+}
+function clienteRecurrente(){
+  document.getElementById("inicio-section").style.display = "none";
+  document.getElementById("categorias-section").style.display = "block";
+}
+
 // --- VALIDACIÓN DATOS ---
 const campos = ["nombre","apellido","dni","matricula","provincia","localidad"];
 const btnSiguienteDatos = document.getElementById("btnSiguienteDatos");
@@ -105,203 +130,30 @@ function volverADatos(){ document.getElementById("categorias-section").style.dis
 function volverACategorias(){ document.getElementById("productos-section").style.display="none"; document.getElementById("categorias-section").style.display="block"; }
 function volverAProductos(){ document.getElementById("resumen-section").style.display="none"; document.getElementById("productos-section").style.display="block"; }
 
-// --- CATÁLOGO ---
-// Top-level solo: "Implantes", "Componentes Analógicos", "Herramental"
-// Implantes contiene Hexágono Interno, Hexágono Externo, Cono Morse, Monopieza, Monopieza Basal y Compresivo Multiunit
-// Componentes Analógicos repite las subcategorías (componentes por tipo de implante)
+// --- CATALOGO DE EJEMPLO (simplificado) ---
 const catalogo = {
   "Implantes": {
-    "Hexágono Interno": [
-      "Ø3.0 x 6.5 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 16 mm",
-      "Ø3.75 x 6.5 mm","Ø3.75 x 8 mm","Ø3.75 x 10 mm","Ø3.75 x 11.5 mm","Ø3.75 x 13 mm","Ø3.75 x 16 mm",
-      "Ø4.2 x 6.5 mm","Ø4.2 x 8 mm","Ø4.2 x 10 mm","Ø4.2 x 11.5 mm","Ø4.2 x 13 mm","Ø4.2 x 16 mm",
-      "Ø5.0 x 6.5 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm","Ø5.0 x 16 mm"
-    ],
-    "Hexágono Externo": {
-      "Ø3.30 (Plataforma Ø3.4)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
-      "Ø3.75 (Plataforma Ø4.1)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
-      "Ø4.0 (Plataforma Ø4.1)": ["6 mm","8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
-      "Ø5.0 (Plataforma Ø5.0)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"]
-    },
-    "Cono Morse": [
-      "Ø3.30 x 8 mm","Ø3.30 x 10 mm","Ø3.0 x 11.5 mm","Ø3.30 x 13 mm","Ø3.30 x 16 mm",
-      "Ø3.75 x 8 mm","Ø3.75 x 10 mm","Ø3.75 x 11.5 mm","Ø3.75 x 13 mm","Ø3.75 x 16 mm",
-      "Ø4.2 x 8 mm","Ø4.2 x 10 mm","Ø4.2 x 11.5 mm","Ø4.2 x 13 mm","Ø4.2 x 16 mm",
-      "Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm","Ø5.0 x 16 mm"
-    ],
-    "Monopieza": [
-      "Ø3.0 x 6 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 15 mm","Ø3.0 x 18 mm","Ø3.0 x 20 mm",
-      "Ø3.5 x 6 mm","Ø3.5 x 8 mm","Ø3.5 x 10 mm","Ø3.5 x 11.5 mm","Ø3.5 x 13 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 20 mm",
-      "Ø4.0 x 6 mm","Ø4.0 x 8 mm","Ø4.0 x 10 mm","Ø4.0 x 11.5 mm","Ø4.0 x 13 mm","Ø4.0 x 15 mm","Ø4.0 x 18 mm","Ø4.0 x 20 mm",
-      "Ø4.5 x 6 mm","Ø4.5 x 8 mm","Ø4.5 x 10 mm","Ø4.5 x 11.5 mm","Ø4.5 x 13 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 20 mm",
-      "Ø5.0 x 6 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm",
-      "Ø5.5 x 6 mm","Ø5.5 x 8 mm","Ø5.5 x 10 mm","Ø5.5 x 11.5 mm","Ø5.5 x 13 mm"
-    ],
-    "Monopieza Basal": {
-      "Pulido": [
-        "Ø3.5 x 10 mm","Ø3.5 x 12 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 21 mm","Ø3.5 x 23 mm","Ø3.5 x 24 mm","Ø3.5 x 26 mm","Ø3.5 x 28 mm",
-        "Ø4.5 x 10 mm","Ø4.5 x 12 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 21 mm","Ø4.5 x 23 mm","Ø4.5 x 24 mm","Ø4.5 x 26 mm","Ø4.5 x 28 mm",
-        "Ø5.5 x 10 mm","Ø5.5 x 12 mm","Ø5.5 x 15 mm","Ø5.5 x 18 mm",
-        "Ø6.5 x 10 mm","Ø6.5 x 12 mm","Ø6.5 x 15 mm",
-        "Ø8.5 x 10 mm","Ø8.5 x 12 mm","Ø8.5 x 15 mm"
-      ],
-      "Tratamiento superficial": [
-        "Ø3.5 x 10 mm","Ø3.5 x 12 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 21 mm","Ø3.5 x 23 mm","Ø3.5 x 24 mm","Ø3.5 x 26 mm","Ø3.5 x 28 mm",
-        "Ø4.5 x 10 mm","Ø4.5 x 12 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 21 mm","Ø4.5 x 23 mm","Ø4.5 x 24 mm","Ø4.5 x 26 mm","Ø4.5 x 28 mm",
-        "Ø5.5 x 10 mm","Ø5.5 x 12 mm","Ø5.5 x 15 mm","Ø5.5 x 18 mm",
-        "Ø6.5 x 10 mm","Ø6.5 x 12 mm","Ø6.5 x 15 mm",
-        "Ø8.5 x 10 mm","Ø8.5 x 12 mm","Ø8.5 x 15 mm"
-      ]
-    },
-    // --- Lista completa de Implantes Compresivo Multi Unit (según lo que me pasaste) ---
     "Compresivo Multiunit": [
-  "Ø3.0 x 6 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 15 mm","Ø3.0 x 18 mm","Ø3.0 x 20 mm",
-  "Ø3.5 x 6 mm","Ø3.5 x 8 mm","Ø3.5 x 10 mm","Ø3.5 x 11.5 mm","Ø3.5 x 13 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 20 mm",
-  "Ø4.0 x 6 mm","Ø4.0 x 8 mm","Ø4.0 x 10 mm","Ø4.0 x 11.5 mm","Ø4.0 x 13 mm","Ø4.0 x 15 mm","Ø4.0 x 18 mm","Ø4.0 x 20 mm",
-  "Ø4.5 x 6 mm","Ø4.5 x 8 mm","Ø4.5 x 10 mm","Ø4.5 x 11.5 mm","Ø4.5 x 13 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 20 mm",
-  "Ø5.0 x 6 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm",
-  "Ø5.5 x 6 mm","Ø5.5 x 8 mm","Ø5.5 x 10 mm","Ø5.5 x 11.5 mm","Ø5.5 x 13 mm",
-  "Ø3.0 x 6 mm C3","Ø3.0 x 8 mm C3","Ø3.0 x 10 mm C3","Ø3.0 x 11.5 mm C3","Ø3.0 x 13 mm C3","Ø3.0 x 15 mm C3","Ø3.0 x 18 mm C3","Ø3.0 x 20 mm C3",
-  "Ø3.5 x 6 mm C3","Ø3.5 x 8 mm C3","Ø3.5 x 10 mm C3","Ø3.5 x 11.5 mm C3","Ø3.5 x 13 mm C3","Ø3.5 x 15 mm C3","Ø3.5 x 18 mm C3","Ø3.5 x 20 mm C3",
-  "Ø4.0 x 6 mm C3","Ø4.0 x 8 mm C3","Ø4.0 x 10 mm C3","Ø4.0 x 11.5 mm C3","Ø4.0 x 13 mm C3","Ø4.0 x 15 mm C3","Ø4.0 x 18 mm C3","Ø4.0 x 20 mm C3",
-  "Ø4.5 x 6 mm C3","Ø4.5 x 8 mm C3","Ø4.5 x 10 mm C3","Ø4.5 x 11.5 mm C3","Ø4.5 x 13 mm C3","Ø4.5 x 15 mm C3","Ø4.5 x 18 mm C3","Ø4.5 x 20 mm C3",
-  "Ø5.0 x 6 mm C3","Ø5.0 x 8 mm C3","Ø5.0 x 10 mm C3","Ø5.0 x 11.5 mm C3","Ø5.0 x 13 mm C3",
-  "Ø5.5 x 6 mm C3","Ø5.5 x 8 mm C3","Ø5.5 x 10 mm C3","Ø5.5 x 11.5 mm C3","Ø5.5 x 13 mm C3"
+      "Ø3.0 x 6 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm",
+      "Ø3.5 x 6 mm","Ø3.5 x 8 mm","Ø3.5 x 10 mm","Ø3.5 x 11.5 mm","Ø3.5 x 13 mm"
     ]
   },
-
-  "Componentes Analógicos": {
-    "Hexágono Interno": {
-      "Ucla Calcinable": ["Rotacional","Anti-Rotacional"],
-      "Análogo de Titanio": [],
-      "BallAttach y Cazoleta": ["H1","H2","H3","H4"],
-      "Tapa de cicatrización": ["H1","H2","H3","H4"],
-      "Transfer cubeta": ["Abierta","Cerrada"],
-      "Pilar recto c/tornillo": ["H1","H2","H3","H4"],
-      "Minipilar Angulado H.I + Llave transportadora + tornillo": ["1.5mm","2.5mm","3.5mm"],
-      "Pilar angulado c/tornillo": ["15°","25°"]
-    },
-    "Hexágono Externo": {
-      "Ucla calcinable": {
-        "Rotacional": {
-          "Plat Ø3.4": ["H1","H2","H3","H4"],
-          "Plat Ø4.1": ["H1","H2","H3","H4"],
-          "Plat Ø5.0": ["H1","H2","H3","H4"]
-        },
-        "Anti-rotacional": {
-          "Plat Ø3.4": ["H1","H2","H3","H4"],
-          "Plat Ø4.1": ["H1","H2","H3","H4"],
-          "Plat Ø5.0": ["H1","H2","H3","H4"]
-        }
-      },
-      "Tapa de cicatrización": {
-        "Plat Ø3.4": ["H1","H2","H3"],
-        "Plat Ø4.1": ["H1","H2","H3"],
-        "Plat Ø5.0": ["H1","H2","H3"]
-      },
-      "Transfer cubeta": {
-        "Plat Ø3.4": ["Abierta","Cerrada"],
-        "Plat Ø4.1": ["Abierta","Cerrada"],
-        "Plat Ø5.0": ["Abierta","Cerrada"]
-      },
-      "Ball attach": {
-        "Plat Ø3.4": ["H1","H2","H3","H4"],
-        "Plat Ø4.1": ["H1","H2","H3","H4"],
-        "Plat Ø5.0": ["H1","H2","H3","H4"]
-      },
-      "Pilar recto c/tornillo": {
-        "Plat Ø3.4": { "H1-H3": ["Hexagonal","Cuadrado"] },
-        "Plat Ø4.1": { "H1-H3": ["Hexagonal","Cuadrado"] },
-        "Plat Ø5.0": { "H1-H3": ["Hexagonal","Cuadrado"] }
-      },
-      "Tornillo protésico": ["Cuadrado","Hexagonal"],
-      "Pilar angulado c/tornillo": {
-        "Plat Ø4.1": ["15°","25°"]
-      }
-    },
-    "Cono Morse": {
-      "Pilares estándar": {
-        "Ø3.3": [
-          "Ø3.3x0.8x4","Ø3.3x1.5x4","Ø3.3x2.5x4","Ø3.3x3.5x4","Ø3.3x4.5x4","Ø3.3x5.5x4",
-          "Ø3.3x0.8x6","Ø3.3x1.5x6","Ø3.3x2.5x6","Ø3.3x3.5x6","Ø3.3x4.5x6","Ø3.3x5.5x6"
-        ],
-        "Ø4.5": [
-          "Ø4.5x0.8x4","Ø4.5x1.5x4","Ø4.5x2.5x4","Ø4.5x3.5x4","Ø4.5x4.5x4","Ø4.5x5.5x4",
-          "Ø4.5x0.8x6","Ø4.5x1.5x6","Ø4.5x2.5x6","Ø4.5x3.5x6","Ø4.5x4.5x6","Ø4.5x5.5x6"
-        ]
-      },
-      "Pilares c/tornillo pasante": {
-        "Ø3.3": [
-          "Ø3.3x0.8x4","Ø3.3x1.5x4","Ø3.3x2.5x4","Ø3.3x3.5x4","Ø3.3x4.5x4","Ø3.3x5.5x4",
-          "Ø3.3x0.8x6","Ø3.3x1.5x6","Ø3.3x2.5x6","Ø3.3x3.5x6","Ø3.3x4.5x6","Ø3.3x5.5x6"
-        ],
-        "Ø4.5": [
-          "Ø4.5x0.8x4","Ø4.5x1.5x4","Ø4.5x2.5x4","Ø4.5x3.5x4","Ø4.5x4.5x4","Ø4.5x5.5x4",
-          "Ø4.5x0.8x6","Ø4.5x1.5x6","Ø4.5x2.5x6","Ø4.5x3.5x6","Ø4.5x4.5x6","Ø4.5x5.5x6"
-        ]
-      },
-      "Pilares de cicatrización": {
-        "Ø3.3": ["H1.5","H2.5","H3.5"],
-        "Ø4.5": ["H1.5","H2.5","H3.5"]
-      },
-      "Análogo Universal": [],
-      "BallAttach y Cazoleta": ["H1.5","H2.5","H3.5","H4.5","H5.5"]
-    },
-    "Monopieza": {
-      "Análogo": [],
-      "Ucla Calcinable": ["Ø3.0","Ø3.5","Ø4.0","Ø4.5","Ø5.0"],
-      "Transfer Rotacional": []
-    },
-    "Compresivo Multiunit": {
-      "Transfer Cubeta Abierta": [],
-      "Cicatrizal c/tornillo": ["H2","H3","H4"],
-      "Ballattach y cazoleta": ["H2","H3","H4"],
-      "Pilar Recto c/tornillo": []
-    }
-  },
-
   "Herramental": {
-    "Fresa Lanza": ["Corta","Larga"],
-    "Fresa Lanza Guiada": ["Corta","Larga"],
-    "Fresa Helicoidal": ["Ø2.0","Ø2.5","Ø2.8","Ø3.2","Ø3.6","Ø4.0","Ø4.3","Ø4.6","Ø5.0","Ø5.3"],
-    "Kit 3 Expansores de Hueso": [],
-    "Kit 3 Expansores de Hueso - Monopieza": [],
-    "Torquimetro Dinamometrico": [],
-    "Mango Rigido": [],
-    "Mango para angulacion de Pilar MP": [],
-    "Extractor de Raiz residual": [],
-    "Driver Retractil": [],
-    "Punta Driver para Monopieza": ["Larga","Corta"],
-    "Llave conectora para contrangulo MP": ["Larga","Corta"],
-    "Destornillador Digital Cuadrado": ["Corto 0.050","Estándar 0.050","Largo 0.050","Extra Largo 0.050"],
-    "Destornillador Digital Hexagonal": ["Corto 0.048","Estandar 0.048","Largo 0.048","Extra Largo 0.048"],
-    "Destornillador Cuadrado p/Torquímetro": ["Corto 0.050","Estándar 0.050","Largo 0.050","Extra Largo 0.050"],
-    "Destornillador Hexagonal p/Torquímetro": ["Corto 0.048","Estandar 0.048","Largo 0.048","Extra Largo 0.048"],
-    "Prolongador de Fresa": [],
-    "Prolongador 4x4": ["Corto","Largo"],
-    "Conctor para torquímetro CMHI": [],
-    "Punch": ["3.4mm","4.1mm","5.0mm"],
-    "Anilla para Guia": ["Ø5,5-Ø2,1","Ø5,5-Ø4,2","Ø4,1-Ø3,0"],
-    "Llave conectora Monopieza": ["Corta","Larga"],
-    "Llave conectora CMU": ["Corta","Larga"]
+    "Fresa Lanza": ["Corta","Larga"]
   }
 };
-
-// --- Productos sin medida (solo opciones fijas) ---
-const sinMedida = ["Fresa Lanza","Fresa Lanza Guiada"];
-
-// --- GUARDAR DATOS SELECCIONADOS ---
+const sinMedida = ["Fresa Lanza"];
 let datosSeleccionados = {};
 Object.keys(catalogo).forEach(k => datosSeleccionados[k] = []);
 let categoriaActual = "";
 
-// Vendedores (para botones de envío)
+// Vendedores
 const vendedores = [
   {nombre:"Vendedor 1", numero:"5491134019090"},
   {nombre:"Vendedor 2", numero:"5491164336112"}
 ];
 
-// --- GENERAR BOTONES DE CATEGORÍAS (solo las 3 que querés) ---
+// Crear botones de categorías
 function crearBotonesCategorias(){
   const cont = document.getElementById("categorias-buttons");
   cont.innerHTML = "";
@@ -314,9 +166,7 @@ function crearBotonesCategorias(){
 }
 crearBotonesCategorias();
 
-// --- FUNCIONES DE PRODUCTOS ---
-function mostrarProdutosDebug() { console.log('catalogo keys:', Object.keys(catalogo)); }
-
+// --- FUNCIONES PRODUCTOS ---
 function mostrarProductos(categoria){
   categoriaActual = categoria;
   document.getElementById("categorias-section").style.display = "none";
@@ -333,169 +183,97 @@ function agregarProducto(){
   const selectProducto = document.createElement("select");
   selectProducto.innerHTML = "<option value=''>Seleccionar producto</option>";
   const opciones = catalogo[categoriaActual];
-  for (let p in opciones){
-    selectProducto.innerHTML += `<option value="${p}">${p}</option>`;
-  }
-
-  const selectSubtipo = document.createElement("select");
-  selectSubtipo.style.display = "none";
-
-  const selectMedida = document.createElement("select");
-  selectMedida.style.display = "none";
+  for (let p in opciones) selectProducto.innerHTML += `<option value="${p}">${p}</option>`;
+  div.appendChild(selectProducto);
 
   const inputCantidad = document.createElement("input");
-  inputCantidad.type = "number";
-  inputCantidad.min = "1";
   inputCantidad.placeholder = "Cantidad";
-  inputCantidad.style.display = "none";
-
-  selectProducto.addEventListener("change", ()=>{ manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad); });
-  selectSubtipo.addEventListener("change", ()=>{ manejarSubtipoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad); });
-
-  div.appendChild(selectProducto);
-  div.appendChild(selectSubtipo);
-  div.appendChild(selectMedida);
+  inputCantidad.type = "number";
+  inputCantidad.min = 1;
   div.appendChild(inputCantidad);
+
   lista.appendChild(div);
 }
 
-function manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad){
-  const clave = selectProducto.value;
-  const p = catalogo[categoriaActual][clave];
-
-  selectSubtipo.style.display = "none";
-  selectMedida.style.display = "none";
-  inputCantidad.style.display = "none";
-  selectSubtipo.innerHTML = "";
-  selectMedida.innerHTML = "";
-
-  if(!p) return;
-
-  if (sinMedida.includes(clave) && Array.isArray(p)){
-    selectSubtipo.style.display = "block";
-    selectSubtipo.innerHTML = "<option value=''>Seleccionar</option>";
-    p.forEach(o => selectSubtipo.innerHTML += `<option value="${o}">${o}</option>`);
-    inputCantidad.style.display = "block";
-    return;
-  }
-
-  if (Array.isArray(p)){
-    selectMedida.style.display = "block";
-    selectMedida.innerHTML = "<option value=''>Seleccionar</option>";
-    p.forEach(m => selectMedida.innerHTML += `<option value="${m}">${m}</option>`);
-    inputCantidad.style.display = "block";
-  } else if (typeof p === "object"){
-    // Si es objeto (un nivel), mostramos sus keys como subtipo
-    selectSubtipo.style.display = "block";
-    selectSubtipo.innerHTML = "<option value=''>Seleccionar</option>";
-    for (let s in p) selectSubtipo.innerHTML += `<option value="${s}">${s}</option>`;
-  }
-}
-
-function manejarSubtipoChange(selectProducto, selectSubtipo, selectMedida, inputCantidad){
-  const p = catalogo[categoriaActual][selectProducto.value];
-  const medidas = p ? p[selectSubtipo.value] : null;
-  selectMedida.innerHTML = "<option value=''>Seleccionar</option>";
-  if (Array.isArray(medidas) && medidas.length > 0){
-    selectMedida.style.display = "block";
-    medidas.forEach(m => selectMedida.innerHTML += `<option value="${m}">${m}</option>`);
-  } else if (medidas && typeof medidas === 'object') {
-    // Caso de objetos anidados (ej: Ucla Calcinable -> Rotacional -> Plat Ø3.4 ...)
-    // Si es objeto, mostramos sus keys como nuevo select (sobreescribimos selectMedida con esas keys)
-    selectMedida.style.display = "block";
-    selectMedida.innerHTML = "<option value=''>Seleccionar</option>";
-    for (let k in medidas) selectMedida.innerHTML += `<option value="${k}">${k}</option>`;
-  } else {
-    selectMedida.style.display = "none";
-  }
-  inputCantidad.style.display = "block";
-}
-
 function guardarProductos(){
-  const lista = document.querySelectorAll("#productos-list .item");
+  const items = document.getElementById("productos-list").children;
   datosSeleccionados[categoriaActual] = [];
-  lista.forEach(item=>{
-    const producto = item.querySelector("select:nth-child(1)").value;
-    const subtipo = item.querySelector("select:nth-child(2)") ? item.querySelector("select:nth-child(2)").value : "";
-    const medida = item.querySelector("select:nth-child(3)") ? item.querySelector("select:nth-child(3)").value : "";
-    const cantidadInput = item.querySelector("input");
-    const cantidad = cantidadInput ? cantidadInput.value : "";
-    if(producto && cantidad){
-      datosSeleccionados[categoriaActual].push({producto,subtipo,medida,cantidad});
-    }
+  Array.from(items).forEach(it=>{
+    const prod = it.querySelector("select").value;
+    const cant = it.querySelector("input").value;
+    if(prod && cant) datosSeleccionados[categoriaActual].push({producto:prod,cantidad:cant});
   });
   document.getElementById("productos-list").innerHTML = "";
-  document.getElementById("productos-section").style.display = "none";
-  document.getElementById("categorias-section").style.display = "block";
+  document.getElementById("productos-section").style.display="none";
+  document.getElementById("categorias-section").style.display="block";
 }
 
-function cargarProductosGuardados(){
-  const lista = document.getElementById("productos-list");
-  lista.innerHTML = "";
-  datosSeleccionados[categoriaActual].forEach(item=>{
-    const div = document.createElement("div");
-    div.classList.add("item");
-    div.innerHTML = `<div>${item.producto}${item.subtipo?` - ${item.subtipo}`:""}${item.medida?` : ${item.medida}`:""} x${item.cantidad}</div>`;
-    lista.appendChild(div);
-  });
-}
-
-// --- RESUMEN y envío WhatsApp ---
-let ultimoResumenTexto = "";
-
+// --- RESUMEN ---
 function mostrarResumen(){
-  guardarProductos();
+  document.getElementById("categorias-section").style.display="none";
+  document.getElementById("productos-section").style.display="none";
+  document.getElementById("resumen-section").style.display="block";
 
-  const resumenDiv = document.getElementById("resumenPedido");
-  resumenDiv.innerHTML = "";
+  let resumen = "";
+  if(document.getElementById("datos-section").style.display==="block"){
+    const nombre = document.getElementById("nombre").value;
+    const apellido = document.getElementById("apellido").value;
+    const dni = document.getElementById("dni").value;
+    const matricula = document.getElementById("matricula").value;
+    const provincia = document.getElementById("provincia").value;
+    const localidad = document.getElementById("localidad").value;
+    resumen += `Nuevo Pedido Bio-Fix\nNombre: ${nombre} ${apellido}\nDNI: ${dni}\nMatrícula: ${matricula}\nProvincia: ${provincia}\nLocalidad: ${localidad}\n----------------\n`;
+  }
 
-  let textoResumen = "";
-  const nombre = document.getElementById("nombre").value || "";
-  const apellido = document.getElementById("apellido").value || "";
-  const dni = document.getElementById("dni").value || "";
-  const matricula = document.getElementById("matricula").value || "";
-  const provincia = document.getElementById("provincia").value || "";
-  const localidad = document.getElementById("localidad").value || "";
-
-  textoResumen += `Nuevo Pedido Bio-Fix\n`;
-  textoResumen += `Nombre: ${nombre} ${apellido}\nDNI: ${dni}\nMatrícula: ${matricula}\nProvincia: ${provincia}, Localidad: ${localidad}\n--------------------\n`;
-
-  for (let cat of Object.keys(datosSeleccionados)){
-    if (datosSeleccionados[cat] && datosSeleccionados[cat].length > 0){
-      textoResumen += `${cat}:\n`;
-      datosSeleccionados[cat].forEach(item=>{
-        textoResumen += `* ${item.producto}${item.subtipo ? ' - '+item.subtipo : ''}${item.medida ? ' : '+item.medida : ''} x${item.cantidad}\n`;
+  for(let cat in datosSeleccionados){
+    if(datosSeleccionados[cat].length>0){
+      resumen += `\n${cat}:\n`;
+      datosSeleccionados[cat].forEach(p=>{
+        resumen += `- ${p.producto} x${p.cantidad}\n`;
       });
     }
   }
 
-  resumenDiv.innerText = textoResumen;
-  ultimoResumenTexto = textoResumen;
+  document.getElementById("resumenPedido").innerText = resumen;
 
-  const contVendedores = document.getElementById("vendedoresBtns");
-  contVendedores.innerHTML = "";
-  vendedores.forEach(vendedor => {
-    const btn = document.createElement("button");
-    btn.textContent = `Enviar a ${vendedor.nombre}`;
-    btn.onclick = () => {
-      const link = `https://wa.me/${vendedor.numero}?text=${encodeURIComponent(ultimoResumenTexto)}`;
-      window.open(link, "_blank");
-    };
-    contVendedores.appendChild(btn);
+  // Vendedores
+  const selVendedor = document.getElementById("vendedorSeleccionado");
+  selVendedor.innerHTML = "";
+  vendedores.forEach(v=>{
+    const opt = document.createElement("option");
+    opt.value = v.numero;
+    opt.textContent = v.nombre;
+    selVendedor.appendChild(opt);
   });
-
-  document.getElementById("productos-section").style.display="none";
-  document.getElementById("categorias-section").style.display="none";
-  document.getElementById("resumen-section").style.display="block";
 }
 
-function enviarPedido(){
-  if (!ultimoResumenTexto) mostrarResumen();
-  const vendedor = vendedores[0];
-  const link = `https://wa.me/${vendedor.numero}?text=${encodeURIComponent(ultimoResumenTexto)}`;
-  window.open(link, "_blank");
+// --- CARGA PRODUCTOS GUARDADOS ---
+function cargarProductosGuardados(){
+  const lista = document.getElementById("productos-list");
+  lista.innerHTML = "";
+  datosSeleccionados[categoriaActual].forEach(p=>{
+    const div = document.createElement("div");
+    div.classList.add("item");
+
+    const selectProducto = document.createElement("select");
+    selectProducto.innerHTML = "<option value=''>Seleccionar producto</option>";
+    const opciones = catalogo[categoriaActual];
+    for (let prod in opciones) selectProducto.innerHTML += `<option value="${prod}">${prod}</option>`;
+    selectProducto.value = p.producto;
+    div.appendChild(selectProducto);
+
+    const inputCantidad = document.createElement("input");
+    inputCantidad.placeholder = "Cantidad";
+    inputCantidad.type = "number";
+    inputCantidad.min = 1;
+    inputCantidad.value = p.cantidad;
+    div.appendChild(inputCantidad);
+
+    lista.appendChild(div);
+  });
 }
 </script>
 
 </body>
 </html>
+

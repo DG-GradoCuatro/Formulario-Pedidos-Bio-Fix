@@ -105,7 +105,8 @@ function volverADatos(){ document.getElementById("categorias-section").style.dis
 function volverACategorias(){ document.getElementById("productos-section").style.display="none"; document.getElementById("categorias-section").style.display="block"; }
 function volverAProductos(){ document.getElementById("resumen-section").style.display="none"; document.getElementById("productos-section").style.display="block"; }
 
-// --- CATALOGO (orden y contenido respetados tal como lo enviaste) ---
+// --- CATALOGO (top-level: Implantes, Componentes Analógicos, Herramental) ---
+// He movido Cono Morse, Monopieza y Compresivo Multiunit dentro de "Componentes Analógicos"
 const catalogo = {
   "Implantes": {
     "Hexágono Interno": [
@@ -120,20 +121,6 @@ const catalogo = {
       "Ø4.0 (Plataforma Ø4.1)": ["6 mm","8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
       "Ø5.0 (Plataforma Ø5.0)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"]
     },
-    "Cono Morse": [
-      "Ø3.30 x 8 mm","Ø3.30 x 10 mm","Ø3.0 x 11.5 mm","Ø3.30 x 13 mm","Ø3.30 x 16 mm",
-      "Ø3.75 x 8 mm","Ø3.75 x 10 mm","Ø3.75 x 11.5 mm","Ø3.75 x 13 mm","Ø3.75 x 16 mm",
-      "Ø4.2 x 8 mm","Ø4.2 x 10 mm","Ø4.2 x 11.5 mm","Ø4.2 x 13 mm","Ø4.2 x 16 mm",
-      "Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm","Ø5.0 x 16 mm"
-    ],
-    "Monopieza": [
-      "Ø3.0 x 6 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 15 mm","Ø3.0 x 18 mm","Ø3.0 x 20 mm",
-      "Ø3.5 x 6 mm","Ø3.5 x 8 mm","Ø3.5 x 10 mm","Ø3.5 x 11.5 mm","Ø3.5 x 13 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 20 mm",
-      "Ø4.0 x 6 mm","Ø4.0 x 8 mm","Ø4.0 x 10 mm","Ø4.0 x 11.5 mm","Ø4.0 x 13 mm","Ø4.0 x 15 mm","Ø4.0 x 18 mm","Ø4.0 x 20 mm",
-      "Ø4.5 x 6 mm","Ø4.5 x 8 mm","Ø4.5 x 10 mm","Ø4.5 x 11.5 mm","Ø4.5 x 13 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 20 mm",
-      "Ø5.0 x 6 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm",
-      "Ø5.5 x 6 mm","Ø5.5 x 8 mm","Ø5.5 x 10 mm","Ø5.5 x 11.5 mm","Ø5.5 x 13 mm"
-    ],
     "Monopieza Basal": {
       "Pulido": [
         "Ø3.5 x 10 mm","Ø3.5 x 12 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 21 mm","Ø3.5 x 23 mm","Ø3.5 x 24 mm","Ø3.5 x 26 mm","Ø3.5 x 28 mm",
@@ -149,8 +136,7 @@ const catalogo = {
         "Ø6.5 x 10 mm","Ø6.5 x 12 mm","Ø6.5 x 15 mm",
         "Ø8.5 x 10 mm","Ø8.5 x 12 mm","Ø8.5 x 15 mm"
       ]
-    },
-    "Compresivo Multiunit": ["Ø3.75 x 10 mm","Ø4.0 x 13 mm"]
+    }
   },
 
   "Componentes Analógicos": {
@@ -164,7 +150,6 @@ const catalogo = {
       "Minipilar Angulado H.I + Llave transportadora + tornillo": ["1.5mm","2.5mm","3.5mm"],
       "Pilar angulado c/tornillo": ["15°","25°"]
     },
-
     "Hexágono Externo": {
       "Ucla calcinable": {
         "Rotacional": {
@@ -202,49 +187,51 @@ const catalogo = {
       "Pilar angulado c/tornillo": {
         "Plat Ø4.1": ["15°","25°"]
       }
+    },
+
+    // === MOVIDOS AQUÍ: Cono Morse, Monopieza y Compresivo Multiunit ===
+    "Cono Morse": {
+      "Pilares estándar": {
+        "Ø3.3": [
+          "Ø3.3x0.8x4","Ø3.3x1.5x4","Ø3.3x2.5x4","Ø3.3x3.5x4","Ø3.3x4.5x4","Ø3.3x5.5x4",
+          "Ø3.3x0.8x6","Ø3.3x1.5x6","Ø3.3x2.5x6","Ø3.3x3.5x6","Ø3.3x4.5x6","Ø3.3x5.5x6"
+        ],
+        "Ø4.5": [
+          "Ø4.5x0.8x4","Ø4.5x1.5x4","Ø4.5x2.5x4","Ø4.5x3.5x4","Ø4.5x4.5x4","Ø4.5x5.5x4",
+          "Ø4.5x0.8x6","Ø4.5x1.5x6","Ø4.5x2.5x6","Ø4.5x3.5x6","Ø4.5x4.5x6","Ø4.5x5.5x6"
+        ]
+      },
+      "Pilares c/tornillo pasante": {
+        "Ø3.3": [
+          "Ø3.3x0.8x4","Ø3.3x1.5x4","Ø3.3x2.5x4","Ø3.3x3.5x4","Ø3.3x4.5x4","Ø3.3x5.5x4",
+          "Ø3.3x0.8x6","Ø3.3x1.5x6","Ø3.3x2.5x6","Ø3.3x3.5x6","Ø3.3x4.5x6","Ø3.3x5.5x6"
+        ],
+        "Ø4.5": [
+          "Ø4.5x0.8x4","Ø4.5x1.5x4","Ø4.5x2.5x4","Ø4.5x3.5x4","Ø4.5x4.5x4","Ø4.5x5.5x4",
+          "Ø4.5x0.8x6","Ø4.5x1.5x6","Ø4.5x2.5x6","Ø4.5x3.5x6","Ø4.5x4.5x6","Ø4.5x5.5x6"
+        ]
+      },
+      "Pilares de cicatrización": {
+        "Ø3.3": ["H1.5","H2.5","H3.5"],
+        "Ø4.5": ["H1.5","H2.5","H3.5"]
+      },
+      "Análogo Universal": [],
+      "BallAttach y Cazoleta": ["H1.5","H2.5","H3.5","H4.5","H5.5"]
+    },
+
+    "Monopieza": {
+      "Análogo": [],
+      "Ucla Calcinable": ["Ø3.0","Ø3.5","Ø4.0","Ø4.5","Ø5.0"],
+      "Transfer Rotacional": []
+    },
+
+    "Compresivo Multiunit": {
+      "Transfer Cubeta Abierta": [],
+      "Cicatrizal c/tornillo": ["H2","H3","H4"],
+      "Ballattach y cazoleta": ["H2","H3","H4"],
+      "Pilar Recto c/tornillo": []
     }
-  },
 
-  "Cono Morse": {
-    "Pilares estándar": {
-      "Ø3.3": [
-        "Ø3.3x0.8x4","Ø3.3x1.5x4","Ø3.3x2.5x4","Ø3.3x3.5x4","Ø3.3x4.5x4","Ø3.3x5.5x4",
-        "Ø3.3x0.8x6","Ø3.3x1.5x6","Ø3.3x2.5x6","Ø3.3x3.5x6","Ø3.3x4.5x6","Ø3.3x5.5x6"
-      ],
-      "Ø4.5": [
-        "Ø4.5x0.8x4","Ø4.5x1.5x4","Ø4.5x2.5x4","Ø4.5x3.5x4","Ø4.5x4.5x4","Ø4.5x5.5x4",
-        "Ø4.5x0.8x6","Ø4.5x1.5x6","Ø4.5x2.5x6","Ø4.5x3.5x6","Ø4.5x4.5x6","Ø4.5x5.5x6"
-      ]
-    },
-    "Pilares c/tornillo pasante": {
-      "Ø3.3": [
-        "Ø3.3x0.8x4","Ø3.3x1.5x4","Ø3.3x2.5x4","Ø3.3x3.5x4","Ø3.3x4.5x4","Ø3.3x5.5x4",
-        "Ø3.3x0.8x6","Ø3.3x1.5x6","Ø3.3x2.5x6","Ø3.3x3.5x6","Ø3.3x4.5x6","Ø3.3x5.5x6"
-      ],
-      "Ø4.5": [
-        "Ø4.5x0.8x4","Ø4.5x1.5x4","Ø4.5x2.5x4","Ø4.5x3.5x4","Ø4.5x4.5x4","Ø4.5x5.5x4",
-        "Ø4.5x0.8x6","Ø4.5x1.5x6","Ø4.5x2.5x6","Ø4.5x3.5x6","Ø4.5x4.5x6","Ø4.5x5.5x6"
-      ]
-    },
-    "Pilares de cicatrización": {
-      "Ø3.3": ["H1.5","H2.5","H3.5"],
-      "Ø4.5": ["H1.5","H2.5","H3.5"]
-    },
-    "Análogo Universal": [],
-    "BallAttach y Cazoleta": ["H1.5","H2.5","H3.5","H4.5","H5.5"]
-  },
-
-  "Monopieza": {
-    "Análogo": [],
-    "Ucla Calcinable": ["Ø3.0","Ø3.5","Ø4.0","Ø4.5","Ø5.0"],
-    "Transfer Rotacional": []
-  },
-
-  "Compresivo Multiunit": {
-    "Transfer Cubeta Abierta": [],
-    "Cicatrizal c/tornillo": ["H2","H3","H4"],
-    "Ballattach y cazoleta": ["H2","H3","H4"],
-    "Pilar Recto c/tornillo": []
   },
 
   "Herramental": {
@@ -279,7 +266,6 @@ const sinMedida = ["Fresa Lanza","Fresa Lanza Guiada"];
 
 // --- GUARDAR DATOS SELECCIONADOS ---
 let datosSeleccionados = {};
-// Inicializar arrays vacíos para cada categoría del catálogo (preserva orden)
 Object.keys(catalogo).forEach(k => datosSeleccionados[k] = []);
 let categoriaActual = "";
 
@@ -289,7 +275,7 @@ const vendedores = [
   {nombre:"Vendedor 2", numero:"5491164336112"}
 ];
 
-// --- GENERAR BOTONES DE CATEGORÍAS (respeta orden del objeto catalogo) ---
+// --- GENERAR BOTONES DE CATEGORÍAS (solo las 3 que querés) ---
 function crearBotonesCategorias(){
   const cont = document.getElementById("categorias-buttons");
   cont.innerHTML = "";
@@ -316,7 +302,6 @@ function agregarProducto(){
   const div = document.createElement("div");
   div.classList.add("item");
 
-  // Producto (subcategoría principal del catálogo[categoriaActual])
   const selectProducto = document.createElement("select");
   selectProducto.innerHTML = "<option value=''>Seleccionar producto</option>";
   const opciones = catalogo[categoriaActual];
@@ -358,7 +343,6 @@ function manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inpu
 
   if(!p) return;
 
-  // Productos sin medida → mostrar directamente opciones (cuando p es array y nombre del producto está en sinMedida)
   if (sinMedida.includes(clave) && Array.isArray(p)){
     selectSubtipo.style.display = "block";
     selectSubtipo.innerHTML = "<option value=''>Seleccionar</option>";
@@ -367,20 +351,15 @@ function manejarProductoChange(selectProducto, selectSubtipo, selectMedida, inpu
     return;
   }
 
-  // Si p es array → medidas directas
   if (Array.isArray(p)){
     selectMedida.style.display = "block";
     selectMedida.innerHTML = "<option value=''>Seleccionar</option>";
     p.forEach(m => selectMedida.innerHTML += `<option value="${m}">${m}</option>`);
     inputCantidad.style.display = "block";
-  }
-  // Si p es objeto → mostrar subtipo (keys) para elegir y luego medidas
-  else if (typeof p === "object"){
+  } else if (typeof p === "object"){
     selectSubtipo.style.display = "block";
     selectSubtipo.innerHTML = "<option value=''>Seleccionar</option>";
-    for (let s in p){
-      selectSubtipo.innerHTML += `<option value="${s}">${s}</option>`;
-    }
+    for (let s in p) selectSubtipo.innerHTML += `<option value="${s}">${s}</option>`;
   }
 }
 
@@ -410,7 +389,6 @@ function guardarProductos(){
       datosSeleccionados[categoriaActual].push({producto,subtipo,medida,cantidad});
     }
   });
-  // limpiar lista visual y volver a categorias
   document.getElementById("productos-list").innerHTML = "";
   document.getElementById("productos-section").style.display = "none";
   document.getElementById("categorias-section").style.display = "block";
@@ -422,7 +400,6 @@ function cargarProductosGuardados(){
   datosSeleccionados[categoriaActual].forEach(item=>{
     const div = document.createElement("div");
     div.classList.add("item");
-    // Mostrar la selección ya guardada para edición simple (texto). Si querés editar en detalle, puedo convertir esto en selects prefijados.
     div.innerHTML = `<div>${item.producto}${item.subtipo?` - ${item.subtipo}`:""}${item.medida?` : ${item.medida}`:""} x${item.cantidad}</div>`;
     lista.appendChild(div);
   });
@@ -432,13 +409,11 @@ function cargarProductosGuardados(){
 let ultimoResumenTexto = "";
 
 function mostrarResumen(){
-  // Asegurarse de guardar los productos de la categoría actual abierta primero
   guardarProductos();
 
   const resumenDiv = document.getElementById("resumenPedido");
   resumenDiv.innerHTML = "";
 
-  // --- Construir el texto del pedido ---
   let textoResumen = "";
   const nombre = document.getElementById("nombre").value || "";
   const apellido = document.getElementById("apellido").value || "";
@@ -450,7 +425,6 @@ function mostrarResumen(){
   textoResumen += `Nuevo Pedido Bio-Fix\n`;
   textoResumen += `Nombre: ${nombre} ${apellido}\nDNI: ${dni}\nMatrícula: ${matricula}\nProvincia: ${provincia}, Localidad: ${localidad}\n--------------------\n`;
 
-  // Productos: recorrer todas las categorías en el orden original
   for (let cat of Object.keys(datosSeleccionados)){
     if (datosSeleccionados[cat] && datosSeleccionados[cat].length > 0){
       textoResumen += `${cat}:\n`;
@@ -460,11 +434,9 @@ function mostrarResumen(){
     }
   }
 
-  // Mostrar resumen en pantalla
   resumenDiv.innerText = textoResumen;
   ultimoResumenTexto = textoResumen;
 
-  // Crear botones de envío para cada vendedor
   const contVendedores = document.getElementById("vendedoresBtns");
   contVendedores.innerHTML = "";
   vendedores.forEach(vendedor => {
@@ -477,13 +449,11 @@ function mostrarResumen(){
     contVendedores.appendChild(btn);
   });
 
-  // Mostrar sección de resumen
   document.getElementById("productos-section").style.display="none";
   document.getElementById("categorias-section").style.display="none";
   document.getElementById("resumen-section").style.display="block";
 }
 
-// Función auxiliar: enviar por defecto al primer vendedor (si querés un botón general)
 function enviarPedido(){
   if (!ultimoResumenTexto) mostrarResumen();
   const vendedor = vendedores[0];

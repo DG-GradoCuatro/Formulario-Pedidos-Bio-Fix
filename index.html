@@ -26,7 +26,7 @@
     }
     *{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
     html,body{height:100%;margin:0;background:var(--bg-white);color:var(--text)}
-    .app{max-width:420px;margin:0 auto;border-left:1px solid #ddd;border-right:1px solid #ddd;min-height:100vh;background:linear-gradient(180, #fff 0%, #fbfbfb 100%);}
+    .app{max-width:420px;margin:0 auto;border-left:1px solid #ddd;border-right:1px solid #ddd;min-height:100vh;background:linear-gradient(180deg, #fff 0%, #fbfbfb 100%);}
     header{background:var(--bf-blue);color:#fff;padding:18px var(--safe-margin);display:flex;gap:12px;align-items:center}
     header img{width:44px;height:44px;border-radius:8px;object-fit:cover}
     header h1{font-size:18px;margin:0}
@@ -34,7 +34,7 @@
     .card{background:var(--bg-white);border-radius:12px;padding:12px;margin-bottom:12px;box-shadow:0 6px 20px rgba(17,104,167,0.06)}
     .big-btn{display:block;width:100%;padding:14px;border-radius:10px;border:0;font-weight:600;font-size:16px}
     .btn-primary{background:var(--bf-blue);color:#fff}
-    .btn-outline{background:transparent;border:1px solid #ddd;color:var(--text)}
+    .btn-outline{background:transparent;border:1px solid #ddd;color:var(--text);padding:8px;border-radius:8px}
     .row{display:flex;gap:8px}
     .col{flex:1}
     label{display:block;font-size:13px;margin-bottom:6px}
@@ -43,7 +43,7 @@
     .spaced{margin-top:12px}
     .small{font-size:13px;color:#666}
     .system-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .system-item{padding:10px;border-radius:10px;text-align:center;font-weight:600;color:#fff}
+    .system-item{padding:10px;border-radius:10px;text-align:center;font-weight:600;color:#fff;cursor:pointer}
     .list-group{display:flex;flex-direction:column;gap:8px}
     .product-row{display:flex;gap:8px;align-items:center}
     .product-row input{width:72px}
@@ -51,7 +51,7 @@
     .summary-list{display:flex;flex-direction:column;gap:10px}
     .summary-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;border:1px solid #eee}
     .small-muted{font-size:12px;color:#777}
-    footer{padding:12px;background:linear-gradient(180, transparent, #fff);position:sticky;bottom:0}
+    footer{padding:12px;background:linear-gradient(180deg, transparent, #fff);position:sticky;bottom:0}
     .vendor{display:flex;gap:10px;align-items:center}
     .vendor img{width:48px;height:48px;border-radius:8px;object-fit:cover}
     .pill{padding:6px 10px;border-radius:999px;font-weight:700}
@@ -246,184 +246,257 @@
     // --- Datos iniciales ---
     const PHONE = '5491164336112'; // formato wa.me sin + ni guiones
 
+    /* --------- CATALOGO (tu catálogo original) ---------- */
     const products = {
       "Implantes": {
-    "Hexágono Interno": [
-      "Ø3.0 x 6.5 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 16 mm",
-      "Ø3.75 x 6.5 mm","Ø3.75 x 8 mm","Ø3.75 x 10 mm","Ø3.75 x 11.5 mm","Ø3.75 x 13 mm","Ø3.75 x 16 mm",
-      "Ø4.2 x 6.5 mm","Ø4.2 x 8 mm","Ø4.2 x 10 mm","Ø4.2 x 11.5 mm","Ø4.2 x 13 mm","Ø4.2 x 16 mm",
-      "Ø5.0 x 6.5 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm","Ø5.0 x 16 mm"
-    ],
-    "Hexágono Externo": {
-      "Ø3.30 (Plataforma Ø3.4)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
-      "Ø3.75 (Plataforma Ø4.1)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
-      "Ø4.0 (Plataforma Ø4.1)": ["6 mm","8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
-      "Ø5.0 (Plataforma Ø5.0)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"]
-    },
-    "Cono Morse": [
-      "Ø3.30 x 8 mm","Ø3.30 x 10 mm","Ø3.0 x 11.5 mm","Ø3.30 x 13 mm","Ø3.30 x 16 mm",
-      "Ø3.75 x 8 mm","Ø3.75 x 10 mm","Ø3.75 x 11.5 mm","Ø3.75 x 13 mm","Ø3.75 x 16 mm",
-      "Ø4.2 x 8 mm","Ø4.2 x 10 mm","Ø4.2 x 11.5 mm","Ø4.2 x 13 mm","Ø4.2 x 16 mm",
-      "Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm","Ø5.0 x 16 mm"
-    ],
-    "Monopieza": [
-      "Ø3.0 x 6 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 15 mm","Ø3.0 x 18 mm","Ø3.0 x 20 mm",
-      "Ø3.5 x 6 mm","Ø3.5 x 8 mm","Ø3.5 x 10 mm","Ø3.5 x 11.5 mm","Ø3.5 x 13 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 20 mm",
-      "Ø4.0 x 6 mm","Ø4.0 x 8 mm","Ø4.0 x 10 mm","Ø4.0 x 11.5 mm","Ø4.0 x 13 mm","Ø4.0 x 15 mm","Ø4.0 x 18 mm","Ø4.0 x 20 mm",
-      "Ø4.5 x 6 mm","Ø4.5 x 8 mm","Ø4.5 x 10 mm","Ø4.5 x 11.5 mm","Ø4.5 x 13 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 20 mm",
-      "Ø5.0 x 6 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm",
-      "Ø5.5 x 6 mm","Ø5.5 x 8 mm","Ø5.5 x 10 mm","Ø5.5 x 11.5 mm","Ø5.5 x 13 mm"
-    ],
-    "Monopieza Basal": {
-      "Pulido": [
-        "Ø3.5 x 10 mm","Ø3.5 x 12 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 21 mm","Ø3.5 x 23 mm","Ø3.5 x 24 mm","Ø3.5 x 26 mm","Ø3.5 x 28 mm","Ø3.5 x 24 mm C14","Ø3.5 x 26 mm C16","Ø3.5 x 28 mm C18",
-        "Ø4.5 x 10 mm","Ø4.5 x 12 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 21 mm","Ø4.5 x 23 mm","Ø4.5 x 24 mm","Ø4.5 x 26 mm","Ø4.5 x 28 mm","Ø4.5 x 24 mm C14","Ø4.5 x 26 mm C15","Ø4.5 x 28 mm C18",
-        "Ø5.5 x 10 mm","Ø5.5 x 12 mm","Ø5.5 x 15 mm","Ø5.5 x 18 mm",
-        "Ø6.5 x 10 mm","Ø6.5 x 12 mm","Ø6.5 x 15 mm",
-        "Ø8.5 x 10 mm","Ø8.5 x 12 mm","Ø8.5 x 15 mm"
-      ],
-      "Tratamiento superficial": [
-        "Ø3.5 x 10 mm","Ø3.5 x 12 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 21 mm","Ø3.5 x 23 mm","Ø3.5 x 24 mm","Ø3.5 x 26 mm","Ø3.5 x 28 mm","Ø3.5 x 24 mm C14","Ø3.5 x 26 mm C16","Ø3.5 x 28 mm C18",
-        "Ø4.5 x 10 mm","Ø4.5 x 12 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 21 mm","Ø4.5 x 23 mm","Ø4.5 x 24 mm","Ø4.5 x 26 mm","Ø4.5 x 28 mm","Ø4.5 x 24 mm C14","Ø4.5 x 26 mm C15","Ø4.5 x 28 mm C18",
-        "Ø5.5 x 10 mm","Ø5.5 x 12 mm","Ø5.5 x 15 mm","Ø5.5 x 18 mm",
-        "Ø6.5 x 10 mm","Ø6.5 x 12 mm","Ø6.5 x 15 mm",
-        "Ø8.5 x 10 mm","Ø8.5 x 12 mm","Ø8.5 x 15 mm"
-      ]
-    },
-    "Compresivo Multiunit": [
-      "Ø3.0 x 6 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 15 mm","Ø3.0 x 18 mm","Ø3.0 x 20 mm",
-      "Ø3.5 x 6 mm","Ø3.5 x 8 mm","Ø3.5 x 10 mm","Ø3.5 x 11.5 mm","Ø3.5 x 13 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 20 mm",
-      "Ø4.0 x 6 mm","Ø4.0 x 8 mm","Ø4.0 x 10 mm","Ø4.0 x 11.5 mm","Ø4.0 x 13 mm","Ø4.0 x 15 mm","Ø4.0 x 18 mm","Ø4.0 x 20 mm",
-      "Ø4.5 x 6 mm","Ø4.5 x 8 mm","Ø4.5 x 10 mm","Ø4.5 x 11.5 mm","Ø4.5 x 13 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 20 mm",
-      "Ø5.0 x 6 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm",
-      "Ø5.5 x 6 mm","Ø5.5 x 8 mm","Ø5.5 x 10 mm","Ø5.5 x 11.5 mm","Ø5.5 x 13 mm"
-    ]
-  },
-  "Componentes Analógicos": {
-    "Hexágono Interno": {
-      "Ucla Calcinable": ["Rotacional","Anti-Rotacional"],
-      "Análogo de Titanio": [],
-      "BallAttach y Cazoleta": ["H1","H2","H3","H4"],
-      "Tapa de cicatrización": ["H1","H2","H3","H4"],
-      "Transfer cubeta": ["Abierta","Cerrada"],
-      "Pilar recto c/tornillo": ["H1","H2","H3","H4"],
-      "Minipilar Angulado H.I + Llave transportadora + tornillo": ["1.5mm","2.5mm","3.5mm"],
-      "Pilar angulado c/tornillo": ["15°","25°"]
-    },
-    "Hexágono Externo": {
-      "Ucla calcinable": {
-        "Rotacional": {
-          "Plat Ø3.4": ["H1","H2","H3","H4"],
-          "Plat Ø4.1": ["H1","H2","H3","H4"],
-          "Plat Ø5.0": ["H1","H2","H3","H4"]
+        "Hexágono Interno": [
+          "Ø3.0 x 6.5 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 16 mm",
+          "Ø3.75 x 6.5 mm","Ø3.75 x 8 mm","Ø3.75 x 10 mm","Ø3.75 x 11.5 mm","Ø3.75 x 13 mm","Ø3.75 x 16 mm",
+          "Ø4.2 x 6.5 mm","Ø4.2 x 8 mm","Ø4.2 x 10 mm","Ø4.2 x 11.5 mm","Ø4.2 x 13 mm","Ø4.2 x 16 mm",
+          "Ø5.0 x 6.5 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm","Ø5.0 x 16 mm"
+        ],
+        "Hexágono Externo": {
+          "Ø3.30 (Plataforma Ø3.4)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
+          "Ø3.75 (Plataforma Ø4.1)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
+          "Ø4.0 (Plataforma Ø4.1)": ["6 mm","8.5 mm","10 mm","11.5 mm","13 mm","15 mm"],
+          "Ø5.0 (Plataforma Ø5.0)": ["8.5 mm","10 mm","11.5 mm","13 mm","15 mm"]
         },
-        "Anti-rotacional": {
-          "Plat Ø3.4": ["H1","H2","H3","H4"],
-          "Plat Ø4.1": ["H1","H2","H3","H4"],
-          "Plat Ø5.0": ["H1","H2","H3","H4"]
+        "Cono Morse": [
+          "Ø3.30 x 8 mm","Ø3.30 x 10 mm","Ø3.0 x 11.5 mm","Ø3.30 x 13 mm","Ø3.30 x 16 mm",
+          "Ø3.75 x 8 mm","Ø3.75 x 10 mm","Ø3.75 x 11.5 mm","Ø3.75 x 13 mm","Ø3.75 x 16 mm",
+          "Ø4.2 x 8 mm","Ø4.2 x 10 mm","Ø4.2 x 11.5 mm","Ø4.2 x 13 mm","Ø4.2 x 16 mm",
+          "Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm","Ø5.0 x 16 mm"
+        ],
+        "Monopieza": [
+          "Ø3.0 x 6 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 15 mm","Ø3.0 x 18 mm","Ø3.0 x 20 mm",
+          "Ø3.5 x 6 mm","Ø3.5 x 8 mm","Ø3.5 x 10 mm","Ø3.5 x 11.5 mm","Ø3.5 x 13 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 20 mm",
+          "Ø4.0 x 6 mm","Ø4.0 x 8 mm","Ø4.0 x 10 mm","Ø4.0 x 11.5 mm","Ø4.0 x 13 mm","Ø4.0 x 15 mm","Ø4.0 x 18 mm","Ø4.0 x 20 mm",
+          "Ø4.5 x 6 mm","Ø4.5 x 8 mm","Ø4.5 x 10 mm","Ø4.5 x 11.5 mm","Ø4.5 x 13 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 20 mm",
+          "Ø5.0 x 6 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm",
+          "Ø5.5 x 6 mm","Ø5.5 x 8 mm","Ø5.5 x 10 mm","Ø5.5 x 11.5 mm","Ø5.5 x 13 mm"
+        ],
+        "Monopieza Basal": {
+          "Pulido": [
+            "Ø3.5 x 10 mm","Ø3.5 x 12 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 21 mm","Ø3.5 x 23 mm","Ø3.5 x 24 mm","Ø3.5 x 26 mm","Ø3.5 x 28 mm","Ø3.5 x 24 mm C14","Ø3.5 x 26 mm C16","Ø3.5 x 28 mm C18",
+            "Ø4.5 x 10 mm","Ø4.5 x 12 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 21 mm","Ø4.5 x 23 mm","Ø4.5 x 24 mm","Ø4.5 x 26 mm","Ø4.5 x 28 mm","Ø4.5 x 24 mm C14","Ø4.5 x 26 mm C15","Ø4.5 x 28 mm C18",
+            "Ø5.5 x 10 mm","Ø5.5 x 12 mm","Ø5.5 x 15 mm","Ø5.5 x 18 mm",
+            "Ø6.5 x 10 mm","Ø6.5 x 12 mm","Ø6.5 x 15 mm",
+            "Ø8.5 x 10 mm","Ø8.5 x 12 mm","Ø8.5 x 15 mm"
+          ],
+          "Tratamiento superficial": [
+            "Ø3.5 x 10 mm","Ø3.5 x 12 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 21 mm","Ø3.5 x 23 mm","Ø3.5 x 24 mm","Ø3.5 x 26 mm","Ø3.5 x 28 mm","Ø3.5 x 24 mm C14","Ø3.5 x 26 mm C16","Ø3.5 x 28 mm C18",
+            "Ø4.5 x 10 mm","Ø4.5 x 12 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 21 mm","Ø4.5 x 23 mm","Ø4.5 x 24 mm","Ø4.5 x 26 mm","Ø4.5 x 28 mm","Ø4.5 x 24 mm C14","Ø4.5 x 26 mm C15","Ø4.5 x 28 mm C18",
+            "Ø5.5 x 10 mm","Ø5.5 x 12 mm","Ø5.5 x 15 mm","Ø5.5 x 18 mm",
+            "Ø6.5 x 10 mm","Ø6.5 x 12 mm","Ø6.5 x 15 mm",
+            "Ø8.5 x 10 mm","Ø8.5 x 12 mm","Ø8.5 x 15 mm"
+          ]
+        },
+        "Compresivo Multiunit": [
+          "Ø3.0 x 6 mm","Ø3.0 x 8 mm","Ø3.0 x 10 mm","Ø3.0 x 11.5 mm","Ø3.0 x 13 mm","Ø3.0 x 15 mm","Ø3.0 x 18 mm","Ø3.0 x 20 mm",
+          "Ø3.5 x 6 mm","Ø3.5 x 8 mm","Ø3.5 x 10 mm","Ø3.5 x 11.5 mm","Ø3.5 x 13 mm","Ø3.5 x 15 mm","Ø3.5 x 18 mm","Ø3.5 x 20 mm",
+          "Ø4.0 x 6 mm","Ø4.0 x 8 mm","Ø4.0 x 10 mm","Ø4.0 x 11.5 mm","Ø4.0 x 13 mm","Ø4.0 x 15 mm","Ø4.0 x 18 mm","Ø4.0 x 20 mm",
+          "Ø4.5 x 6 mm","Ø4.5 x 8 mm","Ø4.5 x 10 mm","Ø4.5 x 11.5 mm","Ø4.5 x 13 mm","Ø4.5 x 15 mm","Ø4.5 x 18 mm","Ø4.5 x 20 mm",
+          "Ø5.0 x 6 mm","Ø5.0 x 8 mm","Ø5.0 x 10 mm","Ø5.0 x 11.5 mm","Ø5.0 x 13 mm",
+          "Ø5.5 x 6 mm","Ø5.5 x 8 mm","Ø5.5 x 10 mm","Ø5.5 x 11.5 mm","Ø5.5 x 13 mm"
+        ]
+      },
+      "Componentes Analógicos": {
+        "Hexágono Interno": {
+          "Ucla Calcinable": ["Rotacional","Anti-Rotacional"],
+          "Análogo de Titanio": [],
+          "BallAttach y Cazoleta": ["H1","H2","H3","H4"],
+          "Tapa de cicatrización": ["H1","H2","H3","H4"],
+          "Transfer cubeta": ["Abierta","Cerrada"],
+          "Pilar recto c/tornillo": ["H1","H2","H3","H4"],
+          "Minipilar Angulado H.I + Llave transportadora + tornillo": ["1.5mm","2.5mm","3.5mm"],
+          "Pilar angulado c/tornillo": ["15°","25°"]
+        },
+        "Hexágono Externo": {
+          "Ucla calcinable": {
+            "Rotacional": {
+              "Plat Ø3.4": ["H1","H2","H3","H4"],
+              "Plat Ø4.1": ["H1","H2","H3","H4"],
+              "Plat Ø5.0": ["H1","H2","H3","H4"]
+            },
+            "Anti-rotacional": {
+              "Plat Ø3.4": ["H1","H2","H3","H4"],
+              "Plat Ø4.1": ["H1","H2","H3","H4"],
+              "Plat Ø5.0": ["H1","H2","H3","H4"]
+            }
+          },
+          "Tapa de cicatrización": {
+            "Plat Ø3.4": ["H1","H2","H3"],
+            "Plat Ø4.1": ["H1","H2","H3"],
+            "Plat Ø5.0": ["H1","H2","H3"]
+          },
+          "Transfer cubeta": {
+            "Plat Ø3.4": ["Abierta","Cerrada"],
+            "Plat Ø4.1": ["Abierta","Cerrada"],
+            "Plat Ø5.0": ["Abierta","Cerrada"]
+          },
+          "Ball attach": {
+            "Plat Ø3.4": ["H1","H2","H3","H4"],
+            "Plat Ø4.1": ["H1","H2","H3","H4"],
+            "Plat Ø5.0": ["H1","H2","H3","H4"]
+          },
+          "Pilar recto c/tornillo": {
+            "Plat Ø3.4": {"H1-H3": ["Hexagonal","Cuadrado"]},
+            "Plat Ø4.1": {"H1-H3": ["Hexagonal","Cuadrado"]},
+            "Plat Ø5.0": {"H1-H3": ["Hexagonal","Cuadrado"]}
+          },
+          "Tornillo protésico": ["Cuadrado","Hexagonal"],
+          "Pilar angulado c/tornillo": {"Plat Ø4.1": ["15°","25°"]}
+        },
+        "Cono Morse": {
+          "Pilares estándar": {
+            "Ø3.3": ["Ø3.3x0.8x4","Ø3.3x1.5x4","Ø3.3x2.5x4","Ø3.3x3.5x4","Ø3.3x4.5x4","Ø3.3x5.5x4","Ø3.3x0.8x6","Ø3.3x1.5x6","Ø3.3x2.5x6","Ø3.3x3.5x6","Ø3.3x4.5x6","Ø3.3x5.5x6"],
+            "Ø4.5": ["Ø4.5x0.8x4","Ø4.5x1.5x4","Ø4.5x2.5x4","Ø4.5x3.5x4","Ø4.5x4.5x4","Ø4.5x5.5x4","Ø4.5x0.8x6","Ø4.5x1.5x6","Ø4.5x2.5x6","Ø4.5x3.5x6","Ø4.5x4.5x6","Ø4.5x5.5x6"]
+          },
+          "Pilares c/tornillo pasante": {
+            "Ø3.3": ["Ø3.3x0.8x4","Ø3.3x1.5x4","Ø3.3x2.5x4","Ø3.3x3.5x4","Ø3.3x4.5x4","Ø3.3x5.5x4","Ø3.3x0.8x6","Ø3.3x1.5x6","Ø3.3x2.5x6","Ø3.3x3.5x6","Ø3.3x4.5x6","Ø3.3x5.5x6"],
+            "Ø4.5": ["Ø4.5x0.8x4","Ø4.5x1.5x4","Ø4.5x2.5x4","Ø4.5x3.5x4","Ø4.5x4.5x4","Ø4.5x5.5x4","Ø4.5x0.8x6","Ø4.5x1.5x6","Ø4.5x2.5x6","Ø4.5x3.5x6","Ø4.5x4.5x6","Ø4.5x5.5x6"]
+          },
+          "Pilares de cicatrización": {"Ø3.3":["H1.5","H2.5","H3.5"],"Ø4.5":["H1.5","H2.5","H3.5"]},
+          "Análogo Universal": [],
+          "BallAttach y Cazoleta": ["H1.5","H2.5","H3.5","H4.5","H5.5"]
+        },
+        "Monopieza": {
+          "Análogo": [],
+          "Ucla Calcinable": ["Ø3.0","Ø3.5","Ø4.0","Ø4.5","Ø5.0"],
+          "Transfer Rotacional": []
+        },
+        "Compresivo Multiunit": {
+          "Transfer Cubeta Abierta": [],
+          "Cicatrizal c/tornillo": ["H2","H3","H4"],
+          "Ballattach y cazoleta": ["H2","H3","H4"],
+          "Pilar Recto c/tornillo": []
         }
       },
-      "Tapa de cicatrización": {
-        "Plat Ø3.4": ["H1","H2","H3"],
-        "Plat Ø4.1": ["H1","H2","H3"],
-        "Plat Ø5.0": ["H1","H2","H3"]
+      "Componentes Analógicos": {
+        "Hexágono Interno": {
+          "Ucla Calcinable": ["Rotacional","Anti-Rotacional"],
+          "Análogo de Titanio": [],
+          "BallAttach y Cazoleta": ["H1","H2","H3","H4"],
+          "Tapa de cicatrización": ["H1","H2","H3","H4"],
+          "Transfer cubeta": ["Abierta","Cerrada"],
+          "Pilar recto c/tornillo": ["H1","H2","H3","H4"],
+          "Minipilar Angulado H.I + Llave transportadora + tornillo": ["1.5mm","2.5mm","3.5mm"],
+          "Pilar angulado c/tornillo": ["15°","25°"]
+        },
+        "Hexágono Externo": {
+          "Ucla calcinable": {
+            "Rotacional": {
+              "Plat Ø3.4": ["H1","H2","H3","H4"],
+              "Plat Ø4.1": ["H1","H2","H3","H4"],
+              "Plat Ø5.0": ["H1","H2","H3","H4"]
+            },
+            "Anti-rotacional": {
+              "Plat Ø3.4": ["H1","H2","H3","H4"],
+              "Plat Ø4.1": ["H1","H2","H3","H4"],
+              "Plat Ø5.0": ["H1","H2","H3","H4"]
+            }
+          },
+          "Tapa de cicatrización": {
+            "Plat Ø3.4": ["H1","H2","H3"],
+            "Plat Ø4.1": ["H1","H2","H3"],
+            "Plat Ø5.0": ["H1","H2","H3"]
+          },
+          "Transfer cubeta": {
+            "Plat Ø3.4": ["Abierta","Cerrada"],
+            "Plat Ø4.1": ["Abierta","Cerrada"],
+            "Plat Ø5.0": ["Abierta","Cerrada"]
+          },
+          "Ball attach": {
+            "Plat Ø3.4": ["H1","H2","H3","H4"],
+            "Plat Ø4.1": ["H1","H2","H3","H4"],
+            "Plat Ø5.0": ["H1","H2","H3","H4"]
+          },
+          "Pilar recto c/tornillo": {
+            "Plat Ø3.4": {"H1-H3": ["Hexagonal","Cuadrado"]},
+            "Plat Ø4.1": {"H1-H3": ["Hexagonal","Cuadrado"]},
+            "Plat Ø5.0": {"H1-H3": ["Hexagonal","Cuadrado"]}
+          },
+          "Tornillo protésico": ["Cuadrado","Hexagonal"],
+          "Pilar angulado c/tornillo": {"Plat Ø4.1": ["15°","25°"]}
+        },
+        "Cono Morse": {
+          "Pilares estándar": {
+            "Ø3.3": ["Ø3.3x0.8x4","Ø3.3x1.5x4","Ø3.3x2.5x4","Ø3.3x3.5x4","Ø3.3x4.5x4","Ø3.3x5.5x4","Ø3.3x0.8x6","Ø3.3x1.5x6","Ø3.3x2.5x6","Ø3.3x3.5x6","Ø3.3x4.5x6","Ø3.3x5.5x6"],
+            "Ø4.5": ["Ø4.5x0.8x4","Ø4.5x1.5x4","Ø4.5x2.5x4","Ø4.5x3.5x4","Ø4.5x4.5x4","Ø4.5x5.5x4","Ø4.5x0.8x6","Ø4.5x1.5x6","Ø4.5x2.5x6","Ø4.5x3.5x6","Ø4.5x4.5x6","Ø4.5x5.5x6"]
+          },
+          "Pilares c/tornillo pasante": {
+            "Ø3.3": ["Ø3.3x0.8x4","Ø3.3x1.5x4","Ø3.3x2.5x4","Ø3.3x3.5x4","Ø3.3x4.5x4","Ø3.3x5.5x4","Ø3.3x0.8x6","Ø3.3x1.5x6","Ø3.3x2.5x6","Ø3.3x3.5x6","Ø3.3x4.5x6","Ø3.3x5.5x6"],
+            "Ø4.5": ["Ø4.5x0.8x4","Ø4.5x1.5x4","Ø4.5x2.5x4","Ø4.5x3.5x4","Ø4.5x4.5x4","Ø4.5x5.5x4","Ø4.5x0.8x6","Ø4.5x1.5x6","Ø4.5x2.5x6","Ø4.5x3.5x6","Ø4.5x4.5x6","Ø4.5x5.5x6"]
+          },
+          "Pilares de cicatrización": {"Ø3.3":["H1.5","H2.5","H3.5"],"Ø4.5":["H1.5","H2.5","H3.5"]},
+          "Análogo Universal": [],
+          "BallAttach y Cazoleta": ["H1.5","H2.5","H3.5","H4.5","H5.5"]
+        },
+        "Monopieza": {
+          "Análogo": [],
+          "Ucla Calcinable": ["Ø3.0","Ø3.5","Ø4.0","Ø4.5","Ø5.0"],
+          "Transfer Rotacional": []
+        },
+        "Compresivo Multiunit": {
+          "Transfer Cubeta Abierta": [],
+          "Cicatrizal c/tornillo": ["H2","H3","H4"],
+          "Ballattach y cazoleta": ["H2","H3","H4"],
+          "Pilar Recto c/tornillo": []
+        }
       },
-      "Transfer cubeta": {
-        "Plat Ø3.4": ["Abierta","Cerrada"],
-        "Plat Ø4.1": ["Abierta","Cerrada"],
-        "Plat Ø5.0": ["Abierta","Cerrada"]
+      "Componentes Digitales": {
+        "Hexágono Interno": {
+          "Analogo Digital": ["Único"],
+          "T-Base": ["Rotacional Ø4.3","No Rotacional Ø4.3"],
+          "Cuerpo Escaneo": ["Único"]
+        },
+        "Hexágono Externo": {
+          "Analogo Digital": ["Plat Ø3.4","Plat Ø4.1","Plat Ø5.0"],
+          "T-Base": ["Plat Ø3.4 Rot","Plat Ø4.1 Rot","Plat Ø5.0 Rot","Plat Ø3.4 Not Rot","Plat Ø4.1 Not Rot","Plat Ø5.0 Not Rot"],
+          "Cuerpo Escaneo": ["Plat Ø3.4","Plat Ø4.1","Plat Ø5.0"]
+        },
+        "Cono Morse": {
+          "Analogo Digital": ["Único"],
+          "T-Base": ["Único"],
+          "Cuerpo Escaneo": ["Único"]
+        },
+        "Compresivo Multiunit": {
+          "Analogo Digital": ["Único"],
+          "T-Base": ["Único"],
+          "Cuerpo Escaneo": ["Único"]
+        },
+        "Multiunit": {
+          "Hexágono Interno": {"Plataforma Única Ø3.75 mm":["H1","H2","H3","H4","H5"]},
+          "Hexágono Externo": {"Plataforma Ø4.1 mm":["H1","H2","H3","H4","H5"]},
+          "Cono Morse": {"Plataforma Switch":["H0.8","H1.5","H2.5","H3.5","H4.5","H5.5"]}
+        }
       },
-      "Ball attach": {
-        "Plat Ø3.4": ["H1","H2","H3","H4"],
-        "Plat Ø4.1": ["H1","H2","H3","H4"],
-        "Plat Ø5.0": ["H1","H2","H3","H4"]
-      },
-      "Pilar recto c/tornillo": {
-        "Plat Ø3.4": {"H1-H3": ["Hexagonal","Cuadrado"]},
-        "Plat Ø4.1": {"H1-H3": ["Hexagonal","Cuadrado"]},
-        "Plat Ø5.0": {"H1-H3": ["Hexagonal","Cuadrado"]}
-      },
-      "Tornillo protésico": ["Cuadrado","Hexagonal"],
-      "Pilar angulado c/tornillo": {"Plat Ø4.1": ["15°","25°"]}
-    },
-    "Cono Morse": {
-      "Pilares estándar": {
-        "Ø3.3": ["Ø3.3x0.8x4","Ø3.3x1.5x4","Ø3.3x2.5x4","Ø3.3x3.5x4","Ø3.3x4.5x4","Ø3.3x5.5x4","Ø3.3x0.8x6","Ø3.3x1.5x6","Ø3.3x2.5x6","Ø3.3x3.5x6","Ø3.3x4.5x6","Ø3.3x5.5x6"],
-        "Ø4.5": ["Ø4.5x0.8x4","Ø4.5x1.5x4","Ø4.5x2.5x4","Ø4.5x3.5x4","Ø4.5x4.5x4","Ø4.5x5.5x4","Ø4.5x0.8x6","Ø4.5x1.5x6","Ø4.5x2.5x6","Ø4.5x3.5x6","Ø4.5x4.5x6","Ø4.5x5.5x6"]
-      },
-      "Pilares c/tornillo pasante": {
-        "Ø3.3": ["Ø3.3x0.8x4","Ø3.3x1.5x4","Ø3.3x2.5x4","Ø3.3x3.5x4","Ø3.3x4.5x4","Ø3.3x5.5x4","Ø3.3x0.8x6","Ø3.3x1.5x6","Ø3.3x2.5x6","Ø3.3x3.5x6","Ø3.3x4.5x6","Ø3.3x5.5x6"],
-        "Ø4.5": ["Ø4.5x0.8x4","Ø4.5x1.5x4","Ø4.5x2.5x4","Ø4.5x3.5x4","Ø4.5x4.5x4","Ø4.5x5.5x4","Ø4.5x0.8x6","Ø4.5x1.5x6","Ø4.5x2.5x6","Ø4.5x3.5x6","Ø4.5x4.5x6","Ø4.5x5.5x6"]
-      },
-      "Pilares de cicatrización": {"Ø3.3":["H1.5","H2.5","H3.5"],"Ø4.5":["H1.5","H2.5","H3.5"]},
-      "Análogo Universal": [],
-      "BallAttach y Cazoleta": ["H1.5","H2.5","H3.5","H4.5","H5.5"]
-    },
-    "Monopieza": {
-      "Análogo": [],
-      "Ucla Calcinable": ["Ø3.0","Ø3.5","Ø4.0","Ø4.5","Ø5.0"],
-      "Transfer Rotacional": []
-    },
-    "Compresivo Multiunit": {
-      "Transfer Cubeta Abierta": [],
-      "Cicatrizal c/tornillo": ["H2","H3","H4"],
-      "Ballattach y cazoleta": ["H2","H3","H4"],
-      "Pilar Recto c/tornillo": []
-    }
-  },
-  "Componentes Digitales": {
-    "Hexágono Interno": {
-      "Analogo Digital": ["Único"],
-      "T-Base": ["Rotacional Ø4.3","No Rotacional Ø4.3"],
-      "Cuerpo Escaneo": ["Único"]
-    },
-    "Hexágono Externo": {
-      "Analogo Digital": ["Plat Ø3.4","Plat Ø4.1","Plat Ø5.0"],
-      "T-Base": ["Plat Ø3.4 Rot","Plat Ø4.1 Rot","Plat Ø5.0 Rot","Plat Ø3.4 Not Rot","Plat Ø4.1 Not Rot","Plat Ø5.0 Not Rot"],
-      "Cuerpo Escaneo": ["Plat Ø3.4","Plat Ø4.1","Plat Ø5.0"]
-    },
-    "Cono Morse": {
-      "Analogo Digital": ["Único"],
-      "T-Base": ["Único"],
-      "Cuerpo Escaneo": ["Único"]
-    },
-    "Compresivo Multiunit": {
-      "Analogo Digital": ["Único"],
-      "T-Base": ["Único"],
-      "Cuerpo Escaneo": ["Único"]
-    },
-    "Multiunit": {
-      "Hexágono Interno": {"Plataforma Única Ø3.75 mm":["H1","H2","H3","H4","H5"]},
-      "Hexágono Externo": {"Plataforma Ø4.1 mm":["H1","H2","H3","H4","H5"]},
-      "Cono Morse": {"Plataforma Switch":["H0.8","H1.5","H2.5","H3.5","H4.5","H5.5"]}
-    }
-  },
-  "Herramental": {
-    "Fresa Lanza": ["Corta","Larga"],
-    "Fresa Lanza Guiada": ["Corta","Larga"],
-    "Fresa Helicoidal": ["Ø2.0","Ø2.5","Ø2.8","Ø3.2","Ø3.6","Ø4.0","Ø4.3","Ø4.6","Ø5.0","Ø5.3"],
-    "Kit 3 Expansores de Hueso": [],
-    "Kit 3 Expansores de Hueso - Monopieza": [],
-    "Torquimetro Dinamometrico": [],
-    "Mango Rigido": [],
-    "Mango para angulacion de Pilar MP": [],
-    "Extractor de Raiz residual": [],
-    "Driver Retractil": [],
-    "Punta Driver para Monopieza": ["Larga","Corta"],
-    "Llave conectora para contrangulo MP": ["Larga","Corta"],
-    "Destornillador Digital Cuadrado": ["Corto 0.050","Estándar 0.050","Largo 0.050","Extra Largo 0.050"],
-    "Destornillador Digital Hexagonal": ["Corto 0.048","Estandar 0.048","Largo 0.048","Extra Largo 0.048"],
-    "Destornillador Cuadrado p/Torquímetro": ["Corto 0.050","Estándar 0.050","Largo 0.050","Extra Largo 0.050"],
-    "Destornillador Hexagonal p/Torquímetro": ["Corto 0.048","Estandar 0.048","Largo 0.048","Extra Largo 0.048"],
-    "Prolongador de Fresa": [],
-    "Prolongador 4x4": ["Corto","Largo"],
-    "Conctor para torquímetro CMHI": [],
-    "Punch": ["3.4mm","4.1mm","5.0mm"],
-    "Anilla para Guia": ["Ø5,5-Ø2,1","Ø5,5-Ø4,2","Ø4,1-Ø3,0"],
-    "Llave conectora Monopieza": ["Corta","Larga"],
-    "Llave conectora CMU": ["Corta","Larga"]
-  }
-};
+      "Herramental": {
+        "Fresa Lanza": ["Corta","Larga"],
+        "Fresa Lanza Guiada": ["Corta","Larga"],
+        "Fresa Helicoidal": ["Ø2.0","Ø2.5","Ø2.8","Ø3.2","Ø3.6","Ø4.0","Ø4.3","Ø4.6","Ø5.0","Ø5.3"],
+        "Kit 3 Expansores de Hueso": [],
+        "Kit 3 Expansores de Hueso - Monopieza": [],
+        "Torquimetro Dinamometrico": [],
+        "Mango Rigido": [],
+        "Mango para angulacion de Pilar MP": [],
+        "Extractor de Raiz residual": [],
+        "Driver Retractil": [],
+        "Punta Driver para Monopieza": ["Larga","Corta"],
+        "Llave conectora para contrangulo MP": ["Larga","Corta"],
+        "Destornillador Digital Cuadrado": ["Corto 0.050","Estándar 0.050","Largo 0.050","Extra Largo 0.050"],
+        "Destornillador Digital Hexagonal": ["Corto 0.048","Estandar 0.048","Largo 0.048","Extra Largo 0.048"],
+        "Destornillador Cuadrado p/Torquímetro": ["Corto 0.050","Estándar 0.050","Largo 0.050","Extra Largo 0.050"],
+        "Destornillador Hexagonal p/Torquímetro": ["Corto 0.048","Estandar 0.048","Largo 0.048","Extra Largo 0.048"],
+        "Prolongador de Fresa": [],
+        "Prolongador 4x4": ["Corto","Largo"],
+        "Conctor para torquímetro CMHI": [],
+        "Punch": ["3.4mm","4.1mm","5.0mm"],
+        "Anilla para Guia": ["Ø5,5-Ø2,1","Ø5,5-Ø4,2","Ø4,1-Ø3,0"],
+        "Llave conectora Monopieza": ["Corta","Larga"],
+        "Llave conectora CMU": ["Corta","Larga"]
+      }
+    };
 
     // carrito
     let cliente = null;
@@ -462,6 +535,47 @@
     $('btnFinalizar').addEventListener('click',()=>{renderResumen(); show('finalizar')});
     $('irResumen').addEventListener('click',()=>{renderResumen(); show('resumen')});
 
+    // helpers para aplanar estructuras (arrays u objetos)
+    function flattenEntries(node, breadcrumbs = []) {
+      // devuelve array de objetos {name, pathLabels}
+      const out = [];
+      if (Array.isArray(node)) {
+        // cada elemento del array puede ser string u objeto en casos raros
+        node.forEach(item=>{
+          if (typeof item === 'string' || typeof item === 'number') {
+            out.push({ name: String(item), path: breadcrumbs.slice() });
+          } else {
+            // si es objeto/array anidado
+            out.push(...flattenEntries(item, breadcrumbs));
+          }
+        });
+      } else if (node && typeof node === 'object') {
+        // objeto: iterar claves
+        Object.keys(node).forEach(key=>{
+          const val = node[key];
+          // añadir la clave al breadcrumb
+          const nextCrumbs = breadcrumbs.concat([key]);
+          if (Array.isArray(val) && val.length === 0) {
+            // clave con array vacío -> mostrar la clave como item (ej: "Análogo")
+            out.push({ name: key, path: breadcrumbs.slice() });
+          } else {
+            out.push(...flattenEntries(val, nextCrumbs));
+          }
+        });
+      } else if (typeof node === 'string' || typeof node === 'number') {
+        out.push({ name: String(node), path: breadcrumbs.slice() });
+      }
+      return out;
+    }
+
+    // función que construye un label legible a partir de path + name
+    function buildDisplayLabel(entry){
+      // si path vacío, solo name
+      if(!entry.path || entry.path.length===0) return entry.name;
+      // unir path (except maybe duplicados) y name final
+      return [...entry.path, entry.name].join(' · ');
+    }
+
     // IMPLANTES
     let selectedImplanteSys = null;
     function prepareImplantes(){
@@ -476,23 +590,32 @@
     }
 
     function renderImplanteMedidas(sys){
-      const lista = products.Implantes[sys] || [];
+      const raw = products.Implantes && products.Implantes[sys];
       const cont = $('implanteMedidas'); cont.innerHTML='';
-      lista.forEach(p=>{
+      if(!raw){ cont.innerHTML = '<div class="small-muted">No hay productos para este sistema.</div>'; return }
+      const entries = flattenEntries(raw, []);
+      if(entries.length===0){ cont.innerHTML = '<div class="small-muted">No hay medidas cargadas.</div>'; return }
+      entries.forEach(e=>{
+        const label = buildDisplayLabel(e);
         const row = document.createElement('div'); row.className='product-row';
-        row.innerHTML = `<div style="flex:1"><div class='product-title'>${p}</div><div class='small-muted'>Sistema: ${sys}</div></div><div style='width:110px;display:flex;gap:6px;align-items:center'><input type='number' min='0' value='0' data-prod='${escapeHtml(p)}' class='qty' /><button class='btn-outline' data-add='${escapeHtml(p)}'>Agregar</button></div>`
+        row.innerHTML = `<div style="flex:1"><div class='product-title'>${escapeHtml(label)}</div><div class='small-muted'>Sistema: ${escapeHtml(sys)}</div></div>
+          <div style='width:140px;display:flex;gap:6px;align-items:center'>
+            <input type='number' min='0' value='0' data-prod='${escapeHtml(label)}' class='qty' />
+            <button class='btn-outline' data-add='${escapeHtml(label)}'>Agregar</button>
+          </div>`;
         cont.appendChild(row);
       });
       // wire add buttons
-      cont.querySelectorAll('[data-add]').forEach(b=>b.onclick = (e)=>{
+      cont.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',(e)=>{
         const prod = b.getAttribute('data-add');
-        const qty = parseInt(b.parentElement.querySelector('.qty').value)||0;
+        const qtyInput = b.parentElement.querySelector('.qty');
+        const qty = parseInt(qtyInput.value)||0;
         if(qty<=0){alert('Ingresá cantidad mayor a 0');return}
-        cart.push({cat:'Implantes', system:sys, name:unescapeHtml(prod), qty:qty}); updateCartCount();
-        // reset qty to 0
-        b.parentElement.querySelector('.qty').value = 0;
+        cart.push({cat:'Implantes', system:sys, name:unescapeHtml(prod), qty:qty});
+        updateCartCount();
+        qtyInput.value = 0;
         alert('Producto agregado');
-      });
+      }));
     }
 
     $('implantesAtras').addEventListener('click',()=>show('categorias'));
@@ -503,36 +626,44 @@
     function prepareComponentes(cat){
       currentCompCategory = cat;
       $('compTitle').innerText = cat;
-      const systems = Object.keys(products[cat]||{});
+      const systems = Object.keys(products[cat] || {});
       const sysCont = $('compSystems'); sysCont.innerHTML='';
       systems.forEach(s=>{
         const div = document.createElement('div'); div.className='system-item'; div.dataset.sys=s; div.innerText=s;
         // color by system mapping
         div.style.background = mapSysColor(s);
         sysCont.appendChild(div);
-        div.onclick = ()=>{
-          renderCompItems(cat,s);
-        }
+        div.onclick = ()=>{ renderCompItems(cat,s); }
       });
       $('compItems').innerHTML='';
     }
 
     function renderCompItems(cat,sys){
-      const lista = products[cat][sys]||[];
+      const raw = (products[cat] && products[cat][sys]);
       const cont = $('compItems'); cont.innerHTML='';
-      lista.forEach(p=>{
+      if(!raw){ cont.innerHTML = '<div class="small-muted">No hay productos para este sistema.</div>'; return }
+      const entries = flattenEntries(raw, []);
+      if(entries.length===0){ cont.innerHTML = '<div class="small-muted">No hay items.</div>'; return }
+      entries.forEach(e=>{
+        const label = buildDisplayLabel(e);
         const row = document.createElement('div'); row.className='product-row';
-        row.innerHTML = `<div style="flex:1"><div class='product-title'>${p}</div><div class='small-muted'>Sistema: ${sys}</div></div><div style='width:110px;display:flex;gap:6px;align-items:center'><input type='number' min='0' value='0' data-prod='${escapeHtml(p)}' class='qty' /><button class='btn-outline' data-add='${escapeHtml(p)}'>Agregar</button></div>`
+        row.innerHTML = `<div style="flex:1"><div class='product-title'>${escapeHtml(label)}</div><div class='small-muted'>${escapeHtml(cat)} · ${escapeHtml(sys)}</div></div>
+          <div style='width:140px;display:flex;gap:6px;align-items:center'>
+            <input type='number' min='0' value='0' data-prod='${escapeHtml(label)}' class='qty' />
+            <button class='btn-outline' data-add='${escapeHtml(label)}'>Agregar</button>
+          </div>`;
         cont.appendChild(row);
       });
-      cont.querySelectorAll('[data-add]').forEach(b=>b.onclick = ()=>{
+      cont.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>{
         const prod = b.getAttribute('data-add');
-        const qty = parseInt(b.parentElement.querySelector('.qty').value)||0;
+        const qtyInput = b.parentElement.querySelector('.qty');
+        const qty = parseInt(qtyInput.value)||0;
         if(qty<=0){alert('Ingresá cantidad mayor a 0');return}
-        cart.push({cat:cat, system:sys, name:unescapeHtml(prod), qty:qty}); updateCartCount();
-        b.parentElement.querySelector('.qty').value = 0;
+        cart.push({cat:cat, system:sys, name:unescapeHtml(prod), qty:qty});
+        updateCartCount();
+        qtyInput.value = 0;
         alert('Producto agregado');
-      });
+      }));
     }
 
     $('compAtras').addEventListener('click',()=>show('categorias'));
@@ -544,12 +675,36 @@
       if(cart.length===0){ list.innerHTML = '<div class="small-muted">No hay productos en el pedido.</div>'; return }
       cart.forEach((it,idx)=>{
         const div = document.createElement('div'); div.className='summary-item';
-        div.innerHTML = `<div><div style='font-weight:800'>${it.name}</div><div class='small-muted'>${it.cat} · ${it.system || ''}</div></div><div style='display:flex;flex-direction:column;gap:6px;align-items:flex-end'><div style='font-weight:800'>x ${it.qty}</div><div style='display:flex;gap:6px'><button data-del='${idx}' class='btn-outline'>Eliminar</button><button data-edit='${idx}' class='btn-outline'>Editar</button></div></div>`
+        div.innerHTML = `<div><div style='font-weight:800'>${escapeHtml(it.name)}</div><div class='small-muted'>${escapeHtml(it.cat)} · ${escapeHtml(it.system || '')}</div></div>
+          <div style='display:flex;flex-direction:column;gap:6px;align-items:flex-end'>
+            <div style='font-weight:800'>x ${it.qty}</div>
+            <div style='display:flex;gap:6px'>
+              <button data-del='${idx}' class='btn-outline'>Eliminar</button>
+              <button data-edit='${idx}' class='btn-outline'>Editar</button>
+            </div>
+          </div>`;
         list.appendChild(div);
       });
       // attach handlers
-      list.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{ const i=parseInt(b.getAttribute('data-del')); cart.splice(i,1); renderResumen(); updateCartCount(); });
-      list.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{ const i=parseInt(b.getAttribute('data-edit')); const newQty = prompt('Modificar cantidad', cart[i].qty); if(newQty!==null){ const n = parseInt(newQty)||0; if(n<=0){alert('Cantidad inválida');return} cart[i].qty=n; renderResumen(); updateCartCount(); }});
+      list.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{
+        const i=parseInt(b.getAttribute('data-del'));
+        if(isNaN(i)) return;
+        cart.splice(i,1);
+        renderResumen();
+        updateCartCount();
+      }));
+      list.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>{
+        const i=parseInt(b.getAttribute('data-edit'));
+        if(isNaN(i)) return;
+        const newQty = prompt('Modificar cantidad', cart[i].qty);
+        if(newQty!==null){
+          const n = parseInt(newQty)||0;
+          if(n<=0){alert('Cantidad inválida');return}
+          cart[i].qty=n;
+          renderResumen();
+          updateCartCount();
+        }
+      }));
     }
 
     $('resumenAtras').addEventListener('click',()=>show('categorias'));
@@ -570,7 +725,7 @@
       lines.push('');
       lines.push('*Detalles del pedido:*');
       cart.forEach(it=>{
-        lines.push(`- ${it.name} (${it.system}) x ${it.qty}`);
+        lines.push(`- ${it.name} (${it.system||it.cat}) x ${it.qty}`);
       });
       lines.push('');
       lines.push(`📦 Total de ítems: ${cart.reduce((s,i)=>s+i.qty,0)}`);
@@ -582,9 +737,16 @@
     // COMPONENT HELPERS
     function mapSysColor(sys){
       const map = {
-        'Monopieza':'var(--sys-monopieza)','Basal':'var(--sys-basal)','Compresivo Multiunit':'var(--sys-compresivo)','Hexágono Interno':'var(--sys-hi)','Hexágono Externo':'var(--sys-he)','Cono Morse':'var(--sys-conomorse)'
+        'Monopieza':'var(--sys-monopieza)','Basal':'var(--sys-basal)','Compresivo Multiunit':'var(--sys-compresivo)',
+        'Hexágono Interno':'var(--sys-hi)','Hexágono Externo':'var(--sys-he)','Cono Morse':'var(--sys-conomorse)',
+        'Componentes Analógicos':'var(--sys-analogicos)','Componentes Digitales':'var(--sys-digitales)','Herramental':'var(--sys-herramental)'
       };
-      return map[sys] || 'var(--bg-gray)';
+      // match partial words too
+      if(map[sys]) return map[sys];
+      if(sys.toLowerCase().includes('hexágono interno')) return 'var(--sys-hi)';
+      if(sys.toLowerCase().includes('hexágono externo')) return 'var(--sys-he)';
+      if(sys.toLowerCase().includes('cono morse')) return 'var(--sys-conomorse)';
+      return 'var(--bg-gray)';
     }
 
     function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }

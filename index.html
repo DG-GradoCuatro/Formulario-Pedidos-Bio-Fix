@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio-Fix | Sistema Integral Premium</title>
+    <title>Bio-Fix | Sistema Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -13,6 +13,8 @@
         .hidden { display: none; }
         .btn-choice { @apply w-full py-8 rounded-[32px] font-black uppercase text-xs tracking-widest shadow-lg transition-all active:scale-[0.97] flex flex-col items-center justify-center gap-3 border-2; }
         .input-premium { @apply w-full p-5 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-500 focus:bg-white font-bold text-slate-700 transition-all uppercase placeholder:normal-case; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .accordion-open .accordion-content { max-height: 2000px; }
     </style>
 </head>
 <body class="min-h-screen pb-10">
@@ -38,11 +40,7 @@
         <main class="p-6 mt-6 flex-grow">
             
             <section id="step-choice" class="space-y-6">
-                <div class="text-center mb-10">
-                    <h2 class="font-black text-2xl text-slate-800">¿Cómo desea ingresar?</h2>
-                    <p class="text-slate-400 text-sm font-medium">Seleccione su perfil de profesional</p>
-                </div>
-                <div class="grid grid-cols-1 gap-5">
+                <div class="grid grid-cols-1 gap-5 mt-10">
                     <button onclick="showSection('step-login-old')" class="btn-choice bg-white border-slate-100 text-slate-900">
                         <span class="text-4xl">👨‍⚕️</span>
                         <span>Soy Cliente Registrado</span>
@@ -56,18 +54,18 @@
 
             <section id="step-login-old" class="hidden space-y-6">
                 <div class="bg-white p-8 rounded-[40px] card-shadow border border-slate-100">
-                    <h2 class="font-black text-slate-900 text-2xl mb-2">Hola de nuevo</h2>
+                    <h2 class="font-black text-slate-900 text-2xl mb-6 uppercase">Ingreso</h2>
                     <div class="space-y-4">
                         <input type="text" id="old_nom" placeholder="Nombre y Apellido" class="input-premium">
                         <input type="text" id="old_dni" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="DNI (Sólo números)" class="input-premium">
                     </div>
                 </div>
-                <button onclick="validateStart('old')" class="w-full bg-slate-900 text-white py-6 rounded-[24px] font-black uppercase tracking-widest shadow-xl">Ingresar</button>
+                <button onclick="validateStart('old')" class="w-full bg-slate-900 text-white py-6 rounded-[24px] font-black uppercase tracking-widest shadow-xl">Entrar</button>
             </section>
 
             <section id="step-login-new" class="hidden space-y-6">
                 <div class="bg-white p-8 rounded-[40px] card-shadow border border-slate-100">
-                    <h2 class="font-black text-slate-900 text-2xl mb-2">Crear Perfil</h2>
+                    <h2 class="font-black text-slate-900 text-2xl mb-6 uppercase">Registro</h2>
                     <div class="space-y-3">
                         <input type="text" id="new_nom" placeholder="Nombre y Apellido *" class="input-premium">
                         <input type="text" id="new_dni" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="DNI *" class="input-premium">
@@ -80,7 +78,7 @@
             </section>
 
             <section id="step-menu" class="hidden space-y-4">
-                <h2 class="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] mb-4 ml-2">Seleccione una Categoría</h2>
+                <h2 class="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] mb-4 ml-2">Categorías</h2>
                 <button onclick="openSub('sub-implantes')" class="btn-choice bg-white border-slate-100 text-slate-900 flex-row !py-6 !justify-start px-8">
                     <span class="text-2xl">📦</span><span class="ml-4">Implantes</span>
                 </button>
@@ -90,45 +88,64 @@
             </section>
 
             <section id="sub-implantes" class="hidden grid grid-cols-2 gap-4">
-                <button onclick="loadProducts('implantes', 'monopieza', 'cyan')" class="btn-choice bg-white border-cyan-100 text-slate-900 !py-10">MP</button>
-                <button onclick="loadProducts('implantes', 'basales', 'slate')" class="btn-choice bg-white border-slate-100 text-slate-900 !py-10">BASAL</button>
-                <button onclick="loadProducts('implantes', 'compresivos', 'fuchsia')" class="btn-choice bg-white border-fuchsia-100 text-slate-900 !py-10 text-[10px]">COMPRESIVO</button>
-                <button onclick="loadProducts('implantes', 'hi', 'red')" class="btn-choice bg-white border-red-100 text-slate-900 !py-10">HI</button>
-                <button onclick="loadProducts('implantes', 'he', 'green')" class="btn-choice bg-white border-green-100 text-slate-900 !py-10">HE</button>
-                <button onclick="loadProducts('implantes', 'cmhi', 'purple')" class="btn-choice bg-white border-purple-100 text-slate-900 !py-10">CM</button>
+                <button onclick="loadProducts('implantes', 'monopieza', 'cyan')" class="btn-choice bg-white border-cyan-100 text-slate-900 !py-10">
+                    <span class="text-[10px] text-cyan-500 font-black">SISTEMA</span><span>MP</span>
+                </button>
+                <button onclick="loadProducts('implantes', 'basales', 'slate')" class="btn-choice bg-white border-slate-100 text-slate-900 !py-10">
+                    <span class="text-[10px] text-slate-400 font-black">SISTEMA</span><span>BASAL</span>
+                </button>
+                <button onclick="loadProducts('implantes', 'compresivos', 'fuchsia')" class="btn-choice bg-white border-fuchsia-100 text-slate-900 !py-10">
+                    <span class="text-[10px] text-fuchsia-500 font-black">SISTEMA</span><span>CMU</span>
+                </button>
+                <button onclick="loadProducts('implantes', 'hi', 'red')" class="btn-choice bg-white border-red-100 text-slate-900 !py-10">
+                    <span class="text-[10px] text-red-500 font-black">CONEXIÓN</span><span>HI</span>
+                </button>
             </section>
 
             <section id="sub-analogicos" class="hidden grid grid-cols-2 gap-4">
-                <button onclick="loadProducts('analogicos', 'mp', 'cyan')" class="btn-choice bg-white border-cyan-100 text-slate-900 !py-10">PARA MP</button>
-                <button onclick="loadProducts('analogicos', 'cmu', 'fuchsia')" class="btn-choice bg-white border-fuchsia-100 text-slate-900 !py-10">PARA CMU</button>
+                <button onclick="loadProducts('analogicos', 'mp', 'cyan')" class="btn-choice bg-white border-cyan-100 text-slate-900 !py-10">
+                    <span class="text-[10px] text-cyan-500 font-black uppercase">SISTEMA</span><span>MP</span>
+                </button>
+                <button onclick="loadProducts('analogicos', 'cmu', 'fuchsia')" class="btn-choice bg-white border-fuchsia-100 text-slate-900 !py-10">
+                    <span class="text-[10px] text-fuchsia-500 font-black uppercase text-center leading-none">SISTEMA<br>CMU</span><span>PROTÉSICO</span>
+                </button>
+                <button onclick="loadProducts('analogicos', 'hi', 'red')" class="btn-choice bg-white border-red-100 text-slate-900 !py-10">
+                    <span class="text-[10px] text-red-500 font-black uppercase">CONEXIÓN</span><span>HI</span>
+                </button>
             </section>
 
-            <section id="step-lista" class="hidden"></section>
+            <section id="step-lista" class="hidden space-y-4"></section>
 
             <section id="step-resumen" class="hidden space-y-5">
                 <div id="cart-items" class="space-y-4"></div>
-                <div class="bg-white p-6 rounded-[32px] border border-slate-100 card-shadow">
-                    <textarea id="obs" class="w-full p-2 bg-transparent border-none h-28 font-bold text-sm outline-none" placeholder="Añadir notas..."></textarea>
-                </div>
-                <button onclick="sendWA()" class="w-full bg-green-600 text-white py-7 rounded-[32px] font-black uppercase tracking-widest shadow-xl flex items-center justify-center gap-3">Enviar a Bio-Fix ➔</button>
+                <button onclick="sendWA()" class="w-full bg-green-600 text-white py-7 rounded-[32px] font-black uppercase tracking-widest shadow-xl flex items-center justify-center gap-3">Enviar Pedido ➔</button>
             </section>
-
         </main>
     </div>
 
     <script>
         const DB = {
             implantes: {
-                monopieza: { "MP Ø3.0": ["MP Ø3.0x6mm","MP Ø3.0x8mm","MP Ø3.0x10mm","MP Ø3.0x11.5mm","MP Ø3.0x13mm","MP Ø3.0x15mm","MP Ø3.0x18mm","MP Ø3.0x20mm"], "MP Ø3.5": ["MP Ø3.5x6mm","MP Ø3.5x8mm","MP Ø3.5x10mm","MP Ø3.5x11.5mm","MP Ø3.5x13mm","MP Ø3.5x15mm","MP Ø3.5x18mm","MP Ø3.5x20mm"], "MP Ø4.0": ["MP Ø4.0x6mm","MP Ø4.0x8mm","MP Ø4.0x10mm","MP Ø4.0x11.5mm","MP Ø4.0x13mm","MP Ø4.0x15mm","MP Ø4.0x18mm","MP Ø4.0x20mm"], "MP Ø4.5": ["MP Ø4.5x6mm","MP Ø4.5x8mm","MP Ø4.5x10mm","MP Ø4.5x11.5mm","MP Ø4.5x13mm","MP Ø4.5x15mm","MP Ø4.5x18mm","MP Ø4.5x20mm"], "MP Ø5.0": ["MP Ø5.0x6mm","MP Ø5.0x8mm","MP Ø5.0x10mm","MP Ø5.0x11.5mm","MP Ø5.0x13mm"], "MP Ø5.5": ["MP Ø5.5x6mm","MP Ø5.5x8mm","MP Ø5.5x10mm","MP Ø5.5x11.5mm","MP Ø5.5x13mm"] },
-                basales: { "IB - PULIDO": ["IB Ø3.5x10mm","IB Ø3.5x12mm","IB Ø3.5x14mm","IB Ø3.5x15mm","IB Ø3.5x18mm","IB Ø3.5x21mm","IB Ø3.5x23mm","IB Ø3.5x26mm","IB Ø3.5x28mm","IB Ø3.5x24 C14","IB Ø3.5x26 C16","IB Ø3.5x28 C18","IB Ø4.5x10mm","IB Ø4.5x12mm","IB Ø4.5x15mm","IB Ø4.5x18mm","IB Ø4.5x21mm","IB Ø4.5x23mm","IB Ø4.5x26mm","IB Ø4.5x28mm","IB Ø4.5x24 C14","IB Ø4.5x26 C16","IB Ø4.5x28 C18","IB Ø5.5x9mm","IB Ø5.5x10mm","IB Ø5.5x12mm","IB Ø5.5x15mm","IB Ø5.5x18mm","IB Ø6.5x9mm","IB Ø6.5x10mm","IB Ø6.5x12mm","IB Ø6.5x15mm","IB Ø8.5x9mm","IB Ø8.5x10mm","IB Ø8.5x12mm","IB Ø8.5x15mm"], "IBT - TRATAMIENTO": ["IBT Ø3.5x10mm","IBT Ø3.5x12mm","IBT Ø3.5x14mm","IBT Ø3.5x15mm","IBT Ø3.5x18mm","IBT Ø3.5x21mm","IBT Ø3.5x23mm","IBT Ø3.5x26mm","IBT Ø3.5x28mm","IBT Ø3.5x24 C14","IBT Ø3.5x26 C16","IBT Ø3.5x28 C18","IBT Ø4.5x10mm","IBT Ø4.5x12mm","IBT Ø4.5x15mm","IBT Ø4.5x18mm","IBT Ø4.5x21mm","IBT Ø4.5x23mm","IBT Ø4.5x26mm","IBT Ø4.5x28mm","IBT Ø4.5x24 C14","IBT Ø4.5x26 C16","IBT Ø4.5x28 C18","IBT Ø5.5x9mm","IBT Ø5.5x10mm","IBT Ø5.5x12mm","IBT Ø5.5x15mm","IBT Ø5.5x18mm","IBT Ø6.5x9mm","IBT Ø6.5x10mm","IBT Ø6.5x12mm","IBT Ø6.5x15mm","IBT Ø8.5x9mm","IBT Ø8.5x10mm","IBT Ø8.5x12mm","IBT Ø8.5x15mm"] },
-                compresivos: { "CMU": ["CMU Ø3.0x6mm","CMU Ø3.0x8mm","CMU Ø3.0x10mm","CMU Ø3.0x11.5mm","CMU Ø3.0x13mm","CMU Ø3.0x15mm","CMU Ø3.0x18mm","CMU Ø3.0x20mm","CMU Ø3.5x6mm","CMU Ø3.5x8mm","CMU Ø3.5x10mm","CMU Ø3.5x11.5mm","CMU Ø3.5x13mm","CMU Ø3.5x15mm","CMU Ø3.5x18mm","CMU Ø3.5x20mm","CMU Ø4.0x6mm","CMU Ø4.0x8mm","CMU Ø4.0x10mm","CMU Ø4.0x11.5mm","CMU Ø4.0x13mm","CMU Ø4.0x15mm","CMU Ø4.0x18mm","CMU Ø4.0x20mm","CMU Ø4.5x6mm","CMU Ø4.5x8mm","CMU Ø4.5x10mm","CMU Ø4.5x11.5mm","CMU Ø4.5x13mm","CMU Ø4.5x15mm","CMU Ø4.5x18mm","CMU Ø4.5x20mm","CMU Ø5.0x6mm","CMU Ø5.0x8mm","CMU Ø5.0x10mm","CMU Ø5.0x11.5mm","CMU Ø5.0x13mm","CMU Ø5.5x6mm","CMU Ø5.5x8mm","CMU Ø5.5x10mm","CMU Ø5.5x11.5mm","CMU Ø5.5x13mm"] },
-                hi: { "HEX INTERNO": ["HI Ø3.30x6.5mm","HI Ø3.30x8.0mm","HI Ø3.30x10mm","HI Ø3.30x11.5mm","HI Ø3.30x13mm","HI Ø3.30x16mm","HI Ø3.75x6.5mm","HI Ø3.75x8.0mm","HI Ø3.75x10mm","HI Ø3.75x11.5mm","HI Ø3.75x13mm","HI Ø3.75x16mm","HI Ø4.2x6.5mm","HI Ø4.2x8.0mm","HI Ø4.2x10mm","HI Ø4.2x11.5mm","HI Ø4.2x13mm","HI Ø4.2x16mm","HI Ø5.0x6.5mm","HI Ø5.0x8.0mm","HI Ø5.0x10mm","HI Ø5.0x11.5mm","HI Ø5.0x13mm","HI Ø5.0x16mm"] },
-                he: { "HEX EXTERNO": ["HE Ø3.30x8.5mm","HE Ø3.30x10mm","HE Ø3.30x11.5mm","HE Ø3.30x13mm","HE Ø3.30x15mm","HE Ø3.75x8mm","HE Ø3.75x10mm","HE Ø3.75x11.5mm","HE Ø3.75x13mm","HE Ø3.75x15mm","HE Ø4.0x6mm","HE Ø4.0x8.5mm","HE Ø4.0x10mm","HE Ø4.0x11.5mm","HE Ø4.0x13mm","HE Ø4.0x15mm","HE Ø5.0x6mm","HE Ø5.0x8.5mm","HE Ø5.0x10mm","HE Ø5.0x11.5mm","HE Ø5.0x13mm","HE Ø5.0x15mm"] },
-                cmhi: { "CONO MORSE": ["CMHI Ø3.30x8mm","CMHI Ø3.30x10mm","CMHI Ø3.30x11.5mm","CMHI Ø3.30x13mm","CMHI Ø3.30x16mm","CMHI Ø3.75x8mm","CMHI Ø3.75x10mm","CMHI Ø3.75x11.5mm","CMHI Ø3.75x13mm","CMHI Ø3.75x16mm","CMHI Ø4.20x8mm","CMHI Ø4.20x10mm","CMHI Ø4.20x11.5mm","CMHI Ø4.20x13mm","CMHI Ø4.20x16mm","CMHI Ø5.0x8mm","CMHI Ø5.0x10mm","CMHI Ø5.0x11.5mm","CMHI Ø5.0x13mm","CMHI Ø5.0x16mm"] }
+                monopieza: { "MP Ø3.0": ["MP Ø3.0x6mm","MP Ø3.0x8mm","MP Ø3.0x10mm","MP Ø3.0x11.5mm","MP Ø3.0x13mm","MP Ø3.0x15mm","MP Ø3.0x18mm","MP Ø3.0x20mm"], "MP Ø3.5": ["MP Ø3.5x6mm","MP Ø3.5x8mm","MP Ø3.5x10mm","MP Ø3.5x11.5mm","MP Ø3.5x13mm","MP Ø3.5x15mm","MP Ø3.5x18mm","MP Ø3.5x20mm"] },
+                basales: { "IB - PULIDO": ["IB Ø3.5x10mm","IB Ø3.5x12mm","IB Ø3.5x14mm","IB Ø3.5x15mm"] },
+                hi: { "HEX INTERNO": ["HI Ø3.30x6.5mm","HI Ø3.30x8.0mm","HI Ø3.30x10mm","HI Ø3.30x11.5mm"] },
+                compresivos: { "CMU": ["CMU Ø3.0x6mm","CMU Ø3.0x8mm","CMU Ø3.0x10mm"] }
             },
             analogicos: {
-                mp: { "PARA MP": ["UCLA rotacional para Implantes MonoPieza","Analogo Plastico Rotacional de implante Monopieza","Transfer plastico rotacional para implantes Monopieza"] },
-                cmu: { "PARA CMU": ["Cicatrizal Altura de 2mm - Compresivo Multi Unit","Cicatrizal Altura de 3mm - Compresivo Multi Unit","Cicatrizal Altura de 4mm - Compresivo Multi Unit","Ball Attach Altura (h)2mm - Compresivo Multi Unit","Ball Attach Altura (h)3mm - Compresivo Multi Unit","Pilar Recto Hombro 1 - Compresivo Multi Unit","Tornillo M2 para implante Compresivo Multi Unit"] }
+                mp: {
+                    "COMPONENTES MP": ["UCLA rotacional para Implantes MonoPieza","Analogo Plastico Rotacional de implante Monopieza","Transfer plastico rotacional para implantes Monopieza"]
+                },
+                cmu: {
+                    "CICATRIZALES CMU": ["Cicatrizal Altura de 2mm - Compresivo Multi Unit","Cicatrizal Altura de 3mm - Compresivo Multi Unit","Cicatrizal Altura de 4mm - Compresivo Multi Unit"],
+                    "PROTESIS CMU": ["Ball Attach Altura (h)2mm - Compresivo Multi Unit","Ball Attach Altura (h)3mm - Compresivo Multi Unit","Pilar Recto Hombro 1 - Compresivo Multi Unit","Tornillo M2 para implante Compresivo Multi Unit"]
+                },
+                hi: {
+                    "CICATRIZALES HI": ["Cicatrizal Altura 1mm -Hexágono Interno","Cicatrizal Altura 2mm -Hexágono Interno","Cicatrizal Altura 3mm -Hexágono Interno","Cicatrizal Altura 4mm -Hexágono Interno"],
+                    "BALL ATTACH HI": ["Ball attach y cazoleta con O'ring Altura 1 - Hexágono Interno","Ball attach y cazoleta con O'ring Altura 2 - Hexágono Interno","Ball attach y cazoleta con O'ring Altura 3 - Hexágono Interno","Ball attach y cazoleta con O'ring Altura 4 - Hexágono Interno"],
+                    "PILARES HI": ["Pilar recto y tornillo M1.8 Altura 1 - Hexágono Interno","Pilar recto y tornillo M1.8 Altura 2 - Hexágono Interno","Pilar recto y tornillo M1.8 Altura 3 - Hexágono Interno","Pilar angulado 15°-Hexágono Interno","Pilar angulado 25°-Hexágono Interno"],
+                    "DIGITAL / TRANSFERS": ["Transfer cubeta abierta y tornillo - Hexágono Interno","Transfer cubeta cerrada y tornillo - Hexágono Interno","Análogo digital - Hexágono Interno","Cuerpo de escaneo - Hexágono Interno","Ti Base Anti-Rotacional y tornillo M1.8 - Hexágono Interno","Ti Base Rotacional y tornillo M1.8- Hexágono Interno"],
+                    "UCLAS Y TORNILLOS": ["Ucla calcinable rotacional y tornillo M1.8- Hexágono Interno","Ucla calcinable Anti-rotacional y tornillo M1.8- Hexágono Interno","Tornillo de fijación cuadrado M1,8","Tornillo de fijación hexoganal M1,8"]
+                }
             }
         };
 
@@ -141,44 +158,51 @@
             document.getElementById(id).classList.remove('hidden');
             if(push) stack.push(id);
             document.getElementById('btn-volver').classList.toggle('hidden', stack.length <= 1);
-            if(push) window.scrollTo(0,0);
         }
 
-        function goBack() {
-            if(stack.length > 1) { stack.pop(); showSection(stack.pop()); }
-        }
+        function goBack() { if(stack.length > 1) { stack.pop(); showSection(stack.pop()); } }
 
         function validateStart(type) {
             const nom = type === 'old' ? document.getElementById('old_nom').value : document.getElementById('new_nom').value;
             const dni = type === 'old' ? document.getElementById('old_dni').value : document.getElementById('new_dni').value;
-            if(!nom || !dni) return alert("Faltan datos obligatorios");
-            clientData = { nombre: nom, id: dni, tipo: type === 'old' ? 'REGISTRADO' : 'NUEVO' };
+            if(!nom || !dni) return alert("Faltan datos");
+            clientData = { nombre: nom, id: dni };
             showSection('step-menu');
         }
 
         function openSub(id) { showSection(id); }
 
-        function loadProducts(cat, subcat, color) {
+        function loadProducts(cat, subcat) {
             showSection('step-lista');
             const container = document.getElementById('step-lista');
             container.innerHTML = "";
             const data = DB[cat][subcat];
+            
             for (const group in data) {
-                let html = `<div class="bg-white rounded-[40px] overflow-hidden mb-8 card-shadow border border-slate-100">
-                    <div class="bg-slate-900 text-white p-6 font-black text-center text-[10px] uppercase tracking-widest">${group}</div>
-                    <div class="divide-y divide-slate-50">`;
+                const groupDiv = document.createElement('div');
+                groupDiv.className = "bg-white rounded-[32px] overflow-hidden card-shadow border border-slate-100 mb-4";
+                
+                let groupHtml = `
+                    <button onclick="this.parentElement.classList.toggle('accordion-open')" class="w-full flex justify-between items-center p-6 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest">
+                        <span>${group}</span>
+                        <span class="text-lg">+</span>
+                    </button>
+                    <div class="accordion-content divide-y divide-slate-50">`;
+                
                 data[group].forEach(item => {
                     const q = cart[item] || 0;
-                    html += `<div class="flex justify-between items-center p-6">
-                        <span class="text-[10px] font-black text-slate-600 uppercase pr-4">${item}</span>
-                        <div class="flex items-center gap-3 bg-slate-100 p-1 rounded-2xl shrink-0">
-                            <button onclick="update('${item}',-1,this)" class="w-10 h-10 bg-white rounded-xl shadow-sm font-bold">-</button>
-                            <span class="font-black text-sm w-4 text-center">${q}</span>
-                            <button onclick="update('${item}',1,this)" class="w-10 h-10 bg-slate-900 text-white rounded-xl shadow-lg font-bold">+</button>
-                        </div>
-                    </div>`;
+                    groupHtml += `
+                        <div class="flex justify-between items-center p-6">
+                            <span class="text-[10px] font-black text-slate-600 uppercase pr-4 leading-tight">${item}</span>
+                            <div class="flex items-center gap-3 bg-slate-100 p-1 rounded-2xl shrink-0">
+                                <button onclick="update('${item}',-1,this)" class="w-10 h-10 bg-white rounded-xl shadow-sm font-bold">-</button>
+                                <span class="font-black text-sm w-4 text-center">${q}</span>
+                                <button onclick="update('${item}',1,this)" class="w-10 h-10 bg-slate-900 text-white rounded-xl shadow-lg font-bold">+</button>
+                            </div>
+                        </div>`;
                 });
-                container.innerHTML += html + "</div></div>";
+                groupDiv.innerHTML = groupHtml + "</div>";
+                container.appendChild(groupDiv);
             }
         }
 
@@ -192,9 +216,9 @@
         function goToResumen() {
             showSection('step-resumen');
             const container = document.getElementById('cart-items');
-            container.innerHTML = `<div class="bg-blue-50 p-6 rounded-[32px] border border-blue-100 mb-6"><p class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Profesional</p><p class="text-sm font-black text-slate-800">${clientData.nombre.toUpperCase()}</p></div>`;
+            container.innerHTML = `<div class="bg-blue-50 p-6 rounded-[32px] mb-6 font-black text-sm uppercase text-blue-600">${clientData.nombre}</div>`;
             Object.entries(cart).forEach(([n, q]) => {
-                container.innerHTML += `<div class="flex justify-between items-center p-6 bg-white rounded-[30px] card-shadow border border-slate-100"><div class="flex flex-col"><span class="text-[10px] text-blue-600 font-black">CANT: ${q}</span><span class="text-[10px] font-black text-slate-800 uppercase">${n}</span></div><button onclick="delete cart['${n}']; goToResumen();" class="text-red-500 font-black text-[10px]">×</button></div>`;
+                container.innerHTML += `<div class="flex justify-between items-center p-6 bg-white rounded-[30px] card-shadow border border-slate-100 mb-2"><div class="flex flex-col"><span class="text-[10px] text-blue-600 font-black">CANT: ${q}</span><span class="text-[10px] font-black text-slate-800 uppercase">${n}</span></div></div>`;
             });
         }
 

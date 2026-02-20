@@ -77,29 +77,41 @@
 
     <script>
         const DB = {
-            monopieza: {
-                "Monopieza Ø3.0": { col: "cian", items: ["Ø3.0 x 6mm","Ø3.0 x 8mm","Ø3.0 x 10mm","Ø3.0 x 11.5mm","Ø3.0 x 13mm","Ø3.0 x 15mm","Ø3.0 x 18mm","Ø3.0 x 20mm"] },
-                "Monopieza Ø3.5": { col: "cian", items: ["Ø3.5 x 6mm","Ø3.5 x 8mm","Ø3.5 x 10mm","Ø3.5 x 11.5mm","Ø3.5 x 13mm","Ø3.5 x 15mm","Ø3.5 x 18mm","Ø3.5 x 20mm"] },
-                "Monopieza Ø4.0": { col: "cian", items: ["Ø4.0 x 6mm","Ø4.0 x 8mm","Ø4.0 x 10mm","Ø4.0 x 11.5mm","Ø4.0 x 13mm","Ø4.0 x 15mm","Ø4.0 x 18mm","Ø4.0 x 20mm"] },
-                "Monopieza Ø4.5": { col: "cian", items: ["Ø4.5 x 6mm","Ø4.5 x 8mm","Ø4.5 x 10mm","Ø4.5 x 11.5mm","Ø4.5 x 13mm","Ø4.5 x 15mm","Ø4.5 x 18mm","Ø4.5 x 20mm"] },
-                "Monopieza Ø5.0": { col: "cian", items: ["Ø5.0 x 6mm","Ø5.0 x 8mm","Ø5.0 x 10mm","Ø5.0 x 11.5mm","Ø5.0 x 13mm"] },
-                "Monopieza Ø5.5": { col: "cian", items: ["Ø5.5 x 6mm","Ø5.5 x 8mm","Ø5.5 x 10mm","Ø5.5 x 11.5mm","Ø5.5 x 13mm"] }
-            },
-            implantes: {
-                "Hexágono Interno": { col: "rojo", items: ["HI Ø3.75 x 10 mm", "HI Ø3.75 x 13 mm", "HI Ø4.2 x 11.5 mm"] },
-                "Hexágono Externo": { col: "verde", items: ["HE Ø3.75 x 13 mm", "HE Ø4.0 x 10 mm"] },
-                "Cono Morse": { col: "violeta", items: ["CM Ø3.30 x 13 mm", "CM Ø4.2 x 11.5 mm"] }
-            },
-            analogicos: {
-                "Hexágono Interno": { col: "slate-700", products: {
-                    "Ucla Calcinable": ["Rotacional", "Anti-Rotacional"],
-                    "BallAttach": ["H1", "H2", "H3", "H4"]
-                }}
-            },
-            herramental: {
-                "Fresas": { col: "slate-700", items: ["Fresa Lanza Corta", "Fresa Helicoidal Ø2.0"] }
-            }
-        };
+    // --- MONOPIEZA (MP) ---
+    monopieza: {
+        "MP Ø3.0": { col: "cian", items: ["MP Ø3.0 x 6mm","MP Ø3.0 x 8mm","MP Ø3.0 x 10mm","MP Ø3.0 x 11.5mm","MP Ø3.0 x 13mm","MP Ø3.0 x 15mm","MP Ø3.0 x 18mm","MP Ø3.0 x 20mm"] },
+        "MP Ø3.5": { col: "cian", items: ["MP Ø3.5 x 6mm","MP Ø3.5 x 8mm","MP Ø3.5 x 10mm","MP Ø3.5 x 11.5mm","MP Ø3.5 x 13mm","MP Ø3.5 x 15mm","MP Ø3.5 x 18mm","MP Ø3.5 x 20mm"] },
+        "MP Ø4.0": { col: "cian", items: ["MP Ø4.0 x 6mm","MP Ø4.0 x 8mm","MP Ø4.0 x 10mm","MP Ø4.0 x 11.5mm","MP Ø4.0 x 13mm","MP Ø4.0 x 15mm","MP Ø4.0 x 18mm","MP Ø4.0 x 20mm"] },
+        "MP Ø4.5": { col: "cian", items: ["MP Ø4.5 x 6mm","MP Ø4.5 x 8mm","MP Ø4.5 x 10mm","MP Ø4.5 x 11.5mm","MP Ø4.5 x 13mm","MP Ø4.5 x 15mm","MP Ø4.5 x 18mm","MP Ø4.5 x 20mm"] },
+        "MP Ø5.0": { col: "cian", items: ["MP Ø5.0 x 6mm","MP Ø5.0 x 8mm","MP Ø5.0 x 10mm","MP Ø5.0 x 11.5mm","MP Ø5.0 x 13mm"] },
+        "MP Ø5.5": { col: "cian", items: ["MP Ø5.5 x 6mm","MP Ø5.5 x 8mm","MP Ø5.5 x 10mm","MP Ø5.5 x 11.5mm","MP Ø5.5 x 13mm"] }
+    },
+
+    // --- MONOPIEZA BASAL (MPB / MPBT) ---
+    basales: {
+        "MPB Ø3.5 (PULIDO)": { col: "gris", items: ["MPB Ø3.5 x 10mm","MPB Ø3.5 x 12mm","MPB Ø3.5 x 14mm","MPB Ø3.5 x 15mm","MPB Ø3.5 x 18mm","MPB Ø3.5 x 21mm","MPB Ø3.5 x 23mm","MPB Ø3.5 x 26mm","MPB Ø3.5 x 28mm","MPB Ø3.5 x 24 C14","MPB Ø3.5 x 26 C16","MPB Ø3.5 x 28 C18"] },
+        "MPBT Ø3.5 (TRATAMIENTO)": { col: "slate-600", items: ["MPBT Ø3.5 x 10mm","MPBT Ø3.5 x 12mm","MPBT Ø3.5 x 14mm","MPBT Ø3.5 x 15mm","MPBT Ø3.5 x 18mm","MPBT Ø3.5 x 21mm","MPBT Ø3.5 x 23mm","MPBT Ø3.5 x 26mm","MPBT Ø3.5 x 28mm","MPBT Ø3.5 x 24 C14","MPBT Ø3.5 x 26 C16","MPBT Ø3.5 x 28 C18"] },
+        
+        "MPB Ø4.5 (PULIDO)": { col: "gris", items: ["MPB Ø4.5 x 10mm","MPB Ø4.5 x 12mm","MPB Ø4.5 x 15mm","MPB Ø4.5 x 18mm","MPB Ø4.5 x 21mm","MPB Ø4.5 x 23mm","MPB Ø4.5 x 26mm","MPB Ø4.5 x 28mm","MPB Ø4.5 x 24 C14","MPB Ø4.5 x 26 C16","MPB Ø4.5 x 28 C18"] },
+        "MPBT Ø4.5 (TRATAMIENTO)": { col: "slate-600", items: ["MPBT Ø4.5 x 10mm","MPBT Ø4.5 x 12mm","MPBT Ø4.5 x 15mm","MPBT Ø4.5 x 18mm","MPBT Ø4.5 x 21mm","MPBT Ø4.5 x 23mm","MPBT Ø4.5 x 26mm","MPBT Ø4.5 x 28mm","MPBT Ø4.5 x 24 C14","MPBT Ø4.5 x 26 C16","MPBT Ø4.5 x 28 C18"] }
+    },
+
+    // --- OTROS SISTEMAS ---
+    implantes: {
+        "HI - Hexágono Interno": { col: "rojo", items: ["HI Ø3.75 x 10mm", "HI Ø4.2 x 13mm"] },
+        "HE - Hexágono Externo": { col: "verde", items: ["HE Ø4.0 x 11.5mm"] },
+        "CMHI - Cono Morse": { col: "violeta", items: ["CMHI Ø3.3 x 13mm"] },
+        "CMU - Compresivo Multiunit": { col: "fucsia", items: ["CMU Ø3.5 x 10mm"] },
+        "C3MU - Compresivo Multiunit C3": { col: "fucsia", items: ["C3MU Ø4.0 x 13mm"] }
+    },
+
+    // --- COMPONENTES Y HERRAMENTAL ---
+    analogicos: {
+        "HI - Componentes": { col: "slate-700", products: {
+            "Ucla Calcinable": ["Rotacional", "Anti-Rotacional"]
+        }}
+    }
+};
 
         let cart = {};
         let currentOpenKey = 'monopieza';
@@ -190,3 +202,4 @@
     </script>
 </body>
 </html>
+

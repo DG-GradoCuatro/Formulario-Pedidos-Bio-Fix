@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio-Fix | Sistema Integral Profesional</title>
+    <title>Bio-Fix | Sistema Profesional</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -18,7 +18,6 @@
         .rotate-icon { transition: transform 0.3s; }
         .accordion-open .rotate-icon { transform: rotate(45deg); }
         .bg-exocad { background-color: #6d28d9; }
-        .bg-mu-yellow { background-color: #facc15; }
     </style>
 </head>
 <body class="min-h-screen pb-10">
@@ -33,7 +32,7 @@
             <button id="btn-volver" onclick="goBack()" class="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-xl font-black hidden">←</button>
             <div class="flex flex-col ml-2">
                 <span id="nav-title" class="text-[9px] font-black uppercase text-blue-500 italic">Bio-Fix Portal</span>
-                <span id="nav-subtitle" class="text-sm font-black text-slate-900 uppercase">Catálogo</span>
+                <span id="nav-subtitle" class="text-sm font-black text-slate-900 uppercase">Bienvenido</span>
             </div>
             <button onclick="goToResumen()" class="bg-slate-900 text-white px-5 py-3 rounded-xl font-black text-[10px] uppercase shadow-lg">
                 Pedido (<span id="cart-count">0</span>)
@@ -41,11 +40,37 @@
         </nav>
 
         <main class="p-6 mt-6 flex-grow">
-            <section id="step-menu" class="space-y-4">
+            <section id="step-choice">
+                <div class="grid grid-cols-1 gap-5 mt-10">
+                    <button onclick="showSection('step-login-old')" class="btn-choice bg-white border-slate-100 text-slate-900">👨‍⚕️ Cliente Registrado</button>
+                    <button onclick="showSection('step-login-new')" class="btn-choice bg-blue-600 border-blue-500 text-white">✨ Registro Nuevo</button>
+                </div>
+            </section>
+
+            <section id="step-login-old" class="hidden space-y-6">
+                <div class="bg-white p-8 rounded-[40px] card-shadow border border-slate-100">
+                    <input type="text" id="old_nom" placeholder="Nombre y Apellido" class="input-premium mb-4">
+                    <input type="text" id="old_dni" placeholder="DNI" class="input-premium">
+                </div>
+                <button onclick="validateStart('old')" class="w-full bg-slate-900 text-white py-6 rounded-[24px] font-black uppercase">Ingresar</button>
+            </section>
+
+            <section id="step-login-new" class="hidden space-y-6">
+                <div class="bg-white p-8 rounded-[40px] card-shadow border border-slate-100">
+                    <div class="space-y-3">
+                        <input type="text" id="new_nom" placeholder="Nombre y Apellido *" class="input-premium">
+                        <input type="text" id="new_dni" placeholder="DNI *" class="input-premium">
+                        <input type="text" id="new_mat" placeholder="Matrícula" class="input-premium">
+                        <input type="text" id="new_loc" placeholder="Localidad" class="input-premium">
+                    </div>
+                </div>
+                <button onclick="validateStart('new')" class="w-full bg-blue-600 text-white py-6 rounded-[24px] font-black uppercase">Registrar</button>
+            </section>
+
+            <section id="step-menu" class="hidden space-y-4">
                 <button onclick="openSub('sub-implantes')" class="btn-choice bg-white border-slate-100 text-slate-900 flex-row !py-6 !justify-start px-8">📦 Implantes</button>
                 <button onclick="openSub('sub-analogicos')" class="btn-choice bg-white border-slate-100 text-slate-900 flex-row !py-6 !justify-start px-8">🔩 Componentes Analógicos</button>
-                <button onclick="loadProducts('analogicos', 'mu_pro')" class="btn-choice bg-mu-yellow text-slate-900 flex-row !py-6 !justify-start px-8">🟡 Componentes MU Pro</button>
-                <button onclick="loadProducts('digital', 'exocad')" class="btn-choice bg-exocad text-white flex-row !py-6 !justify-start px-8">🖥️ Flujo Digital</button>
+                <button onclick="openSub('sub-digital')" class="btn-choice bg-exocad text-white flex-row !py-6 !justify-start px-8">🖥️ Flujo Digital (Exocad)</button>
             </section>
 
             <section id="sub-implantes" class="hidden grid grid-cols-2 gap-4">
@@ -55,7 +80,6 @@
                 <button onclick="loadProducts('implantes', 'hi')" class="btn-choice bg-white border-slate-100">HI</button>
                 <button onclick="loadProducts('implantes', 'he')" class="btn-choice bg-white border-slate-100">HE</button>
                 <button onclick="loadProducts('implantes', 'cmhi')" class="btn-choice bg-white border-slate-100">CM</button>
-                <button onclick="loadProducts('implantes', 'mu')" class="btn-choice bg-mu-yellow border-mu-yellow text-slate-900">Pilares MU</button>
             </section>
 
             <section id="sub-analogicos" class="hidden grid grid-cols-2 gap-4">
@@ -64,6 +88,15 @@
                 <button onclick="loadProducts('analogicos', 'hi')" class="btn-choice bg-white border-slate-100">HI</button>
                 <button onclick="loadProducts('analogicos', 'he')" class="btn-choice bg-white border-slate-100">HE</button>
                 <button onclick="loadProducts('analogicos', 'cm')" class="btn-choice bg-white border-slate-100">CM</button>
+                <button onclick="loadProducts('implantes', 'mu')" class="btn-choice bg-amber-400 text-slate-900 border-amber-500">Pilares MU</button>
+                <button onclick="loadProducts('analogicos', 'mu_pro')" class="btn-choice bg-amber-400 text-slate-900 border-amber-500 col-span-2">Accesorios MU</button>
+            </section>
+
+            <section id="sub-digital" class="hidden grid grid-cols-2 gap-4">
+                <button onclick="loadProducts('digital', 'cmu')" class="btn-choice bg-white border-purple-200">CMU Digital</button>
+                <button onclick="loadProducts('digital', 'hi')" class="btn-choice bg-white border-purple-200">HI Digital</button>
+                <button onclick="loadProducts('digital', 'he')" class="btn-choice bg-white border-purple-200">HE Digital</button>
+                <button onclick="loadProducts('digital', 'cm')" class="btn-choice bg-white border-purple-200">CM Digital</button>
             </section>
 
             <section id="step-lista" class="hidden space-y-4"></section>
@@ -114,57 +147,33 @@
                     "CICATRIZALES HI": ["Cicatrizal Altura 1mm -Hexágono Interno","Cicatrizal Altura 2mm -Hexágono Interno","Cicatrizal Altura 3mm -Hexágono Interno","Cicatrizal Altura 4mm -Hexágono Interno"],
                     "BALL ATTACH HI": ["Ball attach y cazoleta con O'ring Altura 1 - Hexágono Interno","Ball attach y cazoleta con O'ring Altura 2 - Hexágono Interno","Ball attach y cazoleta con O'ring Altura 3 - Hexágono Interno","Ball attach y cazoleta con O'ring Altura 4 - Hexágono Interno"],
                     "PILARES HI": ["Pilar recto y tornillo M1.8 Altura 1 - Hexágono Interno","Pilar recto y tornillo M1.8 Altura 2 - Hexágono Interno","Pilar recto y tornillo M1.8 Altura 3 - Hexágono Interno","Pilar angulado 15°-Hexágono Interno","Pilar angulado 25°-Hexágono Interno"],
-                    "TRANSFERS HI": ["Transfer cubeta abierta y tornillo - Hexágono Interno","Transfer cubeta cerrada y tornillo - Hexágono Interno"],
-                    "UCLAS Y TORNILLOS HI": ["Ucla calcinable rotacional y tornillo M1.8- Hexágono Interno","Ucla calcinable Anti-rotacional y tornillo M1.8- Hexágono Interno","Tornillo de fijación cuadrado M1,8","Tornillo de fijación hexoganal M1,8"]
+                    "UCLAS HI": ["Ucla calcinable rotacional y tornillo M1.8- HI","Ucla calcinable Anti-rotacional y tornillo M1.8- HI"]
                 },
                 he: {
-                    "TORNILLOS Y ANÁLOGOS HE": ["Tornillo cuadrado M 2x0,4 - Hexágono Externo","Tornillo hexagonal M 2x0,4- Hexágono Externo","Análogo - Hexágono Externo 3.4","Análogo - Hexágono Externo 4.1","Análogo - Hexágono Externo 5.0"],
-                    "CICATRIZALES HE": ["Cicatrizal Altura 1 - Hexágono Externo Ø3.4","Cicatrizal Altura 1 - Hexágono Externo Ø4.1","Cicatrizal Altura 1 - Hexágono Externo Ø5.0","Cicatrizal Altura 2 - Hexágono Externo Ø3.4","Cicatrizal Altura 2 - Hexágono Externo Ø4.1","Cicatrizal Altura 2 - Hexágono Externo Ø5.0","Cicatrizal Altura 3 - Hexágono Externo Ø3.4","Cicatrizal Altura 3 - Hexágono Externo Ø4.1","Cicatrizal Altura 3- Hexágono Externo Ø5.0"],
-                    "PILARES HE": ["Pilar recto Altura 1 - Hexágono Externo Ø3.4","Pilar recto Altura 1 - Hexágono Externo Ø4.1","Pilar recto Altura 1 - Hexágono Externo Ø5.0","Pilar recto Altura 2 - Hexágono Externo Ø3.4","Pilar recto Altura 2 - Hexágono Externo Ø4.1","Pilar recto Altura 2 - Hexágono Externo Ø5.0","Pilar recto Altura 3 - Hexágono Externo Ø3.4","Pilar recto Altura 3 - Hexágono Externo Ø4.1","Pilar recto Altura 3 - Hexágono Externo Ø5.0","Pilar angulado 15°- Hexágono Externo Ø4.1","Pilar angulado 25°- Hexágono Externo Ø4.1"],
-                    "BALL ATTACH HE": ["Ball attached y cazoleta c/o´ring - Altura 1 - HE Ø3.4","Ball attached y cazoleta c/o´ring - Altura 1 - HE Ø4.1","Ball attached y cazoleta c/o´ring - Altura 1 - HE Ø5.0"],
-                    "TRANSFERS HE": ["Transfer cubeta cerrada c/tornillo - HE Ø3.4","Transfer cubeta cerrada c/tornillo - HE Ø4.1","Transfer cubeta abierta c/tornillo - HE Ø4.1"],
-                    "UCLAS HE": ["Ucla calcinable rotacional- HE Ø3.4","Ucla calcinable rotacional- HE Ø4.1","Ucla calcinable Anti-rotacional- HE Ø4.1"]
+                    "TORNILLOS Y ANÁLOGOS HE": ["Análogo - HE 3.4","Análogo - HE 4.1","Análogo - HE 5.0"],
+                    "CICATRIZALES HE": ["Cicatrizal Altura 1 - HE Ø3.4","Cicatrizal Altura 1 - HE Ø4.1","Cicatrizal Altura 1 - HE Ø5.0"],
+                    "PILARES HE": ["Pilar recto Altura 1 - HE Ø3.4","Pilar recto Altura 1 - HE Ø4.1","Pilar recto Altura 1 - HE Ø5.0"]
                 },
                 cm: {
-                    "PILARES CM C/ TORNILLO PASANTE": ["Pilar CM stándar c/tornillo pasante 3,3x1,5x4","Pilar CM c/tornillo pasante 3,3x2,5x4","Pilar CM c/tornillo pasante 3,3x3,5x4","Pilar CM c/tornillo pasante 3,3x1,5x6","Pilar CM c/tornillo pasante 3,3x2,5x6","Pilar CM c/tornillo pasante 3,3x3,5x6","Pilar CM c/tornillo pasante 4,5 x 1,5 x 4","Pilar CM c/tornillo pasante 4,5 x 2,5 x 4","Pilar CM c/tornillo pasante 4,5 x 3,5 x 4","Pilar CM c/tornillo pasante 4,5 x 1,5 x 6","Pilar CM c/tornillo pasante 4,5 x 2,5 x 6","Pilar CM c/tornillo pasante 4,5 x 3,5 x 6"],
-                    "PILARES ESTÁNDAR CM": ["Pilar stándar 3,3 x 2,5 x 4","Pilar stándar 3,3 x 3,5 x 4","Pilar stándar 3,3 x 2,5 x 6","Pilar stándar 4,5 x 2,5 x 4","Pilar stándar 4,5 x 2,5 x 6"],
-                    "CICATRIZALES CM": ["Pilar de Cicatrización CM 3,3 x 1,5","Pilar de Cicatrización CM 3,3 x 2,5","Pilar de Cicatrización CM 3,3 x 3,5","Pilar de Cicatrización CM 4,5 x 1,5","Pilar de Cicatrización CM 4,5 x 2,5","Pilar de Cicatrización CM 4,5 x 3,5"],
-                    "PROTESIS Y OTROS CM": ["Ball Attach y cazoleta con O'ring - Altura 1,5 - Cono Morse","Ball Attach y cazoleta con O'ring - Altura 2,5 - Cono Morse","Ball Attach y cazoleta con O'ring - Altura 3,5 - Cono Morse","Análogo Universal"]
+                    "CICATRIZALES CM": ["Pilar de Cicatrización CM 3,3 x 1,5","Pilar de Cicatrización CM 3,3 x 2,5","Pilar de Cicatrización CM 4,5 x 1,5","Pilar de Cicatrización CM 4,5 x 2,5"]
                 },
                 mu_pro: {
-                    "COMPONENTES MU": ["Pilar Rotacional c/microtornillo para Minipilar - Multi Unit", "Pilar Anti-rotacional c/microtornillo para Minipilar - Multi Unit", "Ucla calcinable rotacional c/microtornillo para Minipilar - Multi Unit", "Tapón de cierre plástico c/microtornillo para Minipilar - Multi Unit", "Transfer cubeta abierta c/microtornillo para Minipilar - Multi Unit", "Transfer cubeta Cerrada c/microtornillo para Minipilar - Multi Unit", "Análogo de Minipilar"]
+                    "COMPONENTES MU": ["Pilar Rotacional c/microtornillo - MU", "Pilar Anti-rotacional c/microtornillo - MU", "Ucla calcinable rotacional c/microtornillo - MU", "Tapón de cierre plástico c/microtornillo - MU", "Transfer cubeta abierta c/microtornillo - MU", "Transfer cubeta Cerrada c/microtornillo - MU", "Análogo de Minipilar"]
                 }
             },
             digital: {
-                exocad: {
-                    "DIGITAL CMU / MU": [
-                        "Cuerpo de escaneo y tornillo M2 P/Implante Compresivo Multi Unit",
-                        "Ti-Base y tornillo m2 - Compresivo Multi Unit",
-                        "Tornillo M2 para implante Compresivo Multi Unit",
-                        "Cuerpo de escaneo y microtornillo para Minipilar - Multi Unit",
-                        "Ti-Base para Minipilar Multi Unit",
-                        "Análogo digital - Minipilar Multi Unit"
-                    ],
-                    "DIGITAL HI / HE": [
-                        "Análogo digital - Hexágono Interno","Cuerpo de escaneo - Hexágono Interno","Ti Base Anti-Rotacional y tornillo M1.8 - HI",
-                        "Análogo digital - HE 4.1","Cuerpo de escaneo - HE 4.1","Ti Base Anti-Rotacional - HE 4.1"
-                    ],
-                    "T-BASE CONO MORSE 3.3": [
-                        "Cuerpo de escaneo c/tornillo 3.3", "Análogo digital - Cono Morse",
-                        "T-Base 3,3x1x4 CM","T-Base 3,3x2x4 CM","T-Base 3,3x3x4 CM","T-Base 3,3x4x4 CM","T-Base 3,3x5x4 CM","T-Base 3,3x6x4 CM",
-                        "T-Base 3,3x1x6 CM","T-Base 3,3x2x6 CM","T-Base 3,3x3x6 CM","T-Base 3,3x4x6 CM","T-Base 3,3x5x6 CM","T-Base 3,3x6x6 CM"
-                    ],
-                    "T-BASE CONO MORSE 4.5": [
-                        "Cuerpo de escaneo c/tornillo 4.5",
-                        "T-Base 4,5x1x4 CM","T-Base 4,5x2x4 CM","T-Base 4,5x3x4 CM","T-Base 4,5x4x4 CM","T-Base 4,5x5x4 CM","T-Base 4,5x6x4 CM",
-                        "T-Base 4,5x1x6 CM","T-Base 4,5x2x6 CM","T-Base 4,5x3x6 CM","T-Base 4,5x4x6 CM","T-Base 4,5x5x6 CM","T-Base 4,5x6x6 CM"
-                    ]
+                cmu: { "EXOCAD CMU": ["Cuerpo de escaneo y tornillo M2 P/Implante CMU", "Ti-Base y tornillo m2 - CMU", "Tornillo M2 para implante CMU"] },
+                hi: { "EXOCAD HI": ["Análogo digital - HI","Cuerpo de escaneo - HI","Ti Base Anti-Rotacional y tornillo M1.8 - HI"] },
+                he: { "EXOCAD HE": ["Análogo digital - HE 4.1","Cuerpo de escaneo - HE 4.1","Ti Base Anti-Rotacional - HE 4.1"] },
+                cm: { 
+                    "SISTEMA CM 3.3": ["Análogo Digital - CM 3.3", "Cuerpo de Escaneo y tornillo - CM 3.3", "T-Base 3,3x1x4 CM","T-Base 3,3x2x4 CM","T-Base 3,3x3x4 CM"],
+                    "SISTEMA CM 4.5": ["Análogo Digital - CM 4.5", "Cuerpo de Escaneo y tornillo - CM 4.5", "T-Base 4,5x1x4 CM","T-Base 4,5x2x4 CM","T-Base 4,5x3x4 CM"]
                 }
             }
         };
 
-        let cart = {}; let stack = ['step-menu'];
-
+        // ... (El resto del script de lógica se mantiene igual al anterior)
+        let cart = {}; let stack = ['step-choice']; let clientData = {};
         function showSection(id, push = true) {
             document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
             document.getElementById(id).classList.remove('hidden');
@@ -172,10 +181,14 @@
             document.getElementById('btn-volver').classList.toggle('hidden', stack.length <= 1);
             window.scrollTo(0,0);
         }
-
         function goBack() { if(stack.length > 1) { stack.pop(); showSection(stack.pop()); } }
+        function validateStart(type) {
+            const nom = type === 'old' ? document.getElementById('old_nom').value : document.getElementById('new_nom').value;
+            if(!nom) return alert("Ingrese su nombre");
+            clientData = { nombre: nom };
+            showSection('step-menu');
+        }
         function openSub(id) { showSection(id); }
-
         function loadProducts(cat, subcat) {
             showSection('step-lista');
             const container = document.getElementById('step-lista');
@@ -199,26 +212,23 @@
                 container.appendChild(groupDiv);
             }
         }
-
         function update(item, delta, btn) {
             cart[item] = (cart[item] || 0) + delta;
             if(cart[item] <= 0) delete cart[item];
             btn.parentElement.querySelector('span').innerText = cart[item] || 0;
             document.getElementById('cart-count').innerText = Object.values(cart).reduce((a,b)=>a+b, 0);
         }
-
         function goToResumen() {
             showSection('step-resumen');
             const container = document.getElementById('step-resumen');
-            container.innerHTML = `<h2 class="font-black uppercase text-center mb-6">Resumen de Pedido</h2>`;
+            container.innerHTML = `<h2 class="font-black uppercase text-center mb-6">Resumen de Pedido</h2><div class="bg-blue-50 p-4 rounded-2xl mb-4 font-bold text-xs">Dr/a: ${clientData.nombre}</div>`;
             Object.entries(cart).forEach(([n, q]) => {
                 container.innerHTML += `<div class="p-6 bg-white rounded-3xl mb-2 flex justify-between border"><span>${n}</span><b>x${q}</b></div>`;
             });
             container.innerHTML += `<button onclick="sendWA()" class="w-full bg-green-600 text-white py-6 rounded-3xl mt-6 font-black uppercase">Enviar Pedido</button>`;
         }
-
         function sendWA() {
-            let m = `*PEDIDO BIO-FIX®*\n\n`;
+            let m = `*PEDIDO BIO-FIX®*\n*DR/A:* ${clientData.nombre}\n\n`;
             Object.entries(cart).forEach(([n,q])=> m+=`✅ ${q} x ${n}\n`);
             window.open(`https://wa.me/5491122334455?text=${encodeURIComponent(m)}`);
         }

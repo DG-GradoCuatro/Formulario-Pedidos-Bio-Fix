@@ -3,185 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio-Fix | Sistema Integral de Pedidos</title>
+    <title>Bio-Fix | Sistema Integral</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .bg-cian { background-color: #00FFFF; color: #000; }
-        .bg-rojo { background-color: #FF0000; color: #fff; }
-        .bg-verde { background-color: #008000; color: #fff; }
-        .bg-violeta { background-color: #8A2BE2; color: #fff; }
-        .bg-gris { background-color: #808080; color: #fff; }
-        .bg-fucsia { background-color: #FF00FF; color: #fff; }
-        .bg-slate-600 { background-color: #475569; color: #fff; }
         .hidden { display: none; }
-        .active-tab { border-bottom: 4px solid #1e40af; color: #1e40af; font-weight: 800; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        .btn-menu { @apply w-full py-6 rounded-2xl font-black uppercase text-sm shadow-md active:scale-95 transition-all mb-4; }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen pb-10">
+<body class="bg-slate-100 min-h-screen">
 
     <div class="max-w-xl mx-auto bg-white min-h-screen shadow-2xl flex flex-col">
-        <header class="bg-slate-900 text-white p-5 text-center">
-            <h1 class="text-2xl font-black tracking-tighter uppercase italic">BIO-FIX®</h1>
-            <p class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.3em]">Catálogo Profesional Completo</p>
+        <header class="bg-slate-900 text-white p-6 text-center italic">
+            <h1 class="text-3xl font-black tracking-tighter italic">BIO-FIX®</h1>
+            <p class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.4em]">Professional Implant System</p>
         </header>
 
-        <nav class="flex border-b sticky top-0 bg-white z-50 shadow-sm overflow-x-auto no-scrollbar">
-            <button onclick="showSection('step-cliente')" id="nav-cliente" class="px-6 py-4 text-[10px] font-black active-tab uppercase whitespace-nowrap">1. Profesional</button>
-            <button onclick="validateAndGo()" id="nav-productos" class="px-6 py-4 text-[10px] font-black uppercase whitespace-nowrap opacity-40">2. Catálogo</button>
-            <button onclick="showSection('step-resumen')" id="nav-resumen" class="px-6 py-4 text-[10px] font-black uppercase whitespace-nowrap">3. Resumen (<span id="cart-count">0</span>)</button>
-        </nav>
+        <div class="flex justify-between items-center bg-slate-800 px-6 py-3 text-white sticky top-0 z-50">
+            <button id="btn-volver" onclick="goBack()" class="text-[10px] font-black uppercase bg-slate-700 px-4 py-2 rounded-lg hidden">← Volver</button>
+            <div class="flex gap-4 items-center ml-auto">
+                <span class="text-[10px] font-black uppercase">Items: <span id="cart-count" class="text-blue-400">0</span></span>
+                <button onclick="goToResumen()" class="text-[10px] font-black uppercase bg-blue-600 px-4 py-2 rounded-lg">Ver Pedido</button>
+            </div>
+        </div>
 
-        <main class="p-4 flex-grow">
+        <main class="p-6 flex-grow">
+            
             <section id="step-cliente" class="space-y-4">
-                <div class="bg-blue-50 p-5 rounded-xl border border-blue-100">
-                    <h2 class="font-bold text-blue-900 mb-4 text-xs uppercase tracking-widest">Datos del Pedido</h2>
-                    <input type="text" id="c_nom" placeholder="Nombre y Apellido *" class="w-full p-3 text-sm border rounded-lg outline-none focus:ring-2 ring-blue-500 mb-3">
-                    <input type="text" id="c_dni" placeholder="DNI o CUIT *" class="w-full p-3 text-sm border rounded-lg outline-none focus:ring-2 ring-blue-500">
-                </div>
-                <button onclick="validateAndGo()" class="w-full bg-slate-800 text-white py-4 rounded-xl font-black text-sm uppercase">Entrar al Catálogo</button>
+                <h2 class="font-black text-slate-800 mb-6 text-xl uppercase italic">Datos del Profesional</h2>
+                <input type="text" id="c_nom" placeholder="NOMBRE Y APELLIDO *" class="w-full p-4 border-2 rounded-xl outline-none focus:border-blue-500 font-bold uppercase">
+                <input type="text" id="c_dni" placeholder="DNI / CUIT / MATRÍCULA" class="w-full p-4 border-2 rounded-xl outline-none focus:border-blue-500 font-bold uppercase">
+                <button onclick="validateAndStart()" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black uppercase shadow-lg">Comenzar Pedido</button>
             </section>
 
-            <section id="step-productos" class="hidden">
-                <div class="flex overflow-x-auto gap-2 mb-6 pb-2 no-scrollbar">
-                    <button onclick="renderCat('monopieza')" class="px-4 py-2 bg-cian text-black rounded-full text-[9px] font-black flex-shrink-0 border border-black">MP</button>
-                    <button onclick="renderCat('basales')" class="px-4 py-2 bg-gris text-white rounded-full text-[9px] font-black flex-shrink-0">IB/IBT</button>
-                    <button onclick="renderCat('compresivos')" class="px-4 py-2 bg-fucsia text-white rounded-full text-[9px] font-black flex-shrink-0">CMU/C3MU</button>
-                    <button onclick="renderCat('hi')" class="px-4 py-2 bg-rojo text-white rounded-full text-[9px] font-black flex-shrink-0">HI</button>
-                    <button onclick="renderCat('he')" class="px-4 py-2 bg-verde text-white rounded-full text-[9px] font-black flex-shrink-0">HE</button>
-                    <button onclick="renderCat('cmhi')" class="px-4 py-2 bg-violeta text-white rounded-full text-[9px] font-black flex-shrink-0">CMHI</button>
-                </div>
-                <div id="catalog-container" class="space-y-4"></div>
+            <section id="step-menu" class="hidden">
+                <h2 class="font-black text-slate-400 text-xs uppercase tracking-widest mb-4">Seleccione Categoría</h2>
+                <button onclick="openSub('sub-implantes')" class="btn-menu bg-slate-800 text-white text-left px-8">📦 Implantes</button>
+                <button onclick="alert('Próximamente')" class="btn-menu bg-slate-200 text-slate-400 text-left px-8">🔩 Componentes Analógicos</button>
+                <button onclick="alert('Próximamente')" class="btn-menu bg-slate-200 text-slate-400 text-left px-8">🖥️ Componentes Digitales</button>
+                <button onclick="alert('Próximamente')" class="btn-menu bg-slate-200 text-slate-400 text-left px-8">🔧 Herramental</button>
+            </section>
+
+            <section id="sub-implantes" class="hidden">
+                <h2 class="font-black text-slate-400 text-xs uppercase tracking-widest mb-4">Seleccione Sistema</h2>
+                <button onclick="loadProducts('monopieza', 'cyan')" class="btn-menu bg-cyan-400 text-black">Monopieza (MP)</button>
+                <button onclick="loadProducts('basales', 'slate')" class="btn-menu bg-slate-500 text-white">Basales (IB/IBT)</button>
+                <button onclick="loadProducts('compresivos', 'fuchsia')" class="btn-menu bg-fuchsia-500 text-white">Compresivos (CMU/C3MU)</button>
+                <button onclick="loadProducts('hi', 'red')" class="btn-menu bg-red-600 text-white">Hexágono Interno (HI)</button>
+                <button onclick="loadProducts('he', 'green')" class="btn-menu bg-green-600 text-white">Hexágono Externo (HE)</button>
+                <button onclick="loadProducts('cmhi', 'purple')" class="btn-menu bg-purple-700 text-white">Cono Morse (CMHI)</button>
+            </section>
+
+            <section id="step-lista" class="hidden">
+                <div id="lista-container"></div>
             </section>
 
             <section id="step-resumen" class="hidden">
-                <div id="cart-list" class="space-y-2 border-t pt-4"></div>
-                <textarea id="obs" class="w-full border mt-4 p-4 rounded-xl h-24 text-sm" placeholder="Aclaraciones..."></textarea>
-                <button onclick="sendWA()" class="w-full mt-6 bg-green-600 text-white py-5 rounded-2xl font-black uppercase">Enviar Pedido WhatsApp</button>
+                <h2 class="font-black text-slate-800 mb-4 text-xl uppercase italic">Resumen de Pedido</h2>
+                <div id="cart-items" class="space-y-2 mb-6"></div>
+                <textarea id="obs" class="w-full border-2 p-4 rounded-xl h-24 text-sm font-bold" placeholder="Observaciones adicionales..."></textarea>
+                <button onclick="sendWA()" class="w-full mt-6 bg-green-600 text-white py-5 rounded-2xl font-black uppercase shadow-xl">Confirmar y enviar WhatsApp</button>
             </section>
+
         </main>
     </div>
 
     <script>
         const DB = {
             monopieza: {
-                "MP Ø3.0": { col: "cian", items: ["MP Ø3.0x6mm","MP Ø3.0x8mm","MP Ø3.0x10mm","MP Ø3.0x11.5mm","MP Ø3.0x13mm","MP Ø3.0x15mm","MP Ø3.0x18mm","MP Ø3.0x20mm"] },
-                "MP Ø3.5": { col: "cian", items: ["MP Ø3.5x6mm","MP Ø3.5x8mm","MP Ø3.5x10mm","MP Ø3.5x11.5mm","MP Ø3.5x13mm","MP Ø3.5x15mm","MP Ø3.5x18mm","MP Ø3.5x20mm"] },
-                "MP Ø4.0": { col: "cian", items: ["MP Ø4.0x6mm","MP Ø4.0x8mm","MP Ø4.0x10mm","MP Ø4.0x11.5mm","MP Ø4.0x13mm","MP Ø4.0x15mm","MP Ø4.0x18mm","MP Ø4.0x20mm"] },
-                "MP Ø4.5": { col: "cian", items: ["MP Ø4.5x6mm","MP Ø4.5x8mm","MP Ø4.5x10mm","MP Ø4.5x11.5mm","MP Ø4.5x13mm","MP Ø4.5x15mm","MP Ø4.5x18mm","MP Ø4.5x20mm"] },
-                "MP Ø5.0": { col: "cian", items: ["MP Ø5.0x6mm","MP Ø5.0x8mm","MP Ø5.0x10mm","MP Ø5.0x11.5mm","MP Ø5.0x13mm"] },
-                "MP Ø5.5": { col: "cian", items: ["MP Ø5.5x6mm","MP Ø5.5x8mm","MP Ø5.5x10mm","MP Ø5.5x11.5mm","MP Ø5.5x13mm"] }
+                "MP Ø3.0": ["MP Ø3.0x6mm","MP Ø3.0x8mm","MP Ø3.0x10mm","MP Ø3.0x11.5mm","MP Ø3.0x13mm","MP Ø3.0x15mm","MP Ø3.0x18mm","MP Ø3.0x20mm"],
+                "MP Ø3.5": ["MP Ø3.5x6mm","MP Ø3.5x8mm","MP Ø3.5x10mm","MP Ø3.5x11.5mm","MP Ø3.5x13mm","MP Ø3.5x15mm","MP Ø3.5x18mm","MP Ø3.5x20mm"],
+                "MP Ø4.0": ["MP Ø4.0x6mm","MP Ø4.0x8mm","MP Ø4.0x10mm","MP Ø4.0x11.5mm","MP Ø4.0x13mm","MP Ø4.0x15mm","MP Ø4.0x18mm","MP Ø4.0x20mm"],
+                "MP Ø4.5": ["MP Ø4.5x6mm","MP Ø4.5x8mm","MP Ø4.5x10mm","MP Ø4.5x11.5mm","MP Ø4.5x13mm","MP Ø4.5x15mm","MP Ø4.5x18mm","MP Ø4.5x20mm"],
+                "MP Ø5.0": ["MP Ø5.0x6mm","MP Ø5.0x8mm","MP Ø5.0x10mm","MP Ø5.0x11.5mm","MP Ø5.0x13mm"],
+                "MP Ø5.5": ["MP Ø5.5x6mm","MP Ø5.5x8mm","MP Ø5.5x10mm","MP Ø5.5x11.5mm","MP Ø5.5x13mm"]
             },
             basales: {
-                "IB - BASAL PULIDO": { col: "gris", items: [
-                    "IB Ø3.5x10mm","IB Ø3.5x12mm","IB Ø3.5x14mm","IB Ø3.5x15mm","IB Ø3.5x18mm","IB Ø3.5x21mm","IB Ø3.5x23mm","IB Ø3.5x26mm","IB Ø3.5x28mm","IB Ø3.5x24 C14","IB Ø3.5x26 C16","IB Ø3.5x28 C18",
-                    "IB Ø4.5x10mm","IB Ø4.5x12mm","IB Ø4.5x15mm","IB Ø4.5x18mm","IB Ø4.5x21mm","IB Ø4.5x23mm","IB Ø4.5x26mm","IB Ø4.5x28mm","IB Ø4.5x24 C14","IB Ø4.5x26 C16","IB Ø4.5x28 C18",
-                    "IB Ø5.5x9mm","IB Ø5.5x10mm","IB Ø5.5x12mm","IB Ø5.5x15mm","IB Ø5.5x18mm","IB Ø6.5x9mm","IB Ø6.5x10mm","IB Ø6.5x12mm","IB Ø6.5x15mm","IB Ø8.5x9mm","IB Ø8.5x10mm","IB Ø8.5x12mm","IB Ø8.5x15mm"
-                ]},
-                "IBT - BASAL TRATAMIENTO": { col: "slate-600", items: [
-                    "IBT Ø3.5x10mm","IBT Ø3.5x12mm","IBT Ø3.5x14mm","IBT Ø3.5x15mm","IBT Ø3.5x18mm","IBT Ø3.5x21mm","IBT Ø3.5x23mm","IBT Ø3.5x26mm","IBT Ø3.5x28mm","IBT Ø3.5x24 C14","IBT Ø3.5x26 C16","IBT Ø3.5x28 C18",
-                    "IBT Ø4.5x10mm","IBT Ø4.5x12mm","IBT Ø4.5x15mm","IBT Ø4.5x18mm","IBT Ø4.5x21mm","IBT Ø4.5x23mm","IBT Ø4.5x26mm","IBT Ø4.5x28mm","IBT Ø4.5x24 C14","IBT Ø4.5x26 C16","IBT Ø4.5x28 C18",
-                    "IBT Ø5.5x9mm","IBT Ø5.5x10mm","IBT Ø5.5x12mm","IBT Ø5.5x15mm","IBT Ø5.5x18mm","IBT Ø6.5x9mm","IBT Ø6.5x10mm","IBT Ø6.5x12mm","IBT Ø6.5x15mm","IBT Ø8.5x9mm","IBT Ø8.5x10mm","IBT Ø8.5x12mm","IBT Ø8.5x15mm"
-                ]}
+                "IB - BASAL PULIDO": ["IB Ø3.5x10mm","IB Ø3.5x12mm","IB Ø3.5x14mm","IB Ø3.5x15mm","IB Ø3.5x18mm","IB Ø3.5x21mm","IB Ø3.5x23mm","IB Ø3.5x26mm","IB Ø3.5x28mm","IB Ø3.5x24 C14","IB Ø3.5x26 C16","IB Ø3.5x28 C18","IB Ø4.5x10mm","IB Ø4.5x12mm","IB Ø4.5x15mm","IB Ø4.5x18mm","IB Ø4.5x21mm","IB Ø4.5x23mm","IB Ø4.5x26mm","IB Ø4.5x28mm","IB Ø4.5x24 C14","IB Ø4.5x26 C16","IB Ø4.5x28 C18","IB Ø5.5x9mm","IB Ø5.5x10mm","IB Ø5.5x12mm","IB Ø5.5x15mm","IB Ø5.5x18mm","IB Ø6.5x9mm","IB Ø6.5x10mm","IB Ø6.5x12mm","IB Ø6.5x15mm","IB Ø8.5x9mm","IB Ø8.5x10mm","IB Ø8.5x12mm","IB Ø8.5x15mm"],
+                "IBT - BASAL TRATAMIENTO": ["IBT Ø3.5x10mm","IBT Ø3.5x12mm","IBT Ø3.5x14mm","IBT Ø3.5x15mm","IBT Ø3.5x18mm","IBT Ø3.5x21mm","IBT Ø3.5x23mm","IBT Ø3.5x26mm","IBT Ø3.5x28mm","IBT Ø3.5x24 C14","IBT Ø3.5x26 C16","IBT Ø3.5x28 C18","IBT Ø4.5x10mm","IBT Ø4.5x12mm","IBT Ø4.5x15mm","IBT Ø4.5x18mm","IBT Ø4.5x21mm","IBT Ø4.5x23mm","IBT Ø4.5x26mm","IBT Ø4.5x28mm","IBT Ø4.5x24 C14","IBT Ø4.5x26 C16","IBT Ø4.5x28 C18","IBT Ø5.5x9mm","IBT Ø5.5x10mm","IBT Ø5.5x12mm","IBT Ø5.5x15mm","IBT Ø5.5x18mm","IBT Ø6.5x9mm","IBT Ø6.5x10mm","IBT Ø6.5x12mm","IBT Ø6.5x15mm","IBT Ø8.5x9mm","IBT Ø8.5x10mm","IBT Ø8.5x12mm","IBT Ø8.5x15mm"]
             },
             compresivos: {
-                "CMU - COMPRESIVO MULTI UNIT": { col: "fucsia", items: [
-                    "CMU Ø3.0x6mm","CMU Ø3.0x8mm","CMU Ø3.0x10mm","CMU Ø3.0x11.5mm","CMU Ø3.0x13mm","CMU Ø3.0x15mm","CMU Ø3.0x18mm","CMU Ø3.0x20mm",
-                    "CMU Ø3.5x6mm","CMU Ø3.5x8mm","CMU Ø3.5x10mm","CMU Ø3.5x11.5mm","CMU Ø3.5x13mm","CMU Ø3.5x15mm","CMU Ø3.5x18mm","CMU Ø3.5x20mm",
-                    "CMU Ø4.0x6mm","CMU Ø4.0x8mm","CMU Ø4.0x10mm","CMU Ø4.0x11.5mm","CMU Ø4.0x13mm","CMU Ø4.0x15mm","CMU Ø4.0x18mm","CMU Ø4.0x20mm",
-                    "CMU Ø4.5x6mm","CMU Ø4.5x8mm","CMU Ø4.5x10mm","CMU Ø4.5x11.5mm","CMU Ø4.5x13mm","CMU Ø4.5x15mm","CMU Ø4.5x18mm","CMU Ø4.5x20mm",
-                    "CMU Ø5.0x6mm","CMU Ø5.0x8mm","CMU Ø5.0x10mm","CMU Ø5.0x11.5mm","CMU Ø5.0x13mm",
-                    "CMU Ø5.5x6mm","CMU Ø5.5x8mm","CMU Ø5.5x10mm","CMU Ø5.5x11.5mm","CMU Ø5.5x13mm"
-                ]},
-                "C3MU - COMPRESIVO CUELLO 3mm": { col: "fucsia", items: [
-                    "C3MU Ø3.0x6mm","C3MU Ø3.0x8mm","C3MU Ø3.0x10mm","C3MU Ø3.0x11.5mm","C3MU Ø3.0x13mm","C3MU Ø3.0x15mm","C3MU Ø3.0x18mm","C3MU Ø3.0x20mm",
-                    "C3MU Ø3.5x6mm","C3MU Ø3.5x8mm","C3MU Ø3.5x10mm","C3MU Ø3.5x11.5mm","C3MU Ø3.5x13mm","C3MU Ø3.5x15mm","C3MU Ø3.5x18mm","C3MU Ø3.5x20mm",
-                    "C3MU Ø4.0x6mm","C3MU Ø4.0x8mm","C3MU Ø4.0x10mm","C3MU Ø4.0x11.5mm","C3MU Ø4.0x13mm","C3MU Ø4.0x15mm","C3MU Ø4.0x18mm","C3MU Ø4.0x20mm",
-                    "C3MU Ø4.5x6mm","C3MU Ø4.5x8mm","C3MU Ø4.5x10mm","C3MU Ø4.5x11.5mm","C3MU Ø4.5x13mm","C3MU Ø4.5x15mm","C3MU Ø4.5x18mm","C3MU Ø4.5x20mm",
-                    "C3MU Ø5.0x6mm","C3MU Ø5.0x8mm","C3MU Ø5.0x10mm","C3MU Ø5.0x11.5mm","C3MU Ø5.0x13mm",
-                    "C3MU Ø5.5x6mm","C3MU Ø5.5x8mm","C3MU Ø5.5x10mm","C3MU Ø5.5x11.5mm","C3MU Ø5.5x13mm"
-                ]}
+                "CMU - MULTI UNIT": ["CMU Ø3.0x6mm","CMU Ø3.0x8mm","CMU Ø3.0x10mm","CMU Ø3.0x11.5mm","CMU Ø3.0x13mm","CMU Ø3.0x15mm","CMU Ø3.0x18mm","CMU Ø3.0x20mm","CMU Ø3.5x6mm","CMU Ø3.5x8mm","CMU Ø3.5x10mm","CMU Ø3.5x11.5mm","CMU Ø3.5x13mm","CMU Ø3.5x15mm","CMU Ø3.5x18mm","CMU Ø3.5x20mm","CMU Ø4.0x6mm","CMU Ø4.0x8mm","CMU Ø4.0x10mm","CMU Ø4.0x11.5mm","CMU Ø4.0x13mm","CMU Ø4.0x15mm","CMU Ø4.0x18mm","CMU Ø4.0x20mm","CMU Ø4.5x6mm","CMU Ø4.5x8mm","CMU Ø4.5x10mm","CMU Ø4.5x11.5mm","CMU Ø4.5x13mm","CMU Ø4.5x15mm","CMU Ø4.5x18mm","CMU Ø4.5x20mm","CMU Ø5.0x6mm","CMU Ø5.0x8mm","CMU Ø5.0x10mm","CMU Ø5.0x11.5mm","CMU Ø5.0x13mm","CMU Ø5.5x6mm","CMU Ø5.5x8mm","CMU Ø5.5x10mm","CMU Ø5.5x11.5mm","CMU Ø5.5x13mm"],
+                "C3MU - CUELLO 3mm": ["C3MU Ø3.0x6mm","C3MU Ø3.0x8mm","C3MU Ø3.0x10mm","C3MU Ø3.0x11.5mm","C3MU Ø3.0x13mm","C3MU Ø3.0x15mm","C3MU Ø3.0x18mm","C3MU Ø3.0x20mm","C3MU Ø3.5x6mm","C3MU Ø3.5x8mm","C3MU Ø3.5x10mm","C3MU Ø3.5x11.5mm","C3MU Ø3.5x13mm","C3MU Ø3.5x15mm","C3MU Ø3.5x18mm","C3MU Ø3.5x20mm","C3MU Ø4.0x6mm","C3MU Ø4.0x8mm","C3MU Ø4.0x10mm","C3MU Ø4.0x11.5mm","C3MU Ø4.0x13mm","C3MU Ø4.0x15mm","C3MU Ø4.0x18mm","C3MU Ø4.0x20mm","C3MU Ø4.5x6mm","C3MU Ø4.5x8mm","C3MU Ø4.5x10mm","C3MU Ø4.5x11.5mm","C3MU Ø4.5x13mm","C3MU Ø4.5x15mm","C3MU Ø4.5x18mm","C3MU Ø4.5x20mm","C3MU Ø5.0x6mm","C3MU Ø5.0x8mm","C3MU Ø5.0x10mm","C3MU Ø5.0x11.5mm","C3MU Ø5.0x13mm","C3MU Ø5.5x6mm","C3MU Ø5.5x8mm","C3MU Ø5.5x10mm","C3MU Ø5.5x11.5mm","C3MU Ø5.5x13mm"]
             },
             hi: {
-                "HI - HEX. INTERNO": { col: "rojo", items: [
-                    "HI Ø3.30x6.5mm","HI Ø3.30x8.0mm","HI Ø3.30x10mm","HI Ø3.30x11.5mm","HI Ø3.30x13mm","HI Ø3.30x16mm",
-                    "HI Ø3.75x6.5mm","HI Ø3.75x8.0mm","HI Ø3.75x10mm","HI Ø3.75x11.5mm","HI Ø3.75x13mm","HI Ø3.75x16mm",
-                    "HI Ø4.2x6.5mm","HI Ø4.2x8.0mm","HI Ø4.2x10mm","HI Ø4.2x11.5mm","HI Ø4.2x13mm","HI Ø4.2x16mm",
-                    "HI Ø5.0x6.5mm","HI Ø5.0x8.0mm","HI Ø5.0x10mm","HI Ø5.0x11.5mm","HI Ø5.0x13mm","HI Ø5.0x16mm"
-                ]}
+                "HI - HEX. INTERNO": ["HI Ø3.30x6.5mm","HI Ø3.30x8.0mm","HI Ø3.30x10mm","HI Ø3.30x11.5mm","HI Ø3.30x13mm","HI Ø3.30x16mm","HI Ø3.75x6.5mm","HI Ø3.75x8.0mm","HI Ø3.75x10mm","HI Ø3.75x11.5mm","HI Ø3.75x13mm","HI Ø3.75x16mm","HI Ø4.2x6.5mm","HI Ø4.2x8.0mm","HI Ø4.2x10mm","HI Ø4.2x11.5mm","HI Ø4.2x13mm","HI Ø4.2x16mm","HI Ø5.0x6.5mm","HI Ø5.0x8.0mm","HI Ø5.0x10mm","HI Ø5.0x11.5mm","HI Ø5.0x13mm","HI Ø5.0x16mm"]
             },
             he: {
-                "HE - HEX. EXTERNO": { col: "verde", items: [
-                    "HE Ø3.30x8.5mm","HE Ø3.30x10mm","HE Ø3.30x11.5mm","HE Ø3.30x13mm","HE Ø3.30x15mm",
-                    "HE Ø3.75x8mm","HE Ø3.75x10mm","HE Ø3.75x11.5mm","HE Ø3.75x13mm","HE Ø3.75x15mm",
-                    "HE Ø4.0x6mm","HE Ø4.0x8.5mm","HE Ø4.0x10mm","HE Ø4.0x11.5mm","HE Ø4.0x13mm","HE Ø4.0x15mm",
-                    "HE Ø5.0x6mm","HE Ø5.0x8.5mm","HE Ø5.0x10mm","HE Ø5.0x11.5mm","HE Ø5.0x13mm","HE Ø5.0x15mm"
-                ]}
+                "HE - HEX. EXTERNO": ["HE Ø3.30x8.5mm","HE Ø3.30x10mm","HE Ø3.30x11.5mm","HE Ø3.30x13mm","HE Ø3.30x15mm","HE Ø3.75x8mm","HE Ø3.75x10mm","HE Ø3.75x11.5mm","HE Ø3.75x13mm","HE Ø3.75x15mm","HE Ø4.0x6mm","HE Ø4.0x8.5mm","HE Ø4.0x10mm","HE Ø4.0x11.5mm","HE Ø4.0x13mm","HE Ø4.0x15mm","HE Ø5.0x6mm","HE Ø5.0x8.5mm","HE Ø5.0x10mm","HE Ø5.0x11.5mm","HE Ø5.0x13mm","HE Ø5.0x15mm"]
             },
             cmhi: {
-                "CMHI - CONO MORSE": { col: "violeta", items: [
-                    "CMHI Ø3.30x8mm","CMHI Ø3.30x10mm","CMHI Ø3.30x11.5mm","CMHI Ø3.30x13mm","CMHI Ø3.30x16mm",
-                    "CMHI Ø3.75x8mm","CMHI Ø3.75x10mm","CMHI Ø3.75x11.5mm","CMHI Ø3.75x13mm","CMHI Ø3.75x16mm",
-                    "CMHI Ø4.20x8mm","CMHI Ø4.20x10mm","CMHI Ø4.20x11.5mm","CMHI Ø4.20x13mm","CMHI Ø4.20x16mm",
-                    "CMHI Ø5.0x8mm","CMHI Ø5.0x10mm","CMHI Ø5.0x11.5mm","CMHI Ø5.0x13mm","CMHI Ø5.0x16mm"
-                ]}
+                "CMHI - CONO MORSE": ["CMHI Ø3.30x8mm","CMHI Ø3.30x10mm","CMHI Ø3.30x11.5mm","CMHI Ø3.30x13mm","CMHI Ø3.30x16mm","CMHI Ø3.75x8mm","CMHI Ø3.75x10mm","CMHI Ø3.75x11.5mm","CMHI Ø3.75x13mm","CMHI Ø3.75x16mm","CMHI Ø4.20x8mm","CMHI Ø4.20x10mm","CMHI Ø4.20x11.5mm","CMHI Ø4.20x13mm","CMHI Ø4.20x16mm","CMHI Ø5.0x8mm","CMHI Ø5.0x10mm","CMHI Ø5.0x11.5mm","CMHI Ø5.0x13mm","CMHI Ø5.0x16mm"]
             }
         };
 
         let cart = {};
-        function showSection(id) {
+        let stack = ['step-cliente'];
+
+        function showSection(id, push = true) {
             document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
             document.getElementById(id).classList.remove('hidden');
-            if(id === 'step-resumen') renderCart();
+            if(push) stack.push(id);
+            document.getElementById('btn-volver').classList.toggle('hidden', stack.length <= 2);
+            window.scrollTo(0,0);
         }
-        function validateAndGo() {
+
+        function goBack() {
+            if(stack.length > 1) {
+                stack.pop(); // Sacar actual
+                const prev = stack.pop(); // Sacar anterior para volver a meterlo
+                showSection(prev);
+            }
+        }
+
+        function validateAndStart() {
             if(!document.getElementById('c_nom').value) return alert("Ingrese Nombre");
-            showSection('step-productos');
-            renderCat('monopieza');
+            showSection('step-menu');
         }
-        function renderCat(key) {
-            const container = document.getElementById('catalog-container');
+
+        function openSub(id) { showSection(id); }
+
+        function loadProducts(key, color) {
+            showSection('step-lista');
+            const container = document.getElementById('lista-container');
             container.innerHTML = "";
+            
             for (const sub in DB[key]) {
-                let div = `<div class="bg-white border rounded-xl mb-4 overflow-hidden shadow-sm">
-                    <h3 class="p-2 text-center text-[10px] font-black uppercase ${'bg-'+DB[key][sub].col}">${sub}</h3>
-                    <div class="divide-y">`;
-                DB[key][sub].items.forEach(i => {
-                    const q = cart[i] || 0;
-                    div += `<div class="flex justify-between p-3 items-center hover:bg-gray-50">
-                        <span class="text-[11px] font-bold text-gray-700">${i}</span>
-                        <div class="flex items-center gap-2">
-                            <button onclick="update('${i}',-1,'${key}')" class="w-7 h-7 border rounded bg-white font-bold">-</button>
-                            <span class="text-xs font-black w-4 text-center">${q}</span>
-                            <button onclick="update('${i}',1,'${key}')" class="w-7 h-7 bg-blue-600 text-white rounded font-bold">+</button>
+                let html = `<div class="bg-white border-2 rounded-2xl overflow-hidden mb-6 shadow-sm">
+                    <div class="bg-${color}-500 text-white p-3 font-black text-center text-xs uppercase italic">${sub}</div>
+                    <div class="divide-y-2">`;
+                
+                DB[key][sub].forEach(item => {
+                    const q = cart[item] || 0;
+                    html += `<div class="flex justify-between items-center p-4">
+                        <span class="text-[11px] font-bold text-slate-700 uppercase">${item}</span>
+                        <div class="flex items-center gap-3">
+                            <button onclick="update('${item}',-1,'${key}','${color}')" class="w-10 h-10 border-2 rounded-xl font-bold active:bg-gray-100">-</button>
+                            <span class="font-black text-sm w-4 text-center">${q}</span>
+                            <button onclick="update('${item}',1,'${key}','${color}')" class="w-10 h-10 bg-slate-900 text-white rounded-xl font-bold active:opacity-80">+</button>
                         </div>
                     </div>`;
                 });
-                container.innerHTML += div + `</div></div>`;
+                container.innerHTML += html + "</div></div>";
             }
         }
-        function update(i,d,k) {
-            cart[i] = (cart[i]||0)+d;
-            if(cart[i]<=0) delete cart[i];
-            document.getElementById('cart-count').innerText = Object.values(cart).reduce((a,b)=>a+b,0);
-            renderCat(k);
+
+        function update(item, delta, key, color) {
+            cart[item] = (cart[item] || 0) + delta;
+            if(cart[item] <= 0) delete cart[item];
+            document.getElementById('cart-count').innerText = Object.values(cart).reduce((a,b)=>a+b, 0);
+            
+            // Re-render sin empujar al historial
+            const container = document.getElementById('lista-container');
+            loadProducts(key, color);
+            stack.pop(); 
         }
+
+        function goToResumen() {
+            showSection('step-resumen');
+            renderCart();
+        }
+
         function renderCart() {
-            const list = document.getElementById('cart-list');
-            list.innerHTML = "";
+            const container = document.getElementById('cart-items');
+            container.innerHTML = "";
             const items = Object.entries(cart);
-            if(items.length === 0) list.innerHTML = "<p class='text-center py-10 text-gray-400 text-xs uppercase'>El pedido está vacío</p>";
-            items.forEach(([n,q]) => {
-                list.innerHTML += `<div class="p-4 bg-gray-50 rounded-lg mb-2 flex justify-between items-center border border-gray-200">
-                    <span class="text-xs font-bold text-gray-800"><b class="text-blue-600 mr-2">${q}x</b> ${n}</span>
-                    <button onclick="update('${n}',-${q},'resumen'); renderCart();" class="text-red-500 font-bold text-[10px] uppercase">Eliminar</button>
+            if(items.length === 0) {
+                container.innerHTML = "<p class='text-center py-10 text-slate-400 font-bold'>EL CARRITO ESTÁ VACÍO</p>";
+                return;
+            }
+            items.forEach(([n, q]) => {
+                container.innerHTML += `<div class="flex justify-between items-center p-4 bg-slate-50 rounded-xl border-2 border-slate-100 font-bold text-xs">
+                    <span><b class="text-blue-600 mr-2">${q}x</b> ${n}</span>
+                    <button onclick="delete cart['${n}']; renderCart(); updateCount();" class="text-red-500 font-black">QUITAR</button>
                 </div>`;
             });
         }
+
+        function updateCount() {
+            document.getElementById('cart-count').innerText = Object.values(cart).reduce((a,b)=>a+b, 0);
+        }
+
         function sendWA() {
-            if(Object.keys(cart).length === 0) return alert("CARRITO VACÍO");
-            let m = `*ORDEN DE PEDIDO BIO-FIX*\n*PROFESIONAL:* ${document.getElementById('c_nom').value.toUpperCase()}\n*DNI:* ${document.getElementById('c_dni').value}\n\n*DETALLE:*\n`;
-            Object.entries(cart).forEach(([n,q])=> m+=`• ${q} x ${n}\n`);
+            if(Object.keys(cart).length === 0) return alert("Cargue productos primero");
+            let m = `*PEDIDO BIO-FIX*\n*PROFESIONAL:* ${document.getElementById('c_nom').value.toUpperCase()}\n*DNI/MAT:* ${document.getElementById('c_dni').value.toUpperCase()}\n\n*PRODUCTOS:*\n`;
+            Object.entries(cart).forEach(([n,q])=> m+=`✅ ${q} x ${n}\n`);
             if(document.getElementById('obs').value) m+=`\n*NOTAS:* ${document.getElementById('obs').value}`;
             window.open(`https://wa.me/5491122334455?text=${encodeURIComponent(m)}`);
         }

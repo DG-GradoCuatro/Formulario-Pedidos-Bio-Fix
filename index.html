@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio-Fix | Pedidos Profesionales</title>
+    <title>Bio-Fix | Sistema de Pedidos Oficial</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .bg-cian { background-color: #00FFFF; color: #000; }
@@ -13,118 +13,124 @@
         .bg-gris { background-color: #808080; color: #fff; }
         .bg-fucsia { background-color: #FF00FF; color: #fff; }
         .hidden { display: none; }
-        .active-tab { border-bottom: 4px solid #2563eb; color: #2563eb; font-weight: 800; }
+        .active-tab { border-bottom: 4px solid #1e40af; color: #1e40af; font-weight: 800; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="bg-slate-100 min-h-screen pb-10">
+<body class="bg-gray-100 min-h-screen pb-10">
 
     <div class="max-w-xl mx-auto bg-white min-h-screen shadow-2xl flex flex-col">
         <header class="bg-slate-900 text-white p-5 text-center">
-            <h1 class="text-2xl font-black tracking-tighter">BIO-FIX®</h1>
-            <p class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.2em]">Catálogo Completo de Implantes</p>
+            <h1 class="text-2xl font-black tracking-tighter uppercase italic">BIO-FIX®</h1>
+            <p class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.3em]">Implantes & Tecnología</p>
         </header>
 
         <nav class="flex border-b sticky top-0 bg-white z-50 shadow-sm">
-            <button onclick="showSection('step-cliente')" id="nav-cliente" class="flex-1 py-4 text-[10px] font-bold active-tab uppercase">1. Identificación</button>
-            <button onclick="validateAndGo()" id="nav-productos" class="flex-1 py-4 text-[10px] font-bold uppercase opacity-40">2. Catálogo</button>
-            <button onclick="showSection('step-resumen')" id="nav-resumen" class="flex-1 py-4 text-[10px] font-bold uppercase">3. Resumen (<span id="cart-count">0</span>)</button>
+            <button onclick="showSection('step-cliente')" id="nav-cliente" class="flex-1 py-4 text-[10px] font-black active-tab uppercase">1. Profesional</button>
+            <button onclick="validateAndGo()" id="nav-productos" class="flex-1 py-4 text-[10px] font-black uppercase opacity-40">2. Catálogo</button>
+            <button onclick="showSection('step-resumen')" id="nav-resumen" class="flex-1 py-4 text-[10px] font-black uppercase">3. Resumen (<span id="cart-count">0</span>)</button>
         </nav>
 
         <main class="p-4 flex-grow">
             <section id="step-cliente" class="space-y-4">
-                <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
-                    <h2 class="font-bold text-slate-800 mb-4 text-sm uppercase">Datos del Profesional</h2>
+                <div class="bg-blue-50 p-5 rounded-xl border border-blue-100">
+                    <h2 class="font-bold text-blue-900 mb-4 text-xs uppercase tracking-widest">Identificación</h2>
                     <div class="flex gap-4 mb-5">
-                        <label class="text-xs font-bold flex items-center gap-1"><input type="radio" name="t_cli" value="existente" checked onclick="toggleNew(false)"> EXISTENTE</label>
-                        <label class="text-xs font-bold flex items-center gap-1"><input type="radio" name="t_cli" value="nuevo" onclick="toggleNew(true)"> NUEVO</label>
+                        <label class="text-xs font-bold flex items-center gap-1 cursor-pointer">
+                            <input type="radio" name="t_cli" value="existente" checked onclick="toggleNew(false)"> EXISTENTE
+                        </label>
+                        <label class="text-xs font-bold flex items-center gap-1 cursor-pointer">
+                            <input type="radio" name="t_cli" value="nuevo" onclick="toggleNew(true)"> NUEVO CLIENTE
+                        </label>
                     </div>
                     <div class="space-y-3">
-                        <input type="text" id="c_nom" placeholder="Nombre y Apellido *" class="w-full p-3 text-sm border rounded-lg outline-none focus:ring-2 ring-blue-500">
-                        <input type="text" id="c_dni" placeholder="DNI o CUIT *" class="w-full p-3 text-sm border rounded-lg outline-none focus:ring-2 ring-blue-500">
-                        <div id="extra-fields" class="hidden space-y-3">
+                        <input type="text" id="c_nom" placeholder="Nombre y Apellido *" class="w-full p-3 text-sm border rounded-lg focus:ring-2 ring-blue-500 outline-none">
+                        <input type="text" id="c_dni" placeholder="DNI o CUIT *" class="w-full p-3 text-sm border rounded-lg focus:ring-2 ring-blue-500 outline-none">
+                        <div id="extra-fields" class="hidden space-y-3 border-t pt-3 mt-3">
                             <input type="text" id="c_loc" placeholder="Localidad *" class="w-full p-3 text-sm border rounded-lg">
                             <input type="text" id="c_pro" placeholder="Provincia *" class="w-full p-3 text-sm border rounded-lg">
                             <input type="text" id="c_mat" placeholder="Matrícula Profesional *" class="w-full p-3 text-sm border rounded-lg">
                         </div>
                     </div>
                 </div>
-                <button onclick="validateAndGo()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-sm shadow-lg hover:bg-blue-700 transition-all">ACCEDER AL CATÁLOGO</button>
+                <button onclick="validateAndGo()" class="w-full bg-slate-800 text-white py-4 rounded-xl font-black text-sm shadow-xl hover:bg-slate-700 transition-all uppercase">Ingresar al Sistema</button>
             </section>
 
             <section id="step-productos" class="hidden">
                 <div class="flex overflow-x-auto gap-2 mb-6 pb-2 no-scrollbar">
-                    <button onclick="renderCat('monopieza')" class="px-5 py-2 bg-cian text-black rounded-full text-[10px] font-bold flex-shrink-0 border border-black">MONOPIEZA</button>
-                    <button onclick="renderCat('implantes')" class="px-5 py-2 bg-slate-800 text-white rounded-full text-[10px] font-bold flex-shrink-0">OTROS IMPLANTES</button>
-                    <button onclick="renderCat('analogicos')" class="px-5 py-2 bg-slate-800 text-white rounded-full text-[10px] font-bold flex-shrink-0">ANALÓGICOS</button>
-                    <button onclick="renderCat('herramental')" class="px-5 py-2 bg-slate-800 text-white rounded-full text-[10px] font-bold flex-shrink-0">HERRAMENTAL</button>
+                    <button onclick="renderCat('monopieza')" class="px-5 py-2 bg-cian text-black rounded-full text-[10px] font-black flex-shrink-0 border border-black">MP</button>
+                    <button onclick="renderCat('basales')" class="px-5 py-2 bg-gris text-white rounded-full text-[10px] font-black flex-shrink-0">MPB / MPBT</button>
+                    <button onclick="renderCat('implantes')" class="px-5 py-2 bg-slate-800 text-white rounded-full text-[10px] font-black flex-shrink-0">HI/HE/CM</button>
+                    <button onclick="renderCat('analogicos')" class="px-5 py-2 bg-slate-800 text-white rounded-full text-[10px] font-black flex-shrink-0">ANALOGICOS</button>
+                    <button onclick="renderCat('herramental')" class="px-5 py-2 bg-slate-800 text-white rounded-full text-[10px] font-black flex-shrink-0">HERRAMENTAL</button>
                 </div>
                 
                 <div id="catalog-container" class="space-y-4"></div>
             </section>
 
             <section id="step-resumen" class="hidden">
-                <h3 class="font-black text-lg mb-4 text-slate-800">Resumen del Pedido</h3>
+                <h3 class="font-black text-lg mb-4 text-slate-800 uppercase italic">Confirmación de Pedido</h3>
                 <div id="cart-list" class="space-y-2 border-t pt-4"></div>
                 <div class="mt-8">
-                    <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Notas adicionales:</label>
-                    <textarea id="obs" class="w-full border p-3 rounded-xl h-24 text-sm" placeholder="Indicaciones especiales..."></textarea>
+                    <label class="block text-[10px] font-black text-slate-500 mb-2 uppercase tracking-tighter">Observaciones Técnicas o de Entrega:</label>
+                    <textarea id="obs" class="w-full border p-4 rounded-xl h-28 text-sm focus:ring-2 ring-green-500 outline-none" placeholder="Ej: Urgente para cirugía lunes 8am..."></textarea>
                 </div>
-                <button onclick="sendWA()" class="w-full mt-6 bg-green-600 text-white py-4 rounded-xl font-black text-sm shadow-xl hover:bg-green-700 uppercase tracking-widest text-center">Enviar WhatsApp</button>
+                <button onclick="sendWA()" class="w-full mt-6 bg-green-600 text-white py-5 rounded-2xl font-black text-sm shadow-2xl hover:bg-green-700 uppercase tracking-[0.2em]">Enviar vía WhatsApp</button>
             </section>
         </main>
     </div>
 
     <script>
+        // --- BASE DE DATOS ESTRUCTURADA ---
         const DB = {
-    // --- MONOPIEZA (MP) ---
-    monopieza: {
-        "MP Ø3.0": { col: "cian", items: ["MP Ø3.0 x 6mm","MP Ø3.0 x 8mm","MP Ø3.0 x 10mm","MP Ø3.0 x 11.5mm","MP Ø3.0 x 13mm","MP Ø3.0 x 15mm","MP Ø3.0 x 18mm","MP Ø3.0 x 20mm"] },
-        "MP Ø3.5": { col: "cian", items: ["MP Ø3.5 x 6mm","MP Ø3.5 x 8mm","MP Ø3.5 x 10mm","MP Ø3.5 x 11.5mm","MP Ø3.5 x 13mm","MP Ø3.5 x 15mm","MP Ø3.5 x 18mm","MP Ø3.5 x 20mm"] },
-        "MP Ø4.0": { col: "cian", items: ["MP Ø4.0 x 6mm","MP Ø4.0 x 8mm","MP Ø4.0 x 10mm","MP Ø4.0 x 11.5mm","MP Ø4.0 x 13mm","MP Ø4.0 x 15mm","MP Ø4.0 x 18mm","MP Ø4.0 x 20mm"] },
-        "MP Ø4.5": { col: "cian", items: ["MP Ø4.5 x 6mm","MP Ø4.5 x 8mm","MP Ø4.5 x 10mm","MP Ø4.5 x 11.5mm","MP Ø4.5 x 13mm","MP Ø4.5 x 15mm","MP Ø4.5 x 18mm","MP Ø4.5 x 20mm"] },
-        "MP Ø5.0": { col: "cian", items: ["MP Ø5.0 x 6mm","MP Ø5.0 x 8mm","MP Ø5.0 x 10mm","MP Ø5.0 x 11.5mm","MP Ø5.0 x 13mm"] },
-        "MP Ø5.5": { col: "cian", items: ["MP Ø5.5 x 6mm","MP Ø5.5 x 8mm","MP Ø5.5 x 10mm","MP Ø5.5 x 11.5mm","MP Ø5.5 x 13mm"] }
-    },
-
-    // --- MONOPIEZA BASAL (MPB / MPBT) ---
-    basales: {
-        "MPB Ø3.5 (PULIDO)": { col: "gris", items: ["MPB Ø3.5 x 10mm","MPB Ø3.5 x 12mm","MPB Ø3.5 x 14mm","MPB Ø3.5 x 15mm","MPB Ø3.5 x 18mm","MPB Ø3.5 x 21mm","MPB Ø3.5 x 23mm","MPB Ø3.5 x 26mm","MPB Ø3.5 x 28mm","MPB Ø3.5 x 24 C14","MPB Ø3.5 x 26 C16","MPB Ø3.5 x 28 C18"] },
-        "MPBT Ø3.5 (TRATAMIENTO)": { col: "slate-600", items: ["MPBT Ø3.5 x 10mm","MPBT Ø3.5 x 12mm","MPBT Ø3.5 x 14mm","MPBT Ø3.5 x 15mm","MPBT Ø3.5 x 18mm","MPBT Ø3.5 x 21mm","MPBT Ø3.5 x 23mm","MPBT Ø3.5 x 26mm","MPBT Ø3.5 x 28mm","MPBT Ø3.5 x 24 C14","MPBT Ø3.5 x 26 C16","MPBT Ø3.5 x 28 C18"] },
-        
-        "MPB Ø4.5 (PULIDO)": { col: "gris", items: ["MPB Ø4.5 x 10mm","MPB Ø4.5 x 12mm","MPB Ø4.5 x 15mm","MPB Ø4.5 x 18mm","MPB Ø4.5 x 21mm","MPB Ø4.5 x 23mm","MPB Ø4.5 x 26mm","MPB Ø4.5 x 28mm","MPB Ø4.5 x 24 C14","MPB Ø4.5 x 26 C16","MPB Ø4.5 x 28 C18"] },
-        "MPBT Ø4.5 (TRATAMIENTO)": { col: "slate-600", items: ["MPBT Ø4.5 x 10mm","MPBT Ø4.5 x 12mm","MPBT Ø4.5 x 15mm","MPBT Ø4.5 x 18mm","MPBT Ø4.5 x 21mm","MPBT Ø4.5 x 23mm","MPBT Ø4.5 x 26mm","MPBT Ø4.5 x 28mm","MPBT Ø4.5 x 24 C14","MPBT Ø4.5 x 26 C16","MPBT Ø4.5 x 28 C18"] }
-    },
-
-    // --- OTROS SISTEMAS ---
-    implantes: {
-        "HI - Hexágono Interno": { col: "rojo", items: ["HI Ø3.75 x 10mm", "HI Ø4.2 x 13mm"] },
-        "HE - Hexágono Externo": { col: "verde", items: ["HE Ø4.0 x 11.5mm"] },
-        "CMHI - Cono Morse": { col: "violeta", items: ["CMHI Ø3.3 x 13mm"] },
-        "CMU - Compresivo Multiunit": { col: "fucsia", items: ["CMU Ø3.5 x 10mm"] },
-        "C3MU - Compresivo Multiunit C3": { col: "fucsia", items: ["C3MU Ø4.0 x 13mm"] }
-    },
-
-    // --- COMPONENTES Y HERRAMENTAL ---
-    analogicos: {
-        "HI - Componentes": { col: "slate-700", products: {
-            "Ucla Calcinable": ["Rotacional", "Anti-Rotacional"]
-        }}
-    }
-};
+            monopieza: {
+                "MP Ø3.0": { col: "cian", items: ["MP Ø3.0 x 6mm","MP Ø3.0 x 8mm","MP Ø3.0 x 10mm","MP Ø3.0 x 11.5mm","MP Ø3.0 x 13mm","MP Ø3.0 x 15mm","MP Ø3.0 x 18mm","MP Ø3.0 x 20mm"] },
+                "MP Ø3.5": { col: "cian", items: ["MP Ø3.5 x 6mm","MP Ø3.5 x 8mm","MP Ø3.5 x 10mm","MP Ø3.5 x 11.5mm","MP Ø3.5 x 13mm","MP Ø3.5 x 15mm","MP Ø3.5 x 18mm","MP Ø3.5 x 20mm"] },
+                "MP Ø4.0": { col: "cian", items: ["MP Ø4.0 x 6mm","MP Ø4.0 x 8mm","MP Ø4.0 x 10mm","MP Ø4.0 x 11.5mm","MP Ø4.0 x 13mm","MP Ø4.0 x 15mm","MP Ø4.0 x 18mm","MP Ø4.0 x 20mm"] },
+                "MP Ø4.5": { col: "cian", items: ["MP Ø4.5 x 6mm","MP Ø4.5 x 8mm","MP Ø4.5 x 10mm","MP Ø4.5 x 11.5mm","MP Ø4.5 x 13mm","MP Ø4.5 x 15mm","MP Ø4.5 x 18mm","MP Ø4.5 x 20mm"] },
+                "MP Ø5.0": { col: "cian", items: ["MP Ø5.0 x 6mm","MP Ø5.0 x 8mm","MP Ø5.0 x 10mm","MP Ø5.0 x 11.5mm","MP Ø5.0 x 13mm"] },
+                "MP Ø5.5": { col: "cian", items: ["MP Ø5.5 x 6mm","MP Ø5.5 x 8mm","MP Ø5.5 x 10mm","MP Ø5.5 x 11.5mm","MP Ø5.5 x 13mm"] }
+            },
+            basales: {
+                "MPB Ø3.5 (PULIDO)": { col: "gris", items: ["MPB Ø3.5 x 10mm","MPB Ø3.5 x 12mm","MPB Ø3.5 x 14mm","MPB Ø3.5 x 15mm","MPB Ø3.5 x 18mm","MPB Ø3.5 x 21mm","MPB Ø3.5 x 23mm","MPB Ø3.5 x 26mm","MPB Ø3.5 x 28mm","MPB Ø3.5 x 24 C14","MPB Ø3.5 x 26 C16","MPB Ø3.5 x 28 C18"] },
+                "MPBT Ø3.5 (TRATAMIENTO)": { col: "slate-600", items: ["MPBT Ø3.5 x 10mm","MPBT Ø3.5 x 12mm","MPBT Ø3.5 x 14mm","MPBT Ø3.5 x 15mm","MPBT Ø3.5 x 18mm","MPBT Ø3.5 x 21mm","MPBT Ø3.5 x 23mm","MPBT Ø3.5 x 26mm","MPBT Ø3.5 x 28mm","MPBT Ø3.5 x 24 C14","MPBT Ø3.5 x 26 C16","MPBT Ø3.5 x 28 C18"] },
+                "MPB Ø4.5 (PULIDO)": { col: "gris", items: ["MPB Ø4.5 x 10mm","MPB Ø4.5 x 12mm","MPB Ø4.5 x 15mm","MPB Ø4.5 x 18mm","MPB Ø4.5 x 21mm","MPB Ø4.5 x 23mm","MPB Ø4.5 x 26mm","MPB Ø4.5 x 28mm","MPB Ø4.5 x 24 C14","MPB Ø4.5 x 26 C16","MPB Ø4.5 x 28 C18"] },
+                "MPBT Ø4.5 (TRATAMIENTO)": { col: "slate-600", items: ["MPBT Ø4.5 x 10mm","MPBT Ø4.5 x 12mm","MPBT Ø4.5 x 15mm","MPBT Ø4.5 x 18mm","MPBT Ø4.5 x 21mm","MPBT Ø4.5 x 23mm","MPBT Ø4.5 x 26mm","MPBT Ø4.5 x 28mm","MPBT Ø4.5 x 24 C14","MPBT Ø4.5 x 26 C16","MPBT Ø4.5 x 28 C18"] },
+                "BASAL Ø5.5 (MPB/MPBT)": { col: "gris", items: ["MPB Ø5.5 x 9mm","MPB Ø5.5 x 10mm","MPB Ø5.5 x 12mm","MPB Ø5.5 x 15mm","MPB Ø5.5 x 18mm","MPBT Ø5.5 x 9mm","MPBT Ø5.5 x 10mm","MPBT Ø5.5 x 12mm","MPBT Ø5.5 x 15mm","MPBT Ø5.5 x 18mm"] },
+                "BASAL Ø6.5 / 8.5": { col: "gris", items: ["MPB Ø6.5 x 9mm","MPB Ø6.5 x 12mm","MPB Ø6.5 x 15mm","MPB Ø8.5 x 9mm","MPB Ø8.5 x 12mm","MPB Ø8.5 x 15mm"] }
+            },
+            implantes: {
+                "HI - HEXAGONO INTERNO": { col: "rojo", items: ["HI Ø3.0 x 10mm", "HI Ø3.75 x 13mm", "HI Ø4.2 x 11.5mm"] },
+                "HE - HEXAGONO EXTERNO": { col: "verde", items: ["HE Ø3.3 x 10mm", "HE Ø4.0 x 13mm"] },
+                "CMHI - CONO MORSE": { col: "violeta", items: ["CMHI Ø3.3 x 13mm", "CMHI Ø4.2 x 11.5mm"] },
+                "CMU - COMPRESIVO MULTIUNIT": { col: "fucsia", items: ["CMU Ø3.0 x 10mm", "CMU Ø3.5 x 13mm"] },
+                "C3MU - COMPRESIVO MULTIUNIT C3": { col: "fucsia", items: ["C3MU Ø3.5 x 10mm", "C3MU Ø4.5 x 13mm"] }
+            },
+            analogicos: {
+                "SISTEMA HI": { col: "slate-700", products: {
+                    "UCLA CALCINABLE": ["ROTACIONAL", "ANTI-ROT"],
+                    "BALL ATTACH": ["H1", "H2", "H3", "H4"]
+                }}
+            },
+            herramental: {
+                "FRESAS LANZA": { col: "slate-700", items: ["LANZA CORTA", "LANZA LARGA", "LANZA GUIADA"] },
+                "FRESAS HELICOIDALES": { col: "slate-700", items: ["Ø2.0", "Ø2.8", "Ø3.2", "Ø4.0"] },
+                "INSTRUMENTAL": { col: "slate-700", items: ["TORQUIMETRO", "MANGO RIGIDO", "EXPANSOR DE HUESO KIT"] }
+            }
+        };
 
         let cart = {};
-        let currentOpenKey = 'monopieza';
+        let currentKey = 'monopieza';
 
         function toggleNew(show) { document.getElementById('extra-fields').classList.toggle('hidden', !show); }
 
         function validateAndGo() {
             const nom = document.getElementById('c_nom').value;
             const dni = document.getElementById('c_dni').value;
-            if (!nom || !dni) return alert("COMPLETE NOMBRE Y DNI");
+            if (!nom || !dni) return alert("COMPLETE NOMBRE Y DNI/CUIT");
             document.getElementById('nav-productos').classList.remove('opacity-40');
             showSection('step-productos');
-            renderCat(currentOpenKey);
+            renderCat(currentKey);
         }
 
         function showSection(id) {
@@ -136,19 +142,19 @@
         }
 
         function renderCat(key) {
-            currentOpenKey = key;
+            currentKey = key;
             const container = document.getElementById('catalog-container');
             container.innerHTML = "";
             const data = DB[key];
 
             for (const subcat in data) {
-                let section = `<div class="bg-white rounded-lg border shadow-sm overflow-hidden mb-4">
-                    <h3 class="p-3 text-[10px] font-black uppercase tracking-wider ${'bg-'+data[subcat].col} border-b text-center">${subcat}</h3>
-                    <div class="divide-y divide-slate-100">`;
+                let section = `<div class="bg-white rounded-xl border shadow-sm overflow-hidden mb-4">
+                    <h3 class="p-3 text-[10px] font-black uppercase tracking-widest ${'bg-'+data[subcat].col} border-b text-center">${subcat}</h3>
+                    <div class="divide-y divide-gray-100">`;
                 
                 if (key === 'analogicos') {
                     for (const prod in data[subcat].products) {
-                        section += `<div class="p-2 bg-slate-50 border-b"><p class="text-[9px] font-bold text-slate-400 uppercase ml-2">${prod}</p>`;
+                        section += `<div class="p-2 bg-slate-50 border-b"><p class="text-[9px] font-black text-slate-400 uppercase ml-2 mb-1">${prod}</p>`;
                         data[subcat].products[prod].forEach(v => section += renderRow(`${subcat} ${prod} ${v}`));
                         section += `</div>`;
                     }
@@ -163,12 +169,12 @@
         function renderRow(name) {
             const qty = cart[name] || 0;
             return `
-                <div class="flex items-center justify-between py-2 px-4 bg-white">
-                    <span class="text-[11px] font-semibold text-slate-700">${name}</span>
-                    <div class="flex items-center gap-2">
-                        <button onclick="updateQty('${name}', -1)" class="w-6 h-6 rounded border bg-slate-50 font-bold text-xs">-</button>
-                        <span class="text-xs font-bold min-w-[15px] text-center">${qty}</span>
-                        <button onclick="updateQty('${name}', 1)" class="w-6 h-6 rounded bg-blue-600 text-white font-bold text-xs">+</button>
+                <div class="flex items-center justify-between py-3 px-4 bg-white">
+                    <span class="text-[11px] font-bold text-slate-700 w-2/3">${name}</span>
+                    <div class="flex items-center gap-3">
+                        <button onclick="updateQty('${name}', -1)" class="w-7 h-7 rounded-lg border bg-gray-50 font-black text-sm">-</button>
+                        <span class="text-xs font-black min-w-[15px] text-center">${qty}</span>
+                        <button onclick="updateQty('${name}', 1)" class="w-7 h-7 rounded-lg bg-blue-600 text-white font-black text-sm">+</button>
                     </div>
                 </div>`;
         }
@@ -177,29 +183,37 @@
             cart[item] = (cart[item] || 0) + delta;
             if (cart[item] <= 0) delete cart[item];
             document.getElementById('cart-count').innerText = Object.values(cart).reduce((a, b) => a + b, 0);
-            renderCat(currentOpenKey);
+            renderCat(currentKey);
         }
 
         function renderCart() {
             const list = document.getElementById('cart-list');
-            list.innerHTML = Object.entries(cart).length === 0 ? "<p class='text-center text-slate-400 text-xs py-10'>Carrito vacío</p>" : "";
-            Object.entries(cart).forEach(([name, qty]) => {
+            const items = Object.entries(cart);
+            list.innerHTML = items.length === 0 ? "<div class='py-10 text-center text-slate-400 text-xs italic'>No hay productos seleccionados</div>" : "";
+            items.forEach(([name, qty]) => {
                 list.innerHTML += `
-                    <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg border-l-4 border-blue-500 mb-2">
-                        <div class="text-[11px] font-bold"><strong>${qty}x</strong> ${name}</div>
-                        <button onclick="updateQty('${name}', -${qty}); renderCart();" class="text-[10px] text-red-500 font-bold uppercase">X</button>
+                    <div class="flex justify-between items-center p-4 bg-white rounded-xl border border-gray-100 shadow-sm mb-2">
+                        <div class="text-[11px] font-black text-slate-800"><span class="text-blue-600 mr-2">${qty}x</span> ${name}</div>
+                        <button onclick="updateQty('${name}', -${qty}); renderCart();" class="text-[10px] text-red-500 font-black hover:bg-red-50 p-1 rounded">QUITAR</button>
                     </div>`;
             });
         }
 
         function sendWA() {
-            if(Object.keys(cart).length === 0) return alert("CARRITO VACÍO");
-            let msg = `*PEDIDO BIO-FIX*\n*CLIENTE:* ${document.getElementById('c_nom').value.toUpperCase()}\n*DNI:* ${document.getElementById('c_dni').value}\n\n*PRODUCTOS:*\n`;
-            Object.entries(cart).forEach(([item, qty]) => msg += `• ${qty} x ${item}\n`);
+            if(Object.keys(cart).length === 0) return alert("EL CARRITO ESTÁ VACÍO");
+            let msg = `*NUEVO PEDIDO BIO-FIX*\n`;
+            msg += `*PROFESIONAL:* ${document.getElementById('c_nom').value.toUpperCase()}\n`;
+            msg += `*DNI/CUIT:* ${document.getElementById('c_dni').value}\n`;
+            if(document.querySelector('input[name="t_cli"]:checked').value === 'nuevo') {
+                msg += `*LOC:* ${document.getElementById('c_loc').value} | *MAT:* ${document.getElementById('c_mat').value}\n`;
+            }
+            msg += `\n*PRODUCTOS:*\n`;
+            Object.entries(cart).forEach(([item, qty]) => msg += `✅ ${qty} x ${item}\n`);
             if(document.getElementById('obs').value) msg += `\n*OBS:* ${document.getElementById('obs').value}`;
-            window.open(`https://wa.me/5491122334455?text=${encodeURIComponent(msg)}`, '_blank');
+            
+            const phone = "5491122334455"; // Reemplazar por número real
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
     </script>
 </body>
 </html>
-

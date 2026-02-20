@@ -3,87 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio-Fix | Premium Ordering System</title>
+    <title>Bio-Fix | Sistema Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
         .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        .card-shadow { box-shadow: 0 4px 20px -2px rgba(0,0,0,0.05); }
+        .card-shadow { box-shadow: 0 4px 25px -5px rgba(0,0,0,0.05); }
         .hidden { display: none; }
-        .btn-main { @apply w-full py-8 rounded-3xl font-black uppercase text-sm tracking-widest shadow-lg transition-all active:scale-[0.98] flex flex-col items-center justify-center gap-2; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .btn-choice { @apply w-full py-8 rounded-[32px] font-black uppercase text-xs tracking-widest shadow-lg transition-all active:scale-[0.97] flex flex-col items-center justify-center gap-3 border-2; }
+        .input-premium { @apply w-full p-5 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-500 focus:bg-white font-bold text-slate-700 transition-all; }
     </style>
 </head>
 <body class="min-h-screen pb-10">
 
     <div class="max-w-xl mx-auto min-h-screen flex flex-col relative">
-        <header class="bg-slate-900 text-white p-8 pt-12 rounded-b-[40px] shadow-2xl text-center">
-            <h1 class="text-4xl font-black tracking-tighter italic italic">BIO-FIX<span class="text-blue-500">®</span></h1>
-            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-[0.5em] mt-2">Precision Implant Systems</p>
+        
+        <header class="bg-slate-900 text-white p-10 pt-14 rounded-b-[50px] shadow-2xl text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                <div class="absolute transform rotate-45 bg-blue-500 w-40 h-40 -top-10 -left-10"></div>
+            </div>
+            <h1 class="text-4xl font-black tracking-tighter italic italic relative">BIO-FIX<span class="text-blue-500">®</span></h1>
+            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-[0.5em] mt-3 relative">Professional Implant Systems</p>
         </header>
 
-        <nav class="glass sticky top-4 mx-4 mt-[-20px] p-3 rounded-2xl shadow-xl z-50 flex justify-between items-center border border-white/20">
-            <button id="btn-volver" onclick="goBack()" class="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-xl text-slate-900 font-bold hidden">←</button>
-            <div class="flex flex-col ml-4">
-                <span id="nav-title" class="text-[10px] font-black uppercase text-slate-400 leading-none">Bio-Fix System</span>
-                <span id="nav-subtitle" class="text-xs font-black text-slate-900 uppercase">Inicio</span>
+        <nav class="glass sticky top-4 mx-6 mt-[-25px] p-4 rounded-[24px] shadow-xl z-50 flex justify-between items-center border border-white/40">
+            <button id="btn-volver" onclick="goBack()" class="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-xl text-slate-900 font-black hidden">←</button>
+            <div class="flex flex-col ml-2">
+                <span id="nav-title" class="text-[9px] font-black uppercase text-blue-500 tracking-tighter">Bio-Fix Portal</span>
+                <span id="nav-subtitle" class="text-sm font-black text-slate-900 uppercase">Bienvenido</span>
             </div>
-            <button onclick="goToResumen()" class="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-black text-[10px] uppercase shadow-blue-200 shadow-lg flex items-center gap-2">
+            <button onclick="goToResumen()" class="bg-slate-900 text-white px-5 py-3 rounded-xl font-black text-[10px] uppercase shadow-lg flex items-center gap-2">
                 Pedido (<span id="cart-count">0</span>)
             </button>
         </nav>
 
-        <main class="p-6 mt-4 flex-grow">
+        <main class="p-6 mt-6 flex-grow">
             
-            <section id="step-cliente" class="space-y-6">
-                <div class="bg-white p-8 rounded-[32px] card-shadow border border-slate-100">
-                    <h2 class="font-black text-slate-900 text-2xl mb-2">Bienvenido</h2>
-                    <p class="text-slate-400 text-sm mb-8 font-medium">Complete sus datos para iniciar el pedido.</p>
+            <section id="step-choice" class="space-y-6">
+                <div class="text-center mb-10">
+                    <h2 class="font-black text-2xl text-slate-800">¿Cómo desea ingresar?</h2>
+                    <p class="text-slate-400 text-sm font-medium">Seleccione su perfil de profesional</p>
+                </div>
+                <div class="grid grid-cols-1 gap-5">
+                    <button onclick="showSection('step-login-old')" class="btn-choice bg-white border-slate-100 text-slate-900">
+                        <span class="text-4xl">👨‍⚕️</span>
+                        <span>Soy Cliente Registrado</span>
+                    </button>
+                    <button onclick="showSection('step-login-new')" class="btn-choice bg-blue-600 border-blue-500 text-white">
+                        <span class="text-4xl">✨</span>
+                        <span>Soy Cliente Nuevo</span>
+                    </button>
+                </div>
+            </section>
+
+            <section id="step-login-old" class="hidden space-y-6">
+                <div class="bg-white p-8 rounded-[40px] card-shadow border border-slate-100">
+                    <h2 class="font-black text-slate-900 text-2xl mb-2">Hola de nuevo</h2>
+                    <p class="text-slate-400 text-sm mb-8 font-medium">Ingrese sus datos de identificación.</p>
                     <div class="space-y-4">
-                        <input type="text" id="c_nom" placeholder="Nombre del Profesional" class="w-full p-5 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 ring-blue-500 font-bold text-slate-700">
-                        <input type="text" id="c_dni" placeholder="Matrícula / CUIT" class="w-full p-5 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 ring-blue-500 font-bold text-slate-700">
+                        <input type="text" id="old_nom" placeholder="Nombre y Apellido" class="input-premium">
+                        <input type="text" id="old_dni" placeholder="DNI / Matrícula" class="input-premium">
                     </div>
                 </div>
-                <button onclick="validateAndStart()" class="w-full bg-slate-900 text-white py-6 rounded-[24px] font-black uppercase tracking-widest shadow-xl">Entrar al Catálogo</button>
+                <button onclick="validateStart('old')" class="w-full bg-slate-900 text-white py-6 rounded-[24px] font-black uppercase tracking-widest shadow-xl">Ingresar</button>
             </section>
 
-            <section id="step-menu" class="hidden grid grid-cols-1 gap-4">
-                <button onclick="openSub('sub-implantes')" class="btn-main bg-white text-slate-900 border border-slate-100">
-                    <span class="text-3xl">📦</span>
-                    <span>Implantes</span>
+            <section id="step-login-new" class="hidden space-y-6">
+                <div class="bg-white p-8 rounded-[40px] card-shadow border border-slate-100">
+                    <h2 class="font-black text-slate-900 text-2xl mb-2">Crear Perfil</h2>
+                    <p class="text-slate-400 text-sm mb-8 font-medium">Por favor, complete sus datos profesionales.</p>
+                    <div class="space-y-4">
+                        <input type="text" id="new_nom" placeholder="Nombre y Apellido *" class="input-premium">
+                        <input type="text" id="new_dni" placeholder="DNI / CUIT *" class="input-premium">
+                        <input type="text" id="new_loc" placeholder="Localidad / Consultorio" class="input-premium">
+                    </div>
+                </div>
+                <button onclick="validateStart('new')" class="w-full bg-blue-600 text-white py-6 rounded-[24px] font-black uppercase tracking-widest shadow-xl">Registrar e Ingresar</button>
+            </section>
+
+            <section id="step-menu" class="hidden space-y-4">
+                <h2 class="font-black text-slate-400 text-[10px] uppercase tracking-[0.2em] mb-4 ml-2">Seleccione una Categoría</h2>
+                <button onclick="openSub('sub-implantes')" class="btn-choice bg-white border-slate-100 text-slate-900 flex-row !py-6 !justify-start px-8">
+                    <span class="text-2xl">📦</span>
+                    <span class="ml-4">Implantes</span>
                 </button>
-                <button onclick="alert('Próximamente')" class="btn-main bg-white/50 text-slate-300 border border-dashed border-slate-200 shadow-none">
-                    <span class="text-3xl opacity-30">🔩</span>
-                    <span>Componentes</span>
+                <button onclick="alert('Próximamente')" class="btn-choice bg-slate-50 border-transparent text-slate-300 shadow-none flex-row !py-6 !justify-start px-8 opacity-60">
+                    <span class="text-2xl">🔩</span>
+                    <span class="ml-4 italic">Componentes Analógicos</span>
                 </button>
-                <button onclick="alert('Próximamente')" class="btn-main bg-white/50 text-slate-300 border border-dashed border-slate-200 shadow-none">
-                    <span class="text-3xl opacity-30">🔧</span>
-                    <span>Herramental</span>
+                <button onclick="alert('Próximamente')" class="btn-choice bg-slate-50 border-transparent text-slate-300 shadow-none flex-row !py-6 !justify-start px-8 opacity-60">
+                    <span class="text-2xl">🔧</span>
+                    <span class="ml-4 italic">Herramental</span>
                 </button>
             </section>
 
-            <section id="sub-implantes" class="hidden grid grid-cols-2 gap-3">
-                <button onclick="loadProducts('monopieza', 'cyan')" class="btn-main bg-cyan-50 text-cyan-900 border border-cyan-100">MP</button>
-                <button onclick="loadProducts('basales', 'slate')" class="btn-main bg-slate-100 text-slate-900 border border-slate-200 text-[10px]">Basales</button>
-                <button onclick="loadProducts('compresivos', 'fuchsia')" class="btn-main bg-fuchsia-50 text-fuchsia-900 border border-fuchsia-100 text-[10px]">Compresivos</button>
-                <button onclick="loadProducts('hi', 'red')" class="btn-main bg-red-50 text-red-900 border border-red-100">HI</button>
-                <button onclick="loadProducts('he', 'green')" class="btn-main bg-green-50 text-green-900 border border-green-100">HE</button>
-                <button onclick="loadProducts('cmhi', 'purple')" class="btn-main bg-purple-50 text-purple-900 border border-purple-100 text-[10px]">Cono Morse</button>
+            <section id="sub-implantes" class="hidden grid grid-cols-2 gap-4">
+                <button onclick="loadProducts('monopieza', 'cyan')" class="btn-choice bg-white border-cyan-100 text-slate-900 !py-10">
+                    <span class="text-xs text-cyan-500 font-black">SISTEMA</span>
+                    <span class="text-lg">MP</span>
+                </button>
+                <button onclick="loadProducts('basales', 'slate')" class="btn-choice bg-white border-slate-100 text-slate-900 !py-10">
+                    <span class="text-xs text-slate-400 font-black">SISTEMA</span>
+                    <span class="text-lg">BASAL</span>
+                </button>
+                <button onclick="loadProducts('compresivos', 'fuchsia')" class="btn-choice bg-white border-fuchsia-100 text-slate-900 !py-10">
+                    <span class="text-xs text-fuchsia-500 font-black">SISTEMA</span>
+                    <span class="text-[10px]">COMPRESIVO</span>
+                </button>
+                <button onclick="loadProducts('hi', 'red')" class="btn-choice bg-white border-red-100 text-slate-900 !py-10">
+                    <span class="text-xs text-red-500 font-black">CONEXIÓN</span>
+                    <span class="text-lg">HI</span>
+                </button>
+                <button onclick="loadProducts('he', 'green')" class="btn-choice bg-white border-green-100 text-slate-900 !py-10">
+                    <span class="text-xs text-green-500 font-black text-center">CONEXIÓN</span>
+                    <span class="text-lg">HE</span>
+                </button>
+                <button onclick="loadProducts('cmhi', 'purple')" class="btn-choice bg-white border-purple-100 text-slate-900 !py-10">
+                    <span class="text-xs text-purple-500 font-black text-center">CONEXIÓN</span>
+                    <span class="text-lg">CM</span>
+                </button>
             </section>
 
             <section id="step-lista" class="hidden"></section>
 
-            <section id="step-resumen" class="hidden space-y-4">
-                <div id="cart-items" class="space-y-3"></div>
-                <textarea id="obs" class="w-full p-5 rounded-3xl bg-slate-50 border-none h-32 font-bold text-sm" placeholder="Instrucciones de entrega..."></textarea>
-                <button onclick="sendWA()" class="w-full bg-green-600 text-white py-6 rounded-[24px] font-black uppercase tracking-widest shadow-xl shadow-green-100">Finalizar por WhatsApp</button>
+            <section id="step-resumen" class="hidden space-y-5">
+                <div id="cart-items" class="space-y-4"></div>
+                <div class="bg-white p-6 rounded-[32px] border border-slate-100 card-shadow">
+                    <textarea id="obs" class="w-full p-2 bg-transparent border-none h-28 font-bold text-sm outline-none" placeholder="Añadir notas o aclaraciones de envío..."></textarea>
+                </div>
+                <button onclick="sendWA()" class="w-full bg-green-600 text-white py-7 rounded-[32px] font-black uppercase tracking-widest shadow-xl shadow-green-100 flex items-center justify-center gap-3">
+                    <span>Enviar a Bio-Fix</span>
+                    <span class="text-xl">➔</span>
+                </button>
             </section>
 
         </main>
     </div>
 
     <script>
+        // BASE DE DATOS COMPLETA - SIN ELIMINACIONES
         const DB = {
             monopieza: { "MP Ø3.0": ["MP Ø3.0x6mm","MP Ø3.0x8mm","MP Ø3.0x10mm","MP Ø3.0x11.5mm","MP Ø3.0x13mm","MP Ø3.0x15mm","MP Ø3.0x18mm","MP Ø3.0x20mm"], "MP Ø3.5": ["MP Ø3.5x6mm","MP Ø3.5x8mm","MP Ø3.5x10mm","MP Ø3.5x11.5mm","MP Ø3.5x13mm","MP Ø3.5x15mm","MP Ø3.5x18mm","MP Ø3.5x20mm"], "MP Ø4.0": ["MP Ø4.0x6mm","MP Ø4.0x8mm","MP Ø4.0x10mm","MP Ø4.0x11.5mm","MP Ø4.0x13mm","MP Ø4.0x15mm","MP Ø4.0x18mm","MP Ø4.0x20mm"], "MP Ø4.5": ["MP Ø4.5x6mm","MP Ø4.5x8mm","MP Ø4.5x10mm","MP Ø4.5x11.5mm","MP Ø4.5x13mm","MP Ø4.5x15mm","MP Ø4.5x18mm","MP Ø4.5x20mm"], "MP Ø5.0": ["MP Ø5.0x6mm","MP Ø5.0x8mm","MP Ø5.0x10mm","MP Ø5.0x11.5mm","MP Ø5.0x13mm"], "MP Ø5.5": ["MP Ø5.5x6mm","MP Ø5.5x8mm","MP Ø5.5x10mm","MP Ø5.5x11.5mm","MP Ø5.5x13mm"] },
             basales: { "IB - PULIDO": ["IB Ø3.5x10mm","IB Ø3.5x12mm","IB Ø3.5x14mm","IB Ø3.5x15mm","IB Ø3.5x18mm","IB Ø3.5x21mm","IB Ø3.5x23mm","IB Ø3.5x26mm","IB Ø3.5x28mm","IB Ø3.5x24 C14","IB Ø3.5x26 C16","IB Ø3.5x28 C18","IB Ø4.5x10mm","IB Ø4.5x12mm","IB Ø4.5x15mm","IB Ø4.5x18mm","IB Ø4.5x21mm","IB Ø4.5x23mm","IB Ø4.5x26mm","IB Ø4.5x28mm","IB Ø4.5x24 C14","IB Ø4.5x26 C16","IB Ø4.5x28 C18","IB Ø5.5x9mm","IB Ø5.5x10mm","IB Ø5.5x12mm","IB Ø5.5x15mm","IB Ø5.5x18mm","IB Ø6.5x9mm","IB Ø6.5x10mm","IB Ø6.5x12mm","IB Ø6.5x15mm","IB Ø8.5x9mm","IB Ø8.5x10mm","IB Ø8.5x12mm","IB Ø8.5x15mm"], "IBT - TRATAMIENTO": ["IBT Ø3.5x10mm","IBT Ø3.5x12mm","IBT Ø3.5x14mm","IBT Ø3.5x15mm","IBT Ø3.5x18mm","IBT Ø3.5x21mm","IBT Ø3.5x23mm","IBT Ø3.5x26mm","IBT Ø3.5x28mm","IBT Ø3.5x24 C14","IBT Ø3.5x26 C16","IBT Ø3.5x28 C18","IBT Ø4.5x10mm","IBT Ø4.5x12mm","IBT Ø4.5x15mm","IBT Ø4.5x18mm","IBT Ø4.5x21mm","IBT Ø4.5x23mm","IBT Ø4.5x26mm","IBT Ø4.5x28mm","IBT Ø4.5x24 C14","IBT Ø4.5x26 C16","IBT Ø4.5x28 C18","IBT Ø5.5x9mm","IBT Ø5.5x10mm","IBT Ø5.5x12mm","IBT Ø5.5x15mm","IBT Ø5.5x18mm","IBT Ø6.5x9mm","IBT Ø6.5x10mm","IBT Ø6.5x12mm","IBT Ø6.5x15mm","IBT Ø8.5x9mm","IBT Ø8.5x10mm","IBT Ø8.5x12mm","IBT Ø8.5x15mm"] },
@@ -94,19 +153,20 @@
         };
 
         let cart = {};
-        let stack = ['step-cliente'];
+        let stack = ['step-choice'];
+        let clientData = {};
 
         function showSection(id, push = true) {
             document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
             document.getElementById(id).classList.remove('hidden');
             if(push) stack.push(id);
-            document.getElementById('btn-volver').classList.toggle('hidden', stack.length <= 2);
+            document.getElementById('btn-volver').classList.toggle('hidden', stack.length <= 1);
             updateLabels(id);
             if(push) window.scrollTo(0,0);
         }
 
         function updateLabels(id) {
-            const subs = { 'step-menu': 'Inicio', 'sub-implantes': 'Implantes', 'step-lista': 'Catálogo', 'step-resumen': 'Resumen' };
+            const subs = { 'step-choice': 'Inicio', 'sub-implantes': 'Implantes', 'step-lista': 'Catálogo', 'step-resumen': 'Resumen', 'step-login-old': 'Ingreso', 'step-login-new': 'Registro' };
             document.getElementById('nav-subtitle').innerText = subs[id] || 'Bio-Fix';
         }
 
@@ -117,8 +177,16 @@
             }
         }
 
-        function validateAndStart() {
-            if(!document.getElementById('c_nom').value) return alert("Ingrese Profesional");
+        function validateStart(type) {
+            if(type === 'old') {
+                const n = document.getElementById('old_nom').value;
+                if(!n) return alert("Ingrese Nombre");
+                clientData = { nombre: n, id: document.getElementById('old_dni').value, tipo: 'REGISTRADO' };
+            } else {
+                const n = document.getElementById('new_nom').value;
+                if(!n) return alert("Ingrese Nombre");
+                clientData = { nombre: n, id: document.getElementById('new_dni').value, loc: document.getElementById('new_loc').value, tipo: 'NUEVO' };
+            }
             showSection('step-menu');
         }
 
@@ -129,17 +197,17 @@
             const container = document.getElementById('step-lista');
             container.innerHTML = "";
             for (const sub in DB[key]) {
-                let html = `<div class="bg-white rounded-[32px] overflow-hidden mb-8 card-shadow border border-slate-100">
-                    <div class="bg-${color}-500 text-white p-6 font-black text-center text-xs uppercase tracking-widest">${sub}</div>
+                let html = `<div class="bg-white rounded-[40px] overflow-hidden mb-8 card-shadow border border-slate-100">
+                    <div class="bg-slate-900 text-white p-6 font-black text-center text-xs uppercase tracking-widest">${sub}</div>
                     <div class="divide-y divide-slate-50">`;
                 DB[key][sub].forEach(item => {
                     const q = cart[item] || 0;
-                    html += `<div class="flex justify-between items-center p-5">
-                        <span class="text-[11px] font-bold text-slate-600 uppercase">${item}</span>
-                        <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl">
-                            <button onclick="update('${item}',-1,'${key}','${color}', this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl shadow-sm font-bold">-</button>
-                            <span class="font-black text-sm w-4 text-center">${q}</span>
-                            <button onclick="update('${item}',1,'${key}','${color}', this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-lg font-bold">+</button>
+                    html += `<div class="flex justify-between items-center p-6 hover:bg-slate-50 transition-colors">
+                        <span class="text-[11px] font-bold text-slate-600 uppercase tracking-tight">${item}</span>
+                        <div class="flex items-center gap-4 bg-slate-100 p-1.5 rounded-2xl">
+                            <button onclick="update('${item}',-1,this)" class="w-11 h-11 flex items-center justify-center bg-white rounded-xl shadow-sm font-bold active:scale-90 transition-transform">-</button>
+                            <span class="font-black text-sm w-5 text-center">${q}</span>
+                            <button onclick="update('${item}',1,this)" class="w-11 h-11 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-lg font-bold active:scale-90 transition-transform">+</button>
                         </div>
                     </div>`;
                 });
@@ -147,30 +215,33 @@
             }
         }
 
-        // EL FIX DEL SCROLL ESTÁ AQUÍ
-        function update(item, delta, key, color, btn) {
+        // NO RESETEA SCROLL
+        function update(item, delta, btn) {
             cart[item] = (cart[item] || 0) + delta;
             if(cart[item] <= 0) delete cart[item];
+            const q = cart[item] || 0;
+            btn.parentElement.querySelector('span').innerText = q;
             document.getElementById('cart-count').innerText = Object.values(cart).reduce((a,b)=>a+b, 0);
-            
-            // Actualizar solo el número del contador visualmente sin re-renderizar todo
-            const counterSpan = btn.parentElement.querySelector('span');
-            counterSpan.innerText = cart[item] || 0;
         }
 
         function goToResumen() {
             showSection('step-resumen');
             const container = document.getElementById('cart-items');
-            container.innerHTML = "";
+            container.innerHTML = `<div class="bg-blue-50 p-6 rounded-[32px] border border-blue-100 mb-6">
+                <p class="text-[10px] font-black text-blue-500 uppercase">Profesional</p>
+                <p class="text-sm font-black text-slate-800">${clientData.nombre.toUpperCase()}</p>
+                <p class="text-[10px] text-slate-400 font-bold">${clientData.tipo} | ${clientData.id || '-'}</p>
+            </div>`;
+            
             const items = Object.entries(cart);
             if(items.length === 0) {
-                container.innerHTML = "<div class='text-center py-20 opacity-20 font-black'>CARRITO VACÍO</div>";
+                container.innerHTML += "<div class='text-center py-20 opacity-20 font-black tracking-tighter'>CARRITO VACÍO</div>";
                 return;
             }
             items.forEach(([n, q]) => {
-                container.innerHTML += `<div class="flex justify-between items-center p-6 bg-white rounded-[24px] card-shadow border border-slate-100">
-                    <div class="flex flex-col"><span class="text-[10px] text-blue-500 font-black">CANTIDAD: ${q}</span><span class="text-xs font-black text-slate-800 uppercase">${n}</span></div>
-                    <button onclick="delete cart['${n}']; goToResumen(); updateNavCount();" class="text-red-400 font-black text-[10px]">QUITAR</button>
+                container.innerHTML += `<div class="flex justify-between items-center p-6 bg-white rounded-[30px] card-shadow border border-slate-100">
+                    <div class="flex flex-col"><span class="text-[10px] text-blue-600 font-black">CANT: ${q}</span><span class="text-xs font-black text-slate-800 uppercase">${n}</span></div>
+                    <button onclick="delete cart['${n}']; goToResumen(); updateNavCount();" class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-500 rounded-full font-black text-[10px]">×</button>
                 </div>`;
             });
         }
@@ -180,8 +251,10 @@
         }
 
         function sendWA() {
-            let m = `*PEDIDO BIO-FIX®*\n*PROFESIONAL:* ${document.getElementById('c_nom').value.toUpperCase()}\n*ID:* ${document.getElementById('c_dni').value.toUpperCase()}\n\n*PRODUCTOS:*\n`;
+            if(Object.keys(cart).length === 0) return alert("Carrito vacío");
+            let m = `*PEDIDO BIO-FIX®*\n*PROFESIONAL:* ${clientData.nombre.toUpperCase()}\n*ESTADO:* ${clientData.tipo}\n*ID:* ${clientData.id}\n${clientData.loc ? '*LOC:* '+clientData.loc : ''}\n\n*PRODUCTOS:*\n`;
             Object.entries(cart).forEach(([n,q])=> m+=`✅ ${q} x ${n}\n`);
+            if(document.getElementById('obs').value) m+=`\n*NOTAS:* ${document.getElementById('obs').value}`;
             window.open(`https://wa.me/5491122334455?text=${encodeURIComponent(m)}`);
         }
     </script>

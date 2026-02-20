@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio-Fix | Sistema Integral Premium</title>
+    <title>Bio-Fix | Sistema Integral Completo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -60,23 +60,23 @@
                 <div class="bg-white p-8 rounded-[40px] card-shadow border border-slate-100">
                     <h2 class="font-black text-slate-900 text-2xl mb-6 uppercase">Ingreso</h2>
                     <input type="text" id="old_nom" placeholder="Nombre y Apellido" class="input-premium mb-4">
-                    <input type="text" id="old_dni" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="DNI" class="input-premium">
+                    <input type="text" id="old_dni" inputmode="numeric" placeholder="DNI" class="input-premium">
                 </div>
                 <button onclick="validateStart('old')" class="w-full bg-slate-900 text-white py-6 rounded-[24px] font-black uppercase tracking-widest shadow-xl">Ingresar</button>
             </section>
 
             <section id="step-login-new" class="hidden space-y-6">
                 <div class="bg-white p-8 rounded-[40px] card-shadow border border-slate-100">
-                    <h2 class="font-black text-slate-900 text-2xl mb-6 uppercase">Nuevo Registro</h2>
+                    <h2 class="font-black text-slate-900 text-2xl mb-6 uppercase">Registro</h2>
                     <div class="space-y-3">
                         <input type="text" id="new_nom" placeholder="Nombre y Apellido *" class="input-premium">
-                        <input type="text" id="new_dni" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="DNI *" class="input-premium">
-                        <input type="text" id="new_mat" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="Matrícula *" class="input-premium">
+                        <input type="text" id="new_dni" inputmode="numeric" placeholder="DNI *" class="input-premium">
+                        <input type="text" id="new_mat" inputmode="numeric" placeholder="Matrícula *" class="input-premium">
                         <input type="text" id="new_loc" placeholder="Localidad *" class="input-premium">
                         <input type="text" id="new_prov" placeholder="Provincia *" class="input-premium">
                     </div>
                 </div>
-                <button onclick="validateStart('new')" class="w-full bg-blue-600 text-white py-6 rounded-[24px] font-black uppercase tracking-widest shadow-xl">Registrar e Ingresar</button>
+                <button onclick="validateStart('new')" class="w-full bg-blue-600 text-white py-6 rounded-[24px] font-black uppercase tracking-widest shadow-xl">Registrar</button>
             </section>
 
             <section id="step-menu" class="hidden space-y-4">
@@ -121,6 +121,9 @@
                 </button>
                 <button onclick="loadProducts('analogicos', 'he')" class="btn-choice bg-white border-green-100 text-slate-900 !py-10">
                     <span class="text-[10px] text-green-500 font-black uppercase">CONEXIÓN</span><span>HE</span>
+                </button>
+                <button onclick="loadProducts('analogicos', 'cm')" class="btn-choice bg-white border-purple-100 text-slate-900 !py-10">
+                    <span class="text-[10px] text-purple-500 font-black uppercase">CONEXIÓN</span><span>CM</span>
                 </button>
             </section>
 
@@ -179,6 +182,12 @@
                     "BALL ATTACH HE": ["Ball attached y cazoleta c/o´ring - Altura 1 - Hexágono Externo Ø3.4","Ball attached y cazoleta c/o´ring - Altura 2 - Hexágono Externo Ø3.4","Ball attached y cazoleta c/o´ring - Altura 3 - Hexágono Externo Ø3.4","Ball attached y cazoleta c/o´ring - Altura 4 - Hexágono Externo Ø3.4","Ball attached y cazoleta c/o´ring - Altura 1 - Hexágono Externo Ø4.1","Ball attached y cazoleta c/o´ring - Altura 2 - Hexágono Externo Ø4.1","Ball attached y cazoleta c/o´ring - Altura 3 - Hexágono Externo Ø4.1","Ball attached y cazoleta c/o´ring - Altura 4 - Hexágono Externo Ø4.1","Ball attached y cazoleta c/o´ring - Altura 1 - Hexágono Externo Ø5.0","Ball attached y cazoleta c/o´ring - Altura 2 - Hexágono Externo Ø5.0","Ball attached y cazoleta c/o´ring - Altura 3 - Hexágono Externo Ø5.0","Ball attached y cazoleta c/o´ring - Altura 4 - Hexágono Externo Ø5.0"],
                     "TRANSFERS HE": ["Transfer cubeta cerrada c/tornillo - Hexágono Externo Ø3.4","Transfer cubeta cerrada c/tornillo - Hexágono Externo Ø4.1","Transfer cubeta cerrada c/tornillo - Hexágono Externo Ø5.0","Transfer cubeta abierta c/tornillo - Hexágono Externo Ø3.4","Transfer cubeta abierta c/tornillo - Hexágono Externo Ø4.1","Transfer cubeta abierta c/tornillo - Hexágono Externo Ø5.0"],
                     "UCLAS HE": ["Ucla calcinable rotacional- Hexágono Externo Ø3.4","Ucla calcinable rotacional- Hexágono Externo Ø4.1","Ucla calcinable rotacional- Hexágono Externo Ø5.0","Ucla calcinable Anti-rotacional- Hexágono Externo Ø3.4","Ucla calcinable Anti-rotacional- Hexágono Externo Ø4.1","Ucla calcinable Anti-rotacional- Hexágono Externo Ø5.0"]
+                },
+                cm: {
+                    "PILARES CM C/ TORNILLO PASANTE": ["Pilar CM stándar c/tornillo pasante 3,3x1,5x4","Pilar CM c/tornillo pasante 3,3x2,5x4","Pilar CM c/tornillo pasante 3,3x3,5x4","Pilar CM c/tornillo pasante 3,3x1,5x6","Pilar CM c/tornillo pasante 3,3x2,5x6","Pilar CM c/tornillo pasante 3,3x3,5x6","Pilar CM c/tornillo pasante 4,5 x 1,5 x 4","Pilar CM c/tornillo pasante 4,5 x 2,5 x 4","Pilar CM c/tornillo pasante 4,5 x 3,5 x 4","Pilar CM c/tornillo pasante 4,5 x 1,5 x 6","Pilar CM c/tornillo pasante 4,5 x 2,5 x 6","Pilar CM c/tornillo pasante 4,5 x 3,5 x 6"],
+                    "PILARES ESTÁNDAR CM": ["Pilar stándar 3,3 x 2,5 x 4","Pilar stándar 3,3 x 3,5 x 4","Pilar stándar 3,3 x 2,5 x 6","Pilar stándar 4,5 x 2,5 x 4","Pilar stándar 4,5 x 2,5 x 6"],
+                    "CICATRIZALES CM": ["Pilar de Cicatrización CM 3,3 x 1,5","Pilar de Cicatrización CM 3,3 x 2,5","Pilar de Cicatrización CM 3,3 x 3,5","Pilar de Cicatrización CM 4,5 x 1,5","Pilar de Cicatrización CM 4,5 x 2,5","Pilar de Cicatrización CM 4,5 x 3,5"],
+                    "PROTESIS Y OTROS CM": ["Ball Attach y cazoleta con O'ring - Altura 1,5 - Cono Morse","Ball Attach y cazoleta con O'ring - Altura 2,5 - Cono Morse","Ball Attach y cazoleta con O'ring - Altura 3,5 - Cono Morse","Análogo Universal"]
                 }
             }
         };
@@ -227,9 +236,9 @@
                         <div class="flex justify-between items-center p-6">
                             <span class="text-[10px] font-black text-slate-600 uppercase pr-4 leading-tight">${item}</span>
                             <div class="flex items-center gap-3 bg-slate-100 p-1 rounded-2xl shrink-0">
-                                <button onclick="update('${item}',-1,this)" class="w-10 h-10 bg-white rounded-xl shadow-sm font-bold">-</button>
+                                <button onclick="update('${item}',-1,this)" class="w-10 h-10 bg-white rounded-xl shadow-sm font-bold active:scale-90">-</button>
                                 <span class="font-black text-sm w-4 text-center">${q}</span>
-                                <button onclick="update('${item}',1,this)" class="w-10 h-10 bg-slate-900 text-white rounded-xl shadow-lg font-bold">+</button>
+                                <button onclick="update('${item}',1,this)" class="w-10 h-10 bg-slate-900 text-white rounded-xl shadow-lg font-bold active:scale-90">+</button>
                             </div>
                         </div>`;
                 });

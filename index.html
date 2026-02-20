@@ -43,7 +43,7 @@
 
         <main class="p-6 mt-6 flex-grow">
             
-            <section id="step-choice" class="space-y-6">
+            <section id="step-choice" class="hidden space-y-6">
                 <div class="grid grid-cols-1 gap-5 mt-10">
                     <button onclick="showSection('step-login-old')" class="btn-choice bg-white border-slate-100 text-slate-900">
                         <span class="text-4xl">👨‍⚕️</span>
@@ -107,6 +107,9 @@
                 <button onclick="loadProducts('implantes', 'cmhi')" class="btn-choice bg-white border-purple-100 text-slate-900 !py-10">
                     <span class="text-[10px] text-purple-500 font-black">CONEXIÓN</span><span>CM</span>
                 </button>
+                <button onclick="loadProducts('implantes', 'mu')" class="btn-choice bg-yellow-50 border-yellow-200 text-slate-900 !py-10 col-span-2">
+                    <span class="text-[10px] text-yellow-600 font-black">SISTEMA</span><span>MULTIUNIT (MU)</span>
+                </button>
             </section>
 
             <section id="sub-analogicos" class="hidden grid grid-cols-2 gap-4">
@@ -160,7 +163,12 @@
                 },
                 hi: { "HEX INTERNO": ["HI Ø3.30x6.5mm","HI Ø3.30x8.0mm","HI Ø3.30x10mm","HI Ø3.30x11.5mm","HI Ø3.30x13mm","HI Ø3.30x16mm","HI Ø3.75x6.5mm","HI Ø3.75x8.0mm","HI Ø3.75x10mm","HI Ø3.75x11.5mm","HI Ø3.75x13mm","HI Ø3.75x16mm","HI Ø4.2x6.5mm","HI Ø4.2x8.0mm","HI Ø4.2x10mm","HI Ø4.2x11.5mm","HI Ø4.2x13mm","HI Ø4.2x16mm","HI Ø5.0x6.5mm","HI Ø5.0x8.0mm","HI Ø5.0x10mm","HI Ø5.0x11.5mm","HI Ø5.0x13mm","HI Ø5.0x16mm"] },
                 he: { "HEX EXTERNO": ["HE Ø3.30x8.5mm","HE Ø3.30x10mm","HE Ø3.30x11.5mm","HE Ø3.30x13mm","HE Ø3.30x15mm","HE Ø3.75x8mm","HE Ø3.75x10mm","HE Ø3.75x11.5mm","HE Ø3.75x13mm","HE Ø3.75x15mm","HE Ø4.0x6mm","HE Ø4.0x8.5mm","HE Ø4.0x10mm","HE Ø4.0x11.5mm","HE Ø4.0x13mm","HE Ø4.0x15mm","HE Ø5.0x6mm","HE Ø5.0x8.5mm","HE Ø5.0x10mm","HE Ø5.0x11.5mm","HE Ø5.0x13mm","HE Ø5.0x15mm"] },
-                cmhi: { "CONO MORSE": ["CMHI Ø3.30x8mm","CMHI Ø3.30x10mm","CMHI Ø3.30x11.5mm","CMHI Ø3.30x13mm","CMHI Ø3.30x16mm","CMHI Ø3.75x8mm","CMHI Ø3.75x10mm","CMHI Ø3.75x11.5mm","CMHI Ø3.75x13mm","CMHI Ø3.75x16mm","CMHI Ø4.20x8mm","CMHI Ø4.20x10mm","CMHI Ø4.20x11.5mm","CMHI Ø4.20x13mm","CMHI Ø4.20x16mm","CMHI Ø5.0x8mm","CMHI Ø5.0x10mm","CMHI Ø5.0x11.5mm","CMHI Ø5.0x13mm","CMHI Ø5.0x16mm"] }
+                cmhi: { "CONO MORSE": ["CMHI Ø3.30x8mm","CMHI Ø3.30x10mm","CMHI Ø3.30x11.5mm","CMHI Ø3.30x13mm","CMHI Ø3.30x16mm","CMHI Ø3.75x8mm","CMHI Ø3.75x10mm","CMHI Ø3.75x11.5mm","CMHI Ø3.75x13mm","CMHI Ø3.75x16mm","CMHI Ø4.20x8mm","CMHI Ø4.20x10mm","CMHI Ø4.20x11.5mm","CMHI Ø4.20x13mm","CMHI Ø4.20x16mm","CMHI Ø5.0x8mm","CMHI Ø5.0x10mm","CMHI Ø5.0x11.5mm","CMHI Ø5.0x13mm","CMHI Ø5.0x16mm"] },
+                mu: {
+                    "MINIPILAR CONO MORSE": ["Minipilar Altura 0,8 - Cono Morse","Minipilar Altura 1,5 - Cono Morse","Minipilar Altura 2,5 - Cono Morse","Minipilar Altura 3,5 - Cono Morse","Minipilar Altura 4,5 - Cono Morse"],
+                    "MINIPILAR HEXÁGONO INTERNO": ["Minipilar Altura 1 - Hexágono Interno","Minipilar Altura 2 - Hexágono Interno","Minipilar Altura 3 - Hexágono Interno","Minipilar Altura 4 - Hexágono Interno"],
+                    "MINIPILAR HEXÁGONO EXTERNO": ["Minipilar Altura 1 - Hexágono Externo","Minipilar Altura 2 - Hexágono Externo","Minipilar Altura 3 - Hexágono Externo","Minipilar Altura 4 - Hexágono Externo"]
+                }
             },
             analogicos: {
                 mp: { "COMPONENTES MP": ["UCLA rotacional para Implantes MonoPieza","Analogo Plastico Rotacional de implante Monopieza","Transfer plastico rotacional para implantes Monopieza"] },
@@ -269,6 +277,9 @@
             if(document.getElementById('obs').value) m += `\n*NOTAS:* ${document.getElementById('obs').value}`;
             window.open(`https://wa.me/5491122334455?text=${encodeURIComponent(m)}`);
         }
+        
+        // Iniciar App
+        showSection('step-choice', false);
     </script>
 </body>
 </html>

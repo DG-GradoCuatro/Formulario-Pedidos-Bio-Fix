@@ -12,7 +12,7 @@
         .card-shadow { box-shadow: 0 4px 25px -5px rgba(0,0,0,0.05); }
         .hidden { display: none; }
         .btn-choice { @apply w-full py-8 rounded-[32px] font-black uppercase text-xs tracking-widest shadow-lg transition-all active:scale-[0.97] flex flex-col items-center justify-center gap-3 border-2; }
-        .input-premium { @apply w-full p-5 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-500 focus:bg-white font-bold text-slate-700 transition-all; }
+        .input-premium { @apply w-full p-5 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-500 focus:bg-white font-bold text-slate-700 transition-all uppercase placeholder:normal-case; }
     </style>
 </head>
 <body class="min-h-screen pb-10">
@@ -20,10 +20,7 @@
     <div class="max-w-xl mx-auto min-h-screen flex flex-col relative">
         
         <header class="bg-slate-900 text-white p-10 pt-14 rounded-b-[50px] shadow-2xl text-center relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                <div class="absolute transform rotate-45 bg-blue-500 w-40 h-40 -top-10 -left-10"></div>
-            </div>
-            <h1 class="text-4xl font-black tracking-tighter italic italic relative">BIO-FIX<span class="text-blue-500">®</span></h1>
+            <h1 class="text-4xl font-black tracking-tighter italic relative">BIO-FIX<span class="text-blue-500">®</span></h1>
             <p class="text-[9px] text-slate-400 font-bold uppercase tracking-[0.5em] mt-3 relative">Professional Implant Systems</p>
         </header>
 
@@ -63,7 +60,7 @@
                     <p class="text-slate-400 text-sm mb-8 font-medium">Ingrese sus datos de identificación.</p>
                     <div class="space-y-4">
                         <input type="text" id="old_nom" placeholder="Nombre y Apellido" class="input-premium">
-                        <input type="text" id="old_dni" placeholder="DNI / Matrícula" class="input-premium">
+                        <input type="text" id="old_dni" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="DNI (Sólo números)" class="input-premium">
                     </div>
                 </div>
                 <button onclick="validateStart('old')" class="w-full bg-slate-900 text-white py-6 rounded-[24px] font-black uppercase tracking-widest shadow-xl">Ingresar</button>
@@ -72,11 +69,13 @@
             <section id="step-login-new" class="hidden space-y-6">
                 <div class="bg-white p-8 rounded-[40px] card-shadow border border-slate-100">
                     <h2 class="font-black text-slate-900 text-2xl mb-2">Crear Perfil</h2>
-                    <p class="text-slate-400 text-sm mb-8 font-medium">Por favor, complete sus datos profesionales.</p>
-                    <div class="space-y-4">
+                    <p class="text-slate-400 text-sm mb-6 font-medium">Complete sus datos profesionales.</p>
+                    <div class="space-y-3">
                         <input type="text" id="new_nom" placeholder="Nombre y Apellido *" class="input-premium">
-                        <input type="text" id="new_dni" placeholder="DNI / CUIT *" class="input-premium">
-                        <input type="text" id="new_loc" placeholder="Localidad / Consultorio" class="input-premium">
+                        <input type="text" id="new_dni" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="DNI *" class="input-premium">
+                        <input type="text" id="new_mat" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="Matrícula Profesional *" class="input-premium">
+                        <input type="text" id="new_loc" placeholder="Localidad *" class="input-premium">
+                        <input type="text" id="new_prov" placeholder="Provincia *" class="input-premium">
                     </div>
                 </div>
                 <button onclick="validateStart('new')" class="w-full bg-blue-600 text-white py-6 rounded-[24px] font-black uppercase tracking-widest shadow-xl">Registrar e Ingresar</button>
@@ -100,27 +99,27 @@
 
             <section id="sub-implantes" class="hidden grid grid-cols-2 gap-4">
                 <button onclick="loadProducts('monopieza', 'cyan')" class="btn-choice bg-white border-cyan-100 text-slate-900 !py-10">
-                    <span class="text-xs text-cyan-500 font-black">SISTEMA</span>
+                    <span class="text-xs text-cyan-500 font-black tracking-tighter">SISTEMA</span>
                     <span class="text-lg">MP</span>
                 </button>
                 <button onclick="loadProducts('basales', 'slate')" class="btn-choice bg-white border-slate-100 text-slate-900 !py-10">
-                    <span class="text-xs text-slate-400 font-black">SISTEMA</span>
+                    <span class="text-xs text-slate-400 font-black tracking-tighter">SISTEMA</span>
                     <span class="text-lg">BASAL</span>
                 </button>
                 <button onclick="loadProducts('compresivos', 'fuchsia')" class="btn-choice bg-white border-fuchsia-100 text-slate-900 !py-10">
-                    <span class="text-xs text-fuchsia-500 font-black">SISTEMA</span>
-                    <span class="text-[10px]">COMPRESIVO</span>
+                    <span class="text-xs text-fuchsia-500 font-black tracking-tighter text-center leading-none">SISTEMA<br>COMPRESIVO</span>
+                    <span class="text-lg">CMU</span>
                 </button>
                 <button onclick="loadProducts('hi', 'red')" class="btn-choice bg-white border-red-100 text-slate-900 !py-10">
-                    <span class="text-xs text-red-500 font-black">CONEXIÓN</span>
+                    <span class="text-xs text-red-500 font-black tracking-tighter">CONEXIÓN</span>
                     <span class="text-lg">HI</span>
                 </button>
                 <button onclick="loadProducts('he', 'green')" class="btn-choice bg-white border-green-100 text-slate-900 !py-10">
-                    <span class="text-xs text-green-500 font-black text-center">CONEXIÓN</span>
+                    <span class="text-xs text-green-500 font-black tracking-tighter text-center leading-none">CONEXIÓN</span>
                     <span class="text-lg">HE</span>
                 </button>
                 <button onclick="loadProducts('cmhi', 'purple')" class="btn-choice bg-white border-purple-100 text-slate-900 !py-10">
-                    <span class="text-xs text-purple-500 font-black text-center">CONEXIÓN</span>
+                    <span class="text-xs text-purple-500 font-black tracking-tighter text-center leading-none">CONEXIÓN</span>
                     <span class="text-lg">CM</span>
                 </button>
             </section>
@@ -142,7 +141,6 @@
     </div>
 
     <script>
-        // BASE DE DATOS COMPLETA - SIN ELIMINACIONES
         const DB = {
             monopieza: { "MP Ø3.0": ["MP Ø3.0x6mm","MP Ø3.0x8mm","MP Ø3.0x10mm","MP Ø3.0x11.5mm","MP Ø3.0x13mm","MP Ø3.0x15mm","MP Ø3.0x18mm","MP Ø3.0x20mm"], "MP Ø3.5": ["MP Ø3.5x6mm","MP Ø3.5x8mm","MP Ø3.5x10mm","MP Ø3.5x11.5mm","MP Ø3.5x13mm","MP Ø3.5x15mm","MP Ø3.5x18mm","MP Ø3.5x20mm"], "MP Ø4.0": ["MP Ø4.0x6mm","MP Ø4.0x8mm","MP Ø4.0x10mm","MP Ø4.0x11.5mm","MP Ø4.0x13mm","MP Ø4.0x15mm","MP Ø4.0x18mm","MP Ø4.0x20mm"], "MP Ø4.5": ["MP Ø4.5x6mm","MP Ø4.5x8mm","MP Ø4.5x10mm","MP Ø4.5x11.5mm","MP Ø4.5x13mm","MP Ø4.5x15mm","MP Ø4.5x18mm","MP Ø4.5x20mm"], "MP Ø5.0": ["MP Ø5.0x6mm","MP Ø5.0x8mm","MP Ø5.0x10mm","MP Ø5.0x11.5mm","MP Ø5.0x13mm"], "MP Ø5.5": ["MP Ø5.5x6mm","MP Ø5.5x8mm","MP Ø5.5x10mm","MP Ø5.5x11.5mm","MP Ø5.5x13mm"] },
             basales: { "IB - PULIDO": ["IB Ø3.5x10mm","IB Ø3.5x12mm","IB Ø3.5x14mm","IB Ø3.5x15mm","IB Ø3.5x18mm","IB Ø3.5x21mm","IB Ø3.5x23mm","IB Ø3.5x26mm","IB Ø3.5x28mm","IB Ø3.5x24 C14","IB Ø3.5x26 C16","IB Ø3.5x28 C18","IB Ø4.5x10mm","IB Ø4.5x12mm","IB Ø4.5x15mm","IB Ø4.5x18mm","IB Ø4.5x21mm","IB Ø4.5x23mm","IB Ø4.5x26mm","IB Ø4.5x28mm","IB Ø4.5x24 C14","IB Ø4.5x26 C16","IB Ø4.5x28 C18","IB Ø5.5x9mm","IB Ø5.5x10mm","IB Ø5.5x12mm","IB Ø5.5x15mm","IB Ø5.5x18mm","IB Ø6.5x9mm","IB Ø6.5x10mm","IB Ø6.5x12mm","IB Ø6.5x15mm","IB Ø8.5x9mm","IB Ø8.5x10mm","IB Ø8.5x12mm","IB Ø8.5x15mm"], "IBT - TRATAMIENTO": ["IBT Ø3.5x10mm","IBT Ø3.5x12mm","IBT Ø3.5x14mm","IBT Ø3.5x15mm","IBT Ø3.5x18mm","IBT Ø3.5x21mm","IBT Ø3.5x23mm","IBT Ø3.5x26mm","IBT Ø3.5x28mm","IBT Ø3.5x24 C14","IBT Ø3.5x26 C16","IBT Ø3.5x28 C18","IBT Ø4.5x10mm","IBT Ø4.5x12mm","IBT Ø4.5x15mm","IBT Ø4.5x18mm","IBT Ø4.5x21mm","IBT Ø4.5x23mm","IBT Ø4.5x26mm","IBT Ø4.5x28mm","IBT Ø4.5x24 C14","IBT Ø4.5x26 C16","IBT Ø4.5x28 C18","IBT Ø5.5x9mm","IBT Ø5.5x10mm","IBT Ø5.5x12mm","IBT Ø5.5x15mm","IBT Ø5.5x18mm","IBT Ø6.5x9mm","IBT Ø6.5x10mm","IBT Ø6.5x12mm","IBT Ø6.5x15mm","IBT Ø8.5x9mm","IBT Ø8.5x10mm","IBT Ø8.5x12mm","IBT Ø8.5x15mm"] },
@@ -180,12 +178,17 @@
         function validateStart(type) {
             if(type === 'old') {
                 const n = document.getElementById('old_nom').value;
-                if(!n) return alert("Ingrese Nombre");
-                clientData = { nombre: n, id: document.getElementById('old_dni').value, tipo: 'REGISTRADO' };
+                const d = document.getElementById('old_dni').value;
+                if(!n || !d) return alert("Complete los campos obligatorios");
+                clientData = { nombre: n, id: d, tipo: 'REGISTRADO' };
             } else {
                 const n = document.getElementById('new_nom').value;
-                if(!n) return alert("Ingrese Nombre");
-                clientData = { nombre: n, id: document.getElementById('new_dni').value, loc: document.getElementById('new_loc').value, tipo: 'NUEVO' };
+                const d = document.getElementById('new_dni').value;
+                const m = document.getElementById('new_mat').value;
+                const l = document.getElementById('new_loc').value;
+                const p = document.getElementById('new_prov').value;
+                if(!n || !d || !m || !l || !p) return alert("Complete todos los campos del registro");
+                clientData = { nombre: n, id: d, matricula: m, loc: l, prov: p, tipo: 'NUEVO' };
             }
             showSection('step-menu');
         }
@@ -198,7 +201,7 @@
             container.innerHTML = "";
             for (const sub in DB[key]) {
                 let html = `<div class="bg-white rounded-[40px] overflow-hidden mb-8 card-shadow border border-slate-100">
-                    <div class="bg-slate-900 text-white p-6 font-black text-center text-xs uppercase tracking-widest">${sub}</div>
+                    <div class="bg-slate-900 text-white p-6 font-black text-center text-xs uppercase tracking-widest leading-none">${sub}</div>
                     <div class="divide-y divide-slate-50">`;
                 DB[key][sub].forEach(item => {
                     const q = cart[item] || 0;
@@ -215,12 +218,10 @@
             }
         }
 
-        // NO RESETEA SCROLL
         function update(item, delta, btn) {
             cart[item] = (cart[item] || 0) + delta;
             if(cart[item] <= 0) delete cart[item];
-            const q = cart[item] || 0;
-            btn.parentElement.querySelector('span').innerText = q;
+            btn.parentElement.querySelector('span').innerText = cart[item] || 0;
             document.getElementById('cart-count').innerText = Object.values(cart).reduce((a,b)=>a+b, 0);
         }
 
@@ -230,12 +231,16 @@
             container.innerHTML = `<div class="bg-blue-50 p-6 rounded-[32px] border border-blue-100 mb-6">
                 <p class="text-[10px] font-black text-blue-500 uppercase">Profesional</p>
                 <p class="text-sm font-black text-slate-800">${clientData.nombre.toUpperCase()}</p>
-                <p class="text-[10px] text-slate-400 font-bold">${clientData.tipo} | ${clientData.id || '-'}</p>
+                <div class="mt-2 text-[10px] text-slate-500 font-bold leading-relaxed">
+                    ${clientData.tipo} | DNI: ${clientData.id} <br>
+                    ${clientData.matricula ? 'MAT: ' + clientData.matricula + '<br>' : ''}
+                    ${clientData.loc ? clientData.loc + ', ' + clientData.prov : ''}
+                </div>
             </div>`;
             
             const items = Object.entries(cart);
             if(items.length === 0) {
-                container.innerHTML += "<div class='text-center py-20 opacity-20 font-black tracking-tighter'>CARRITO VACÍO</div>";
+                container.innerHTML += "<div class='text-center py-20 opacity-20 font-black tracking-tighter italic'>CARRITO VACÍO</div>";
                 return;
             }
             items.forEach(([n, q]) => {
@@ -252,7 +257,10 @@
 
         function sendWA() {
             if(Object.keys(cart).length === 0) return alert("Carrito vacío");
-            let m = `*PEDIDO BIO-FIX®*\n*PROFESIONAL:* ${clientData.nombre.toUpperCase()}\n*ESTADO:* ${clientData.tipo}\n*ID:* ${clientData.id}\n${clientData.loc ? '*LOC:* '+clientData.loc : ''}\n\n*PRODUCTOS:*\n`;
+            let m = `*PEDIDO BIO-FIX®*\n*PROFESIONAL:* ${clientData.nombre.toUpperCase()}\n*DNI:* ${clientData.id}\n`;
+            if(clientData.matricula) m += `*MATRÍCULA:* ${clientData.matricula}\n`;
+            if(clientData.loc) m += `*LUGAR:* ${clientData.loc}, ${clientData.prov}\n`;
+            m += `\n*PRODUCTOS:*\n`;
             Object.entries(cart).forEach(([n,q])=> m+=`✅ ${q} x ${n}\n`);
             if(document.getElementById('obs').value) m+=`\n*NOTAS:* ${document.getElementById('obs').value}`;
             window.open(`https://wa.me/5491122334455?text=${encodeURIComponent(m)}`);

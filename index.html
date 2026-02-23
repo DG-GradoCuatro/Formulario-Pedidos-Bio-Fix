@@ -30,9 +30,7 @@
                 <span id="nav-title" class="text-[9px] font-black uppercase text-blue-500 tracking-tighter">Bio-Fix Portal</span>
                 <span id="nav-subtitle" class="text-sm font-black text-slate-900 uppercase">Bienvenido</span>
             </div>
-            <button onclick="goToResumen()" class="bg-slate-900 text-white px-5 py-3 rounded-xl font-black text-[10px] uppercase shadow-lg flex items-center gap-2">
-                Pedido (<span id="cart-count">0</span>)
-            </button>
+            <button onclick='delete cart[${safeName}]; goToResumen(); updateNavCount();' class="text-red-500 font-black text-xl">×</button>
         </nav>
 
         <main class="p-6 mt-6 flex-grow">
@@ -291,6 +289,26 @@ function showSection(id, push = true) {
   updateLabels(id);
   if (push) window.scrollTo(0,0);
 }
+function renderItem(prod) {
+  const q = cart[prod] || 0;
+  const safeProd = JSON.stringify(prod);
+
+  return `
+    <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
+      <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
+
+      <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
+        <button type="button" onclick='update(${safeProd},-1,this)'
+          class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
+
+        <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
+
+        <button type="button" onclick='update(${safeProd},1,this)'
+          class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
+      </div>
+    </div>
+  `;
+}
 
 function updateLabels(id) {
   const subs = {
@@ -306,22 +324,6 @@ function updateLabels(id) {
     'step-resumen': 'Resumen'
   };
   document.getElementById('nav-subtitle').innerText = subs[id] || 'Bio-Fix';
-}
-
-function renderItem(prod) {
-  const q = cart[prod] || 0;
-  const safeProd = JSON.stringify(prod); // soporta O'ring, comillas, etc.
-
-  return `
-    <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
-      <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
-      <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
-        <button onclick="update(${safeProd},-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
-        <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
-        <button onclick="update(${safeProd},1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
-      </div>
-    </div>
-  `;
 }
 
 function goBack() {
@@ -446,7 +448,74 @@ function loadProducts(data, pushCatalog = true) {
     container.appendChild(btn);
   });
 }
+function renderNodeContent(val) {
+  // string = producto final
+  if (typeof val === "string") return renderItem(val);
 
+  // array = lista de productos
+  if (Array.isArray(val)) return val.map(p => renderItem(p)).join("");
+
+  // objeto = sub-secciones (ej: Pilares -> Rectos/Angulados)
+  if (val && typeof val === "object") {
+    return Object.keys(val).map(subKey => {
+      return `
+        <div class="mt-4">
+          <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 px-2">${subKey}</div>
+          <div class="mt-2">
+            ${renderNodeContent(val[subKey])}
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  return "";
+}
+
+function loadAccordion(data, options = {}) {
+  const { skipKeys = [] } = options;
+
+  showSection("step-lista"); // con push normal para que "atrás" vuelva en 1 click
+  const container = document.getElementById("step-lista");
+  container.innerHTML = "";
+
+  const keys = Object.keys(data).filter(k => !skipKeys.includes(k));
+
+  keys.forEach((key, idx) => {
+    const panelId = `acc-panel-${idx}`;
+    const btnId = `acc-btn-${idx}`;
+
+    container.innerHTML += `
+      <div class="bg-white rounded-[28px] border border-slate-100 card-shadow mb-4 overflow-hidden">
+        <button id="${btnId}" type="button"
+          class="w-full px-8 py-6 flex items-center justify-between font-black uppercase text-[11px] text-slate-800"
+          onclick="toggleAccordion('${panelId}','${btnId}')">
+          <span>${key}</span>
+          <span class="text-blue-500 font-black" data-chevron>▾</span>
+        </button>
+
+        <div id="${panelId}" class="hidden px-4 pb-4">
+          ${renderNodeContent(data[key])}
+        </div>
+      </div>
+    `;
+  });
+}
+
+function toggleAccordion(panelId, btnId) {
+  const panel = document.getElementById(panelId);
+  const btn = document.getElementById(btnId);
+  const chev = btn.querySelector("[data-chevron]");
+
+  const isOpen = !panel.classList.contains("hidden");
+  if (isOpen) {
+    panel.classList.add("hidden");
+    chev.textContent = "▾";
+  } else {
+    panel.classList.remove("hidden");
+    chev.textContent = "▴";
+  }
+}
 function update(item, delta, btn) {
   cart[item] = (cart[item] || 0) + delta;
   if (cart[item] <= 0) delete cart[item];
@@ -495,6 +564,7 @@ function sendWA() {
 </script>
 </body>
 </html>
+
 
 
 

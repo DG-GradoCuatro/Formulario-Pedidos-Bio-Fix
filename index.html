@@ -215,16 +215,25 @@
     const container = document.getElementById('step-lista');
     container.innerHTML = "";
     
-    // Si recibimos un texto (ej: "monopieza"), buscamos en la DB. 
-    // Si recibimos un objeto, lo usamos directamente.
+    // Obtenemos el objeto actual (sea por nombre en DB o el objeto hijo)
     const currentLevel = typeof data === 'string' ? DB[data] : data;
 
+    if (!currentLevel) return;
+
+    // Recorremos las llaves del nivel donde estamos
     for (const key in currentLevel) {
         const value = currentLevel[key];
 
-        if (Array.isArray(value)) {
-            // --- NIVEL 3 (MEDIDAS) ---
-            // Si el valor es una lista, dibujamos los productos con sus selectores
+        if (!Array.isArray(value)) {
+            // SI ES UNA CARPETA (Diámetro o Modelo): Creamos el botón
+            const btn = document.createElement('button');
+            btn.className = "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-xs border border-slate-100 active:scale-95 transition-transform";
+            btn.innerText = key;
+            btn.onclick = () => loadProducts(value); // Al tocarlo, profundiza un nivel más
+            container.appendChild(btn);
+        } else {
+            // SI ES LA LISTA FINAL DE MEDIDAS: Las mostramos todas juntas
+            // Solo llegamos aquí cuando el usuario ya hizo clic en el último diámetro
             value.forEach(prod => {
                 const q = cart[prod] || 0;
                 const row = `
@@ -238,14 +247,6 @@
                 </div>`;
                 container.innerHTML += row;
             });
-        } else {
-            // --- NIVEL 1 y 2 (BOTONES) ---
-            // Si el valor NO es una lista, creamos un botón para profundizar
-            const btn = document.createElement('button');
-            btn.className = "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-xs border border-slate-100 active:scale-95 transition-transform";
-            btn.innerText = key;
-            btn.onclick = () => loadProducts(value); // Al tocarlo, entra al siguiente nivel (ej: de CMU a los diámetros)
-            container.appendChild(btn);
         }
     }
 }
@@ -283,6 +284,7 @@
     </script>
 </body>
 </html>
+
 
 
 

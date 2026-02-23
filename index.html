@@ -217,19 +217,20 @@
     
     const currentLevel = typeof data === 'string' ? DB[data] : data;
 
+    // Recorremos todo el nivel actual
     for (const key in currentLevel) {
         const value = currentLevel[key];
         
+        // Si el valor NO es una lista (es decir, hay otro nivel como Ø3.0, Ø3.5...)
         if (!Array.isArray(value)) {
-            // NIVEL CATEGORÍA O DIÁMETRO (Crea botones limpios)
             const btn = document.createElement('button');
             btn.className = "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-xs border border-slate-100 active:scale-95 transition-transform";
             btn.innerText = key;
             btn.onclick = () => loadProducts(value);
             container.appendChild(btn);
         } else {
-            // NIVEL MEDIDAS (Muestra la lista final)
-            container.innerHTML = ""; 
+            // Si el valor SI es una lista (son las medidas finales)
+            // Recorremos TODAS las medidas de esa lista y las agregamos
             value.forEach(prod => {
                 const q = cart[prod] || 0;
                 const row = `
@@ -243,7 +244,6 @@
                 </div>`;
                 container.innerHTML += row;
             });
-            break; 
         }
     }
 }
@@ -281,6 +281,7 @@
     </script>
 </body>
 </html>
+
 
 
 

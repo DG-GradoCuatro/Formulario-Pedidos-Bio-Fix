@@ -387,17 +387,24 @@ function loadProducts(data, pushCatalog = true) {
 
   // navegación normal
   keys.forEach(key => {
-    const val = currentLevel[key];
+  const val = currentLevel[key];
 
-    const btn = document.createElement('button');
-    btn.className =
-      "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-[11px] border border-slate-100 flex justify-between items-center px-8 active:scale-95 transition-all";
+  // ✅ Si el valor es un string, ES UN PRODUCTO FINAL: lo mostramos con +/-
+  if (typeof val === "string") {
+    container.innerHTML += renderItem(val);
+    return;
+  }
 
-    btn.innerHTML = `<span>${key}</span> <span class="text-blue-500 font-bold">→</span>`;
-    btn.onclick = () => loadProducts(val, true);
+  // ✅ Si no, es navegación (objeto o array)
+  const btn = document.createElement('button');
+  btn.className =
+    "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-[11px] border border-slate-100 flex justify-between items-center px-8 active:scale-95 transition-all";
 
-    container.appendChild(btn);
-  });
+  btn.innerHTML = `<span>${key}</span> <span class="text-blue-500 font-bold">→</span>`;
+  btn.onclick = () => loadProducts(val, true);
+
+  container.appendChild(btn);
+});
 }
         // --- FUNCIÓN DE BÚSQUEDA (AGREGALA AQUÍ) ---
 function searchProduct(query) {
@@ -411,9 +418,7 @@ function searchProduct(query) {
 
   function renderItem(prod) {
   const q = cart[prod] || 0;
-
-  // IMPORTANTE: JSON.stringify evita que se rompa si el nombre tiene ' o "
-  const safeProd = JSON.stringify(prod);
+  const safeProd = JSON.stringify(prod); // evita romperse con O'ring, comillas, etc.
 
   return `
     <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
@@ -426,7 +431,6 @@ function searchProduct(query) {
     </div>
   `;
 }
-
   function lookInside(obj) {
     for (let key in obj) {
 
@@ -498,6 +502,7 @@ function searchProduct(query) {
     </script>
 </body>
 </html>
+
 
 
 

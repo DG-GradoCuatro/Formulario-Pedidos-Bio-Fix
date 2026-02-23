@@ -376,43 +376,61 @@ herramental: {}
   });
 }
         // --- FUNCIÓN DE BÚSQUEDA (AGREGALA AQUÍ) ---
-        function searchProduct(query) {
-            const container = document.getElementById('step-lista');
-            const searchTerm = query.toLowerCase();
-            if (searchTerm === "") return;
+function searchProduct(query) {
+  const container = document.getElementById('step-lista');
+  const searchTerm = query.toLowerCase();
+  if (searchTerm === "") return;
 
-            showSection('step-lista');
-            container.innerHTML = "";
-            let found = false;
+  showSection('step-lista');
+  container.innerHTML = "";
+  let found = false;
 
-            // Buscador inteligente que recorre toda la DB
-            function lookInside(obj) {
-                for (let key in obj) {
-                    if (Array.isArray(obj[key])) {
-                        obj[key].forEach(prod => {
-                            if (prod.toLowerCase().includes(searchTerm)) {
-                                found = true;
-                                const q = cart[prod] || 0;
-                                container.innerHTML += `
-                                <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
-                                    <span class="text-[10px] font-bold text-slate-500 uppercase">${prod}</span>
-                                    <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
-                                        <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
-                                        <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
-                                        <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold active:scale-90">+</button>
-                                    </div>
-                                </div>`;
-                            }
-                        });
-                    } else {
-                        lookInside(obj[key]);
-                    }
-                }
-            }
-            lookInside(DB);
-            if (!found) container.innerHTML = "<p class='text-center p-10 text-slate-400'>No hay resultados</p>";
+  function renderItem(prod, q) {
+    return `
+      <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
+        <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
+        <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
+          <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
+          <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
+          <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
+        </div>
+      </div>`;
+  }
+
+  function lookInside(obj) {
+    for (let key in obj) {
+
+      if (Array.isArray(obj[key])) {
+        obj[key].forEach(prod => {
+          if (String(prod).toLowerCase().includes(searchTerm)) {
+            found = true;
+            const q = cart[prod] || 0;
+            container.innerHTML += renderItem(prod, q);
+          }
+        });
+
+      } else if (typeof obj[key] === "string") {
+        const prod = obj[key];
+        if (prod.toLowerCase().includes(searchTerm)) {
+          found = true;
+          const q = cart[prod] || 0;
+          container.innerHTML += renderItem(prod, q);
         }
 
+      } else if (typeof obj[key] === "object" && obj[key]) {
+        lookInside(obj[key]);
+      }
+
+    }
+  }
+
+  lookInside(DB);
+
+  if (!found) {
+    container.innerHTML =
+      "<p class='text-center p-10 text-slate-400'>No hay resultados</p>";
+  }
+}
         function update(item, delta, btn) {
             cart[item] = (cart[item] || 0) + delta;
             if(cart[item] <= 0) delete cart[item];
@@ -450,6 +468,7 @@ herramental: {}
     </script>
 </body>
 </html>
+
 
 
 

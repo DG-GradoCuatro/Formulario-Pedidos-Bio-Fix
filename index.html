@@ -215,25 +215,27 @@
     const container = document.getElementById('step-lista');
     container.innerHTML = "";
     
-    // Obtenemos el objeto actual (sea por nombre en DB o el objeto hijo)
+    // Si data es un string (como "monopieza"), cargamos ese objeto de la DB
     const currentLevel = typeof data === 'string' ? DB[data] : data;
 
     if (!currentLevel) return;
 
-    // Recorremos las llaves del nivel donde estamos
+    // Recorremos las llaves del nivel actual
     for (const key in currentLevel) {
         const value = currentLevel[key];
 
+        // ¿Qué hay adentro de esta llave?
         if (!Array.isArray(value)) {
-            // SI ES UNA CARPETA (Diámetro o Modelo): Creamos el botón
+            // 1. SI ES OTRA CARPETA (Ej: "Ø3.0" o "CMU"): Creamos un BOTÓN
             const btn = document.createElement('button');
             btn.className = "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-xs border border-slate-100 active:scale-95 transition-transform";
             btn.innerText = key;
-            btn.onclick = () => loadProducts(value); // Al tocarlo, profundiza un nivel más
+            // Al tocar, la función se llama a sí misma con el contenido de esa carpeta
+            btn.onclick = () => loadProducts(value); 
             container.appendChild(btn);
         } else {
-            // SI ES LA LISTA FINAL DE MEDIDAS: Las mostramos todas juntas
-            // Solo llegamos aquí cuando el usuario ya hizo clic en el último diámetro
+            // 2. SI ES UNA LISTA DE MEDIDAS: Dibujamos los productos directamente
+            // Esto solo pasará cuando ya hayas hecho clic en el diámetro
             value.forEach(prod => {
                 const q = cart[prod] || 0;
                 const row = `
@@ -284,6 +286,7 @@
     </script>
 </body>
 </html>
+
 
 
 

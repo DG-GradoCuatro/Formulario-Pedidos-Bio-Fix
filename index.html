@@ -392,26 +392,57 @@ function loadProducts(data, pushCatalog = true) {
     currentLevel.forEach(prod => container.innerHTML += renderItem(prod));
     return;
   }
-
-  // OBJETO (mixto): puede tener subcategorías y productos sueltos (string)
+    // OBJETO (mixto): acordeón para arrays/strings, navegación para objetos
   const keys = Object.keys(currentLevel);
 
-  keys.forEach(key => {
+  keys.forEach((key, idx) => {
     const val = currentLevel[key];
 
-    // si es producto suelto (string): +/-
+    // ✅ 1) Producto suelto (string) => se muestra directo con +/-
     if (typeof val === "string") {
       container.innerHTML += renderItem(val);
       return;
     }
 
-    // si es subnivel: botón con flecha
+    // ✅ 2) Lista final (array) => acordeón desplegable
+    if (Array.isArray(val)) {
+      const panelId = `panel_${Date.now()}_${idx}`;
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "bg-white mb-3 rounded-[25px] border border-slate-100 card-shadow overflow-hidden";
+
+      const headerBtn = document.createElement("button");
+      headerBtn.type = "button"; // ✅ importante (mobile)
+      headerBtn.className =
+        "w-full p-6 font-black text-slate-800 uppercase text-[11px] flex justify-between items-center px-8 active:scale-95 transition-all";
+      headerBtn.innerHTML = `<span>${key}</span> <span class="text-blue-500 font-bold">▾</span>`;
+
+      const panel = document.createElement("div");
+      panel.id = panelId;
+      panel.className = "hidden px-4 pb-4";
+
+      // Cargar items dentro del panel
+      val.forEach(prod => {
+        panel.innerHTML += renderItem(prod);
+      });
+
+      headerBtn.onclick = () => {
+        panel.classList.toggle("hidden");
+      };
+
+      wrapper.appendChild(headerBtn);
+      wrapper.appendChild(panel);
+      container.appendChild(wrapper);
+      return;
+    }
+
+    // ✅ 3) Si es OBJETO => lo dejamos como navegación (por si hay sub-subcategorías)
     const btn = document.createElement('button');
+    btn.type = "button"; // ✅ importante (mobile)
     btn.className =
       "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-[11px] border border-slate-100 flex justify-between items-center px-8 active:scale-95 transition-all";
     btn.innerHTML = `<span>${key}</span> <span class="text-blue-500 font-bold">→</span>`;
     btn.onclick = () => loadProducts(val, true);
-
     container.appendChild(btn);
   });
 }
@@ -464,6 +495,7 @@ function sendWA() {
 </script>
 </body>
 </html>
+
 
 
 

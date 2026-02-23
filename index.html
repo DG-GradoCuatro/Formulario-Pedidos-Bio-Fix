@@ -302,10 +302,26 @@ herramental: {}
 }
 
         function goBack() {
+  // Si estamos en el catálogo y hay historial interno, volvemos 1 nivel
+  const visibleIsCatalog = !document.getElementById('step-lista').classList.contains('hidden');
+
+  if (visibleIsCatalog && catalogStack.length > 1) {
+    catalogStack.pop();
+    const prevLevel = catalogStack[catalogStack.length - 1];
+    loadProducts(prevLevel, false);
+    return;
+  }
+
+  // Si no, volvemos normal por pantallas
   if (stack.length <= 1) return;
   stack.pop();
   const prev = stack[stack.length - 1];
   showSection(prev, false);
+
+  // si salimos del catálogo, limpiamos historial del catálogo
+  if (prev !== 'step-lista') {
+    catalogStack = [];
+  }
 }
 
         function validateStart(type) {
@@ -324,59 +340,62 @@ herramental: {}
         function openSub(id) { showSection(id); }
 
         // --- NAVEGACIÓN POR CATEGORÍAS (LO QUE YA TENEMOS) ---
-        function loadProducts(data) {
-  showSection('step-lista');
+        let catalogStack = [];
+
+function loadProducts(data, pushCatalog = true) {
+  showSection('step-lista', false); // NO push al stack general
   const container = document.getElementById('step-lista');
   container.innerHTML = "";
 
-  // Si llega un string, buscamos ese nivel dentro de la DB
   const currentLevel = (typeof data === 'string') ? DB[data] : data;
-
   if (!currentLevel) return;
+
+  // si entramos por primera vez al catálogo, reseteamos stack interno
+  if (catalogStack.length === 0) {
+    catalogStack = [currentLevel];
+  } else if (pushCatalog) {
+    catalogStack.push(currentLevel);
+  }
+
+  // 1) Producto final: string
   if (typeof currentLevel === 'string') {
-  const prod = currentLevel;
-  const q = cart[prod] || 0;
-  container.innerHTML = `
-    <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
-      <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
-      <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
-        <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
-        <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
-        <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
-      </div>
-    </div>`;
-  return;
-}          
-
-  // ✅ CASO FINAL: si currentLevel es un ARRAY, entonces son productos
-  if (Array.isArray(currentLevel)) {
-    currentLevel.forEach(prod => {
-      const q = cart[prod] || 0;
-      container.innerHTML += `
-        <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
-          <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
-          <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
-            <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
-            <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
-            <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
-          </div>
-        </div>`;
-    });
-
+    container.innerHTML = renderItem(currentLevel);
     return;
   }
 
-  // ✅ CASO NAVEGACIÓN: si es un OBJETO, mostramos botones
+  // 2) Lista de productos: array
+  if (Array.isArray(currentLevel)) {
+    currentLevel.forEach(prod => {
+      container.innerHTML += renderItem(prod);
+    });
+    return;
+  }
+
+  // 3) Es objeto:
   const keys = Object.keys(currentLevel);
 
+  // si todos los valores son strings → son productos finales
+  const allValuesAreStrings =
+    keys.length > 0 && keys.every(k => typeof currentLevel[k] === "string");
+
+  if (allValuesAreStrings) {
+    keys.forEach(k => {
+      container.innerHTML += renderItem(currentLevel[k]);
+    });
+    return;
+  }
+
+  // navegación normal
   keys.forEach(key => {
+    const val = currentLevel[key];
+
     const btn = document.createElement('button');
     btn.className =
       "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-[11px] border border-slate-100 flex justify-between items-center px-8 active:scale-95 transition-all";
-    btn.innerHTML = `<span>${key}</span> <span class="text-blue-500 font-bold">→</span>`;
 
-    // Al click, cargamos el siguiente nivel (puede ser otro objeto o un array)
-    btn.onclick = () => loadProducts(currentLevel[key]);
+    btn.innerHTML = `<span>${key}</span> <span class="text-blue-500 font-bold">→</span>`;
+    btn.onclick = () => loadProducts(val, true);
+
     container.appendChild(btn);
   });
 }
@@ -390,17 +409,23 @@ function searchProduct(query) {
   container.innerHTML = "";
   let found = false;
 
-  function renderItem(prod, q) {
-    return `
-      <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
-        <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
-        <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
-          <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
-          <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
-          <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
-        </div>
-      </div>`;
-  }
+  function renderItem(prod) {
+  const q = cart[prod] || 0;
+
+  // IMPORTANTE: JSON.stringify evita que se rompa si el nombre tiene ' o "
+  const safeProd = JSON.stringify(prod);
+
+  return `
+    <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
+      <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
+      <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
+        <button onclick="update(${safeProd},-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
+        <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
+        <button onclick="update(${safeProd},1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
+      </div>
+    </div>
+  `;
+}
 
   function lookInside(obj) {
     for (let key in obj) {
@@ -473,6 +498,7 @@ function searchProduct(query) {
     </script>
 </body>
 </html>
+
 
 
 

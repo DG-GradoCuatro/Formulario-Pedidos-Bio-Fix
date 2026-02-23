@@ -229,51 +229,46 @@ const DB = {
 
         // --- NAVEGACIÓN POR CATEGORÍAS (LO QUE YA TENEMOS) ---
         function loadProducts(data) {
-    showSection('step-lista');
-    const container = document.getElementById('step-lista');
-    container.innerHTML = "";
-    
-    // 1. Buscamos en la DB si recibimos un texto, sino usamos el objeto
-    const currentLevel = typeof data === 'string' ? DB[data] : data;
-    
-    if (!currentLevel) return;
+  showSection('step-lista');
+  const container = document.getElementById('step-lista');
+  container.innerHTML = "";
 
-    const keys = Object.keys(currentLevel);
-    
-    // --- TEST CRÍTICO ---
-    // Miramos qué hay en la primera opción. ¿Es una lista de strings?
-    const isFinalList = Array.isArray(currentLevel[keys[0]]);
+  // Si llega un string, buscamos ese nivel dentro de la DB
+  const currentLevel = (typeof data === 'string') ? DB[data] : data;
 
-    if (isFinalList) {
-        // --- MODO B: LISTA DE PRODUCTOS ---
-        // Solo entra aquí si YA elegiste el diámetro.
-        keys.forEach(key => {
-            currentLevel[key].forEach(prod => {
-                const q = cart[prod] || 0;
-                container.innerHTML += `
-                <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
-                    <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
-                    <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
-                        <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
-                        <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
-                        <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
-                    </div>
-                </div>`;
-            });
-        });
-    } else {
-        // --- MODO A: NAVEGACIÓN (BOTONES) ---
-        // Si no es una lista, obligatoriamente mostramos botones de diámetros.
-        keys.forEach(key => {
-            const btn = document.createElement('button');
-            btn.className = "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-[11px] border border-slate-100 flex justify-between items-center px-8 active:scale-95 transition-all";
-            btn.innerHTML = `<span>${key}</span> <span class="text-blue-500 font-bold">→</span>`;
-            
-            // Al hacer clic, vuelve a ejecutar esta función pero con el nivel interno (el diámetro)
-            btn.onclick = () => loadProducts(currentLevel[key]);
-            container.appendChild(btn);
-        });
-    }
+  if (!currentLevel) return;
+
+  // ✅ CASO FINAL: si currentLevel es un ARRAY, entonces son productos
+  if (Array.isArray(currentLevel)) {
+    currentLevel.forEach(prod => {
+      const q = cart[prod] || 0;
+      container.innerHTML += `
+        <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
+          <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
+          <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
+            <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
+            <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
+            <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
+          </div>
+        </div>`;
+    });
+
+    return;
+  }
+
+  // ✅ CASO NAVEGACIÓN: si es un OBJETO, mostramos botones
+  const keys = Object.keys(currentLevel);
+
+  keys.forEach(key => {
+    const btn = document.createElement('button');
+    btn.className =
+      "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-[11px] border border-slate-100 flex justify-between items-center px-8 active:scale-95 transition-all";
+    btn.innerHTML = `<span>${key}</span> <span class="text-blue-500 font-bold">→</span>`;
+
+    // Al click, cargamos el siguiente nivel (puede ser otro objeto o un array)
+    btn.onclick = () => loadProducts(currentLevel[key]);
+    container.appendChild(btn);
+  });
 }
         // --- FUNCIÓN DE BÚSQUEDA (AGREGALA AQUÍ) ---
         function searchProduct(query) {
@@ -350,6 +345,7 @@ const DB = {
     </script>
 </body>
 </html>
+
 
 
 

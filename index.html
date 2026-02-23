@@ -101,7 +101,7 @@
             </section>
 
             <section id="sub-analogicos" class="hidden grid grid-cols-2 gap-4">
-                <button onclick="loadProducts('analog_mp')" class="btn-choice bg-white !py-8"><span>MP</span></button>
+               <button onclick="loadProducts(DB.analogicos.mp)" class="btn-choice bg-white !py-8"><span>MP</span></button>
                 <button onclick="loadProducts('analog_cmu')" class="btn-choice bg-white !py-8"><span>CMU</span></button>
                 <button onclick="loadProducts('analog_hi')" class="btn-choice bg-white !py-8"><span>HI</span></button>
                 <button onclick="loadProducts('analog_he')" class="btn-choice bg-white !py-8"><span>HE</span></button>
@@ -202,7 +202,19 @@ const DB = {
         "MINIPILAR HEXÁGONO INTERNO": ["Minipilar Altura 1 - Hexágono Interno","Minipilar Altura 2 - Hexágono Interno","Minipilar Altura 3 - Hexágono Interno","Minipilar Altura 4 - Hexágono Interno"],
         "MINIPILAR HEXÁGONO EXTERNO": ["Minipilar Altura 1 - Hexágono Externo","Minipilar Altura 2 - Hexágono Externo","Minipilar Altura 3 - Hexágono Externo","Minipilar Altura 4 - Hexágono Externo"]
     },
-    analogicos: {},
+    analogicos: {
+  mp: {
+    "UCLAs": [
+      "UCLA rotacional para Implantes MonoPieza"
+    ],
+    "Análogos": [
+      "Analogo Plastico Rotacional de implante Monopieza"
+    ],
+    "Transfers": [
+      "Transfer plastico rotacional para implantes Monopieza"
+    ]
+  }
+},
     digital: {},
     herramental: {}
 };
@@ -366,6 +378,7 @@ const DB = {
     </script>
 </body>
 </html>
+
 
 
 

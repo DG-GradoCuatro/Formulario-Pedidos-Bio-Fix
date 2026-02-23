@@ -276,259 +276,238 @@ const DB = {
 digital: {},
 herramental: {}
 };
-        let cart = {};
-let stack = ['step-choice'];
+        // ========== ESTADO ==========
+let cart = {};
+let stack = ["step-choice"];
 let clientData = {};
 let catalogStack = [];
 
-/* =========================
-   NAVEGACIÓN GENERAL
-   ========================= */
-
+// ========== UI BÁSICA ==========
 function showSection(id, push = true) {
-  document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
+  document.querySelectorAll("section").forEach(s => s.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
 
   if (push) stack.push(id);
+  document.getElementById("btn-volver").classList.toggle("hidden", stack.length <= 1);
 
-  document.getElementById('btn-volver').classList.toggle('hidden', stack.length <= 1);
   updateLabels(id);
-
-  if (push) window.scrollTo(0,0);
+  if (push) window.scrollTo(0, 0);
 }
 
 function updateLabels(id) {
   const subs = {
-    'step-choice': 'Inicio',
-    'step-login-old': 'Ingreso',
-    'step-login-new': 'Registro',
-    'step-menu': 'Menú',
-    'sub-implantes': 'Implantes',
-    'sub-analogicos': 'Analógicos',
-    'sub-digital': 'Digitales',
-    'sub-herramental': 'Herramental',
-    'step-lista': 'Catálogo',
-    'step-resumen': 'Resumen'
+    "step-choice": "Inicio",
+    "step-login-old": "Ingreso",
+    "step-login-new": "Registro",
+    "step-menu": "Menú",
+    "sub-implantes": "Implantes",
+    "sub-analogicos": "Analógicos",
+    "sub-digital": "Digitales",
+    "sub-herramental": "Herramental",
+    "step-lista": "Catálogo",
+    "step-resumen": "Resumen"
   };
-  document.getElementById('nav-subtitle').innerText = subs[id] || 'Bio-Fix';
+  document.getElementById("nav-subtitle").innerText = subs[id] || "Bio-Fix";
 }
 
 function goBack() {
-  const visibleIsCatalog = !document.getElementById('step-lista').classList.contains('hidden');
-
-  if (visibleIsCatalog && catalogStack.length > 1) {
-    catalogStack.pop();
-    const prevLevel = catalogStack[catalogStack.length - 1];
-    loadProducts(prevLevel, false);
-    return;
-  }
-
+  // volver normal por pantallas
   if (stack.length <= 1) return;
-
   stack.pop();
   const prev = stack[stack.length - 1];
   showSection(prev, false);
-
-  if (prev !== 'step-lista') catalogStack = [];
 }
 
-function openSub(id){
-  showSection(id);
-}
-
-/* =========================
-   LOGIN
-   ========================= */
-
+// ========== LOGIN ==========
 function validateStart(type) {
-  const n = type === 'old'
-    ? document.getElementById('old_nom').value
-    : document.getElementById('new_nom').value;
-
-  const d = type === 'old'
-    ? document.getElementById('old_dni').value
-    : document.getElementById('new_dni').value;
+  const n = type === "old" ? document.getElementById("old_nom").value : document.getElementById("new_nom").value;
+  const d = type === "old" ? document.getElementById("old_dni").value : document.getElementById("new_dni").value;
 
   if (!n || !d) return alert("Faltan datos");
 
-  clientData = {
-    nombre: n,
-    id: d,
-    tipo: type === 'old' ? 'REGISTRADO' : 'NUEVO'
-  };
+  clientData = { nombre: n, id: d, tipo: type === "old" ? "REGISTRADO" : "NUEVO" };
 
-  if (type === 'new') {
-    clientData.matricula = document.getElementById('new_mat').value;
-    clientData.loc = document.getElementById('new_loc').value;
-    clientData.prov = document.getElementById('new_prov').value;
+  if (type === "new") {
+    clientData.matricula = document.getElementById("new_mat").value;
+    clientData.loc = document.getElementById("new_loc").value;
+    clientData.prov = document.getElementById("new_prov").value;
   }
 
-  showSection('step-menu');
+  showSection("step-menu");
 }
 
-/* =========================
-   RENDER PRODUCTO
-   ========================= */
+function openSub(id) {
+  showSection(id);
+}
 
-function renderItem(prod){
+// ========== CARRITO ==========
+function renderItem(prod) {
   const q = cart[prod] || 0;
-  const safe = JSON.stringify(prod);
+  const safeProd = JSON.stringify(prod);
 
   return `
-  <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
-    <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
+    <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
+      <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
 
-    <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
+      <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
+        <button type="button" onclick='update(${safeProd},-1,this)'
+          class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
 
-      <button type="button"
-        onclick='update(${safe},-1,this)'
-        class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
+        <span class="font-black text-xs w-6 text-center text-slate-700">${q}</span>
 
-      <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
-
-      <button type="button"
-        onclick='update(${safe},1,this)'
-        class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
-
+        <button type="button" onclick='update(${safeProd},1,this)'
+          class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
+      </div>
     </div>
-  </div>
   `;
 }
 
-/* =========================
-   CARGA DE CATÁLOGO
-   ========================= */
+function update(item, delta, btn) {
+  cart[item] = (cart[item] || 0) + delta;
+  if (cart[item] <= 0) delete cart[item];
 
-function loadProducts(data, pushCatalog = true){
-  showSection('step-lista', false);
+  // el span de cantidad es el del medio
+  const qtySpan = btn.parentElement.querySelector("span");
+  qtySpan.innerText = cart[item] || 0;
 
-  const container = document.getElementById('step-lista');
-  container.innerHTML = "";
-
-  const currentLevel = (typeof data === 'string') ? DB[data] : data;
-  if (!currentLevel) return;
-
-  if (catalogStack.length === 0){
-    catalogStack = [currentLevel];
-  } else if(pushCatalog){
-    catalogStack.push(currentLevel);
-  }
-
-  /* STRING → producto final */
-  if(typeof currentLevel === "string"){
-    container.innerHTML = renderItem(currentLevel);
-    return;
-  }
-
-  /* ARRAY → lista productos */
-  if(Array.isArray(currentLevel)){
-    currentLevel.forEach(p => container.innerHTML += renderItem(p));
-    return;
-  }
-
-  /* OBJETO */
-  Object.keys(currentLevel).forEach(key=>{
-    const val = currentLevel[key];
-
-    /* PRODUCTO SUELTO */
-    if(typeof val === "string"){
-      container.innerHTML += renderItem(val);
-      return;
-    }
-
-    /* LISTA → ACORDEÓN */
-    if(Array.isArray(val)){
-      const panelId = "p_"+Math.random();
-
-      const wrap = document.createElement("div");
-      wrap.className="bg-white mb-3 rounded-[25px] border border-slate-100 card-shadow overflow-hidden";
-
-      const btn = document.createElement("button");
-      btn.type="button";
-      btn.className="w-full p-6 font-black text-slate-800 uppercase text-[11px] flex justify-between items-center px-8";
-      btn.innerHTML=`<span>${key}</span><span>▾</span>`;
-
-      const panel=document.createElement("div");
-      panel.className="hidden px-4 pb-4";
-
-      val.forEach(prod=> panel.innerHTML+=renderItem(prod));
-
-      btn.onclick=()=> panel.classList.toggle("hidden");
-
-      wrap.appendChild(btn);
-      wrap.appendChild(panel);
-      container.appendChild(wrap);
-      return;
-    }
-
-    /* SUBCATEGORÍA */
-    const btn=document.createElement("button");
-    btn.type="button";
-    btn.className="w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-[11px] border border-slate-100 flex justify-between items-center px-8";
-    btn.innerHTML=`<span>${key}</span><span>→</span>`;
-    btn.onclick=()=> loadProducts(val,true);
-    container.appendChild(btn);
-  });
-}
-
-/* =========================
-   CARRITO
-   ========================= */
-
-function update(item,delta,btn){
-  cart[item]=(cart[item]||0)+delta;
-  if(cart[item]<=0) delete cart[item];
-
-  btn.parentElement.querySelector('span').innerText=cart[item]||0;
   updateNavCount();
 }
 
-function updateNavCount(){
-  const total=Object.values(cart).reduce((a,b)=>a+b,0);
-  const el=document.getElementById('cart-count');
-  if(el) el.innerText=total;
+function updateNavCount() {
+  const el = document.getElementById("cart-count");
+  if (!el) return; // por si lo borran sin querer
+  el.innerText = Object.values(cart).reduce((a, b) => a + b, 0);
 }
 
-/* =========================
-   RESUMEN
-   ========================= */
+// ========== CATÁLOGO (ACORDEÓN RECUSIVO) ==========
+function uid(prefix = "x") {
+  return `${prefix}_${Math.random().toString(16).slice(2)}_${Date.now()}`;
+}
 
-function goToResumen(){
-  showSection('step-resumen');
+function renderNode(val) {
+  // producto final
+  if (typeof val === "string") return renderItem(val);
 
-  const container=document.getElementById('cart-items');
-  container.innerHTML=`
-  <div class="bg-blue-50 p-6 rounded-[32px] border border-blue-100 mb-6">
-    <p class="text-sm font-black text-slate-800">${(clientData.nombre||"").toUpperCase()}</p>
-    <p class="text-[10px] text-slate-500 font-bold">DNI: ${clientData.id||""}</p>
-  </div>`;
+  // lista de productos
+  if (Array.isArray(val)) return val.map(p => renderItem(p)).join("");
 
-  Object.entries(cart).forEach(([n,q])=>{
-    const safe=JSON.stringify(n);
+  // objeto: render como "subtítulos" + contenido (sin navegar a otra pantalla)
+  if (val && typeof val === "object") {
+    return Object.keys(val).map(subKey => {
+      const innerId = uid("inner");
+      return `
+        <div class="mt-3">
+          <button type="button"
+            class="w-full px-3 py-3 flex items-center justify-between font-black uppercase text-[10px] text-slate-700 rounded-2xl bg-slate-50 border border-slate-100 active:scale-[0.99]"
+            onclick="togglePanel('${innerId}', this)">
+            <span>${subKey}</span>
+            <span class="text-blue-500 font-black" data-chevron>▾</span>
+          </button>
 
-    container.innerHTML+=`
-    <div class="flex justify-between items-center p-6 bg-white rounded-[30px] card-shadow border border-slate-100">
-      <div class="flex flex-col">
-        <span class="text-[10px] text-blue-600 font-black">CANT: ${q}</span>
-        <span class="text-xs font-black text-slate-800 uppercase">${n}</span>
+          <div id="${innerId}" class="hidden mt-3">
+            ${renderNode(val[subKey])}
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  return "";
+}
+
+function togglePanel(panelId, btnEl) {
+  const panel = document.getElementById(panelId);
+  if (!panel) return;
+
+  const chev = btnEl.querySelector("[data-chevron]");
+  const isOpen = !panel.classList.contains("hidden");
+
+  if (isOpen) {
+    panel.classList.add("hidden");
+    if (chev) chev.textContent = "▾";
+  } else {
+    panel.classList.remove("hidden");
+    if (chev) chev.textContent = "▴";
+  }
+}
+
+function loadProducts(dataOrKey) {
+  // dataOrKey puede ser "monopieza" o un objeto directo DB.analogicos.cmu
+  const currentLevel = (typeof dataOrKey === "string") ? DB[dataOrKey] : dataOrKey;
+
+  showSection("step-lista"); // push normal, así "atrás" vuelve al sub-menú
+  const container = document.getElementById("step-lista");
+  container.innerHTML = "";
+
+  if (!currentLevel) {
+    container.innerHTML = "<p class='text-center p-10 text-slate-400'>Sin datos</p>";
+    return;
+  }
+
+  // Si es string o array, render directo.
+  if (typeof currentLevel === "string" || Array.isArray(currentLevel)) {
+    container.innerHTML = renderNode(currentLevel);
+    return;
+  }
+
+  // Si es objeto, hacemos “tarjetas desplegables” por cada key superior
+  Object.keys(currentLevel).forEach(key => {
+    const panelId = uid("panel");
+
+    container.innerHTML += `
+      <div class="bg-white rounded-[28px] border border-slate-100 card-shadow mb-4 overflow-hidden">
+        <button type="button"
+          class="w-full px-8 py-6 flex items-center justify-between font-black uppercase text-[11px] text-slate-800"
+          onclick="togglePanel('${panelId}', this)">
+          <span>${key}</span>
+          <span class="text-blue-500 font-black" data-chevron>▾</span>
+        </button>
+
+        <div id="${panelId}" class="hidden px-4 pb-4">
+          ${renderNode(currentLevel[key])}
+        </div>
       </div>
-      <button onclick="delete cart[${safe}]; goToResumen(); updateNavCount();" class="text-red-500 font-black text-xl">×</button>
-    </div>`;
+    `;
   });
 }
 
-/* =========================
-   WHATSAPP
-   ========================= */
+// ========== RESUMEN Y WHATSAPP ==========
+function goToResumen() {
+  showSection("step-resumen");
 
-function sendWA(){
-  let m=`*PEDIDO BIO-FIX®*\n*PROFESIONAL:* ${(clientData.nombre||"").toUpperCase()}\n\n*PRODUCTOS:*\n`;
-  Object.entries(cart).forEach(([n,q])=> m+=`✅ ${q} x ${n}\n`);
+  const container = document.getElementById("cart-items");
+  container.innerHTML = `
+    <div class="bg-blue-50 p-6 rounded-[32px] border border-blue-100 mb-6">
+      <p class="text-sm font-black text-slate-800">${(clientData.nombre || "").toUpperCase()}</p>
+      <p class="text-[10px] text-slate-500 font-bold">DNI: ${clientData.id || ""}</p>
+    </div>
+  `;
+
+  Object.entries(cart).forEach(([n, q]) => {
+    const safeName = JSON.stringify(n);
+    container.innerHTML += `
+      <div class="flex justify-between items-center p-6 bg-white rounded-[30px] card-shadow border border-slate-100">
+        <div class="flex flex-col">
+          <span class="text-[10px] text-blue-600 font-black">CANT: ${q}</span>
+          <span class="text-xs font-black text-slate-800 uppercase">${n}</span>
+        </div>
+        <button type="button"
+          onclick="delete cart[${safeName}]; goToResumen(); updateNavCount();"
+          class="text-red-500 font-black text-xl">×</button>
+      </div>
+    `;
+  });
+}
+
+function sendWA() {
+  let m = `*PEDIDO BIO-FIX®*\n*PROFESIONAL:* ${(clientData.nombre || "").toUpperCase()}\n\n*PRODUCTOS:*\n`;
+  Object.entries(cart).forEach(([n, q]) => m += `✅ ${q} x ${n}\n`);
   window.open(`https://wa.me/5491134019090?text=${encodeURIComponent(m)}`);
 }
 </script>
 </body>
 </html>
+
 
 
 

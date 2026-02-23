@@ -232,25 +232,35 @@ const DB = {
     const container = document.getElementById('step-lista');
     container.innerHTML = "";
     
+    // 1. Obtener el objeto de la DB (por nombre o por referencia)
     const currentLevel = typeof data === 'string' ? DB[data] : data;
     if (!currentLevel) return;
 
+    // 2. Analizar: ¿Qué es el primer elemento que hay aquí adentro?
     const keys = Object.keys(currentLevel);
-    // Si lo que hay adentro NO es una lista, creamos botones
-    const isNavigation = !Array.isArray(currentLevel[keys[0]]);
+    const firstItem = currentLevel[keys[0]];
 
-    if (isNavigation) {
+    // 3. DECISIÓN UX:
+    if (!Array.isArray(firstItem)) {
+        // --- MODO NAVEGACIÓN (BOTONES) ---
+        // Si lo que sigue NO es una lista (es otro objeto), creamos botones de nivel.
+        // Esto sirve para: Sistemas -> Modelos -> Diámetros
         keys.forEach(key => {
             const btn = document.createElement('button');
             btn.className = "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-[11px] border border-slate-100 flex justify-between items-center px-8 active:scale-95 transition-all";
-            btn.innerHTML = `<span>${key}</span> <span class="text-slate-300">→</span>`;
+            btn.innerHTML = `<span>${key}</span> <span class="text-blue-500 font-bold">→</span>`;
+            
+            // Al tocar el botón, entramos al siguiente nivel de profundidad
             btn.onclick = () => loadProducts(currentLevel[key]);
             container.appendChild(btn);
         });
     } else {
-        // Si ya es el nivel de medidas, mostramos los productos
+        // --- MODO PRODUCTOS (LISTA FINAL) ---
+        // Si el primer elemento YA es una lista, significa que estamos en el nivel de Diámetro.
+        // Mostramos SOLO los productos de este nivel específico.
         keys.forEach(key => {
-            currentLevel[key].forEach(prod => {
+            const productList = currentLevel[key];
+            productList.forEach(prod => {
                 const q = cart[prod] || 0;
                 const row = `
                 <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
@@ -300,6 +310,7 @@ const DB = {
     </script>
 </body>
 </html>
+
 
 
 

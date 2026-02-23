@@ -233,44 +233,46 @@ const DB = {
     const container = document.getElementById('step-lista');
     container.innerHTML = "";
     
-    // 1. Identificar si venimos de un clic de botón (objeto) o del menú (string)
+    // 1. Obtener la información de la DB
     const currentLevel = typeof data === 'string' ? DB[data] : data;
     if (!currentLevel) return;
 
     const keys = Object.keys(currentLevel);
-
-    // --- LA CLAVE DEL ÉXITO (Lógica UX) ---
-    // Miramos qué hay dentro de la primera llave.
-    // Si lo que hay adentro es un ARRAY (lista), significa que estamos en el nivel de Diámetro.
-    // Pero si lo que hay adentro es un OBJETO, significa que hay subcarpetas.
     
-    const firstKey = keys[0];
-    const content = currentLevel[firstKey];
+    // --- LÓGICA DE DISCRIMINACIÓN ---
+    // Revisamos el primer elemento. 
+    // Si NO es un Array, significa que hay más categorías (Diámetros).
+    const isNavigation = !Array.isArray(currentLevel[keys[0]]);
 
-    if (!Array.isArray(content)) {
-        // --- CASO A: HAY DIÁMETROS (Mostramos Botones) ---
+    if (isNavigation) {
+        // --- MODO BOTONES (Elegir Diámetro/Modelo) ---
         keys.forEach(key => {
             const btn = document.createElement('button');
+            // Usamos el estilo de tus tarjetas blancas
             btn.className = "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-[11px] border border-slate-100 flex justify-between items-center px-8 active:scale-95 transition-all";
-            btn.innerHTML = `<span>${key}</span> <span class="text-blue-500 font-bold">→</span>`;
-            
-            // Al tocar, entramos a ese diámetro específico
+            btn.innerHTML = `
+                <span class="tracking-widest">${key}</span>
+                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path>
+                </svg>
+            `;
+            // Al hacer clic, CARGA SOLO esa subcategoría
             btn.onclick = () => loadProducts(currentLevel[key]);
             container.appendChild(btn);
         });
     } else {
-        // --- CASO B: ESTAMOS DENTRO DE UN DIÁMETRO (Mostramos Productos) ---
-        // Aquí solo mostramos lo que hay en esta "carpeta" específica
+        // --- MODO LISTA FINAL (Productos con +/-) ---
         keys.forEach(key => {
+            // Aquí 'key' es el diámetro, y currentLevel[key] es el array de productos
             currentLevel[key].forEach(prod => {
                 const q = cart[prod] || 0;
                 const row = `
                 <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
-                    <span class="text-[10px] font-bold text-slate-500 uppercase">${prod}</span>
-                    <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
-                        <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
-                        <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
-                        <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold active:scale-90">+</button>
+                    <span class="text-[10px] font-black text-slate-600 uppercase tracking-tighter">${prod}</span>
+                    <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100 shadow-inner">
+                        <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400 active:bg-red-50">-</button>
+                        <span class="font-black text-xs min-w-[20px] text-center text-slate-700">${q}</span>
+                        <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-lg font-bold active:scale-90">+</button>
                     </div>
                 </div>`;
                 container.innerHTML += row;
@@ -353,4 +355,5 @@ const DB = {
     </script>
 </body>
 </html>
+
 

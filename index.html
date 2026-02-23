@@ -104,9 +104,6 @@
                <button onclick="loadProducts(DB.analogicos.mp)">MP</button>
                <button onclick="loadProducts(DB.analogicos.cmu)">CMU</button>
                <button onclick="loadProducts(DB.analogicos.hi)">HI</button>
-               <button onclick="loadProducts(DB.analogicos.he)">HE</button>
-               <button onclick="loadProducts(DB.analogicos.cm)">CM</button>
-               <button onclick="loadProducts(DB.analogicos.mu)">MU</button>
             </section>
 
              <section id="sub-digital" class="hidden grid grid-cols-2 gap-4">
@@ -278,7 +275,7 @@ const DB = {
 
 digital: {},
 herramental: {}
-},
+};
         let cart = {}; let stack = ['step-choice']; let clientData = {};
 
         function showSection(id, push = true) {
@@ -453,6 +450,7 @@ herramental: {}
     </script>
 </body>
 </html>
+
 
 
 

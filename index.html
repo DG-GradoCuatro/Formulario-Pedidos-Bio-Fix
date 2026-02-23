@@ -105,6 +105,7 @@
                <button onclick="loadProducts(DB.analogicos.cmu)">CMU</button>
                <button onclick="loadProducts(DB.analogicos.hi)">HI</button>
                <button onclick="loadProducts(DB.analogicos.he)">HE</button>
+               <button onclick="loadProducts(DB.analogicos.cmhi)">CMHI</button>
             </section>
 
              <section id="sub-digital" class="hidden grid grid-cols-2 gap-4">
@@ -365,8 +366,77 @@ const DB = {
     "Tornillo cuadrado M2x0.4 - Hexágono Externo",
     "Tornillo hexagonal M2x0.4 - Hexágono Externo"
   ]
-}
 },
+    cmhi: {
+  "Análogos": [
+    "Análogo de Implante Universal CMHI"
+  ],
+
+  "Análogos de Pilar": {
+    "Ø3.3": [
+      "Análogo de pilar estándar 3.3x4",
+      "Análogo de pilar estándar 3.3x6"
+    ],
+    "Ø4.5": [
+      "Análogo de pilar estándar 4.5x4",
+      "Análogo de pilar estándar 4.5x6"
+    ]
+  },
+
+  "Pilares Estándar": {
+    "Ø3.3": [
+      "Pilar estándar 3.3 x 2.5 x 4",
+      "Pilar estándar 3.3 x 3.5 x 4",
+      "Pilar estándar 3.3 x 2.5 x 6"
+    ],
+    "Ø4.5": [
+      "Pilar estándar 4.5 x 2.5 x 4",
+      "Pilar estándar 4.5 x 2.5 x 6"
+    ]
+  },
+
+  "Pilares c/tornillo pasante": {
+    "Ø3.3": [
+      "Pilar c/tornillo pasante 3.3 x 1.5 x 4",
+      "Pilar c/tornillo pasante 3.3 x 2.5 x 4",
+      "Pilar c/tornillo pasante 3.3 x 3.5 x 4",
+      "Pilar c/tornillo pasante 3.3 x 1.5 x 6",
+      "Pilar c/tornillo pasante 3.3 x 2.5 x 6"
+    ],
+    "Ø4.5": [
+      "Pilar c/tornillo pasante 4.5 x 1.5 x 4",
+      "Pilar c/tornillo pasante 4.5 x 2.5 x 4",
+      "Pilar c/tornillo pasante 4.5 x 3.5 x 4",
+      "Pilar c/tornillo pasante 4.5 x 1.5 x 6",
+      "Pilar c/tornillo pasante 4.5 x 2.5 x 6",
+      "Pilar c/tornillo pasante 4.5 x 3.5 x 6"
+    ]
+  },
+
+  "Cicatrizales": {
+    "Ø3.3": [
+      "Pilar de cicatrización CM 3.3 x 1.5",
+      "Pilar de cicatrización CM 3.3 x 2.5",
+      "Pilar de cicatrización CM 3.3 x 3.5"
+    ],
+    "Ø4.5": [
+      "Pilar de cicatrización CM 4.5 x 1.5",
+      "Pilar de cicatrización CM 4.5 x 2.5",
+      "Pilar de cicatrización CM 4.5 x 3.5"
+    ]
+  },
+
+  "Ball Attach": [
+    "Ball attach c/cazoleta y o’ring CM - Altura 1.5",
+    "Ball attach c/cazoleta y o’ring CM - Altura 2.5",
+    "Ball attach c/cazoleta y o’ring CM - Altura 3.5"
+  ],
+
+  "Transfers": [
+    "Transfer cubeta abierta CM"
+  ]
+ }
+}
 digital: {},
 herramental: {}
 };
@@ -601,6 +671,7 @@ function sendWA() {
 </script>
 </body>
 </html>
+
 
 
 

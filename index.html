@@ -276,20 +276,28 @@ const DB = {
 digital: {},
 herramental: {}
 };
-        let cart = {}; let stack = ['step-choice']; let clientData = {};
+        let cart = {};
+let stack = ['step-choice'];
+let clientData = {};
+let catalogStack = []; // historial interno del catálogo
 
-        function showSection(id, push = true) {
-            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-            document.getElementById(id).classList.remove('hidden');
-            if(push) stack.push(id);
-            document.getElementById('btn-volver').classList.toggle('hidden', stack.length <= 1);
-            updateLabels(id);
-            if(push) window.scrollTo(0,0);
-        }
+function showSection(id, push = true) {
+  document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
 
-        function updateLabels(id) {
+  if (push) stack.push(id);
+
+  document.getElementById('btn-volver').classList.toggle('hidden', stack.length <= 1);
+  updateLabels(id);
+  if (push) window.scrollTo(0,0);
+}
+
+function updateLabels(id) {
   const subs = {
     'step-choice': 'Inicio',
+    'step-login-old': 'Ingreso',
+    'step-login-new': 'Registro',
+    'step-menu': 'Menú',
     'sub-implantes': 'Implantes',
     'sub-analogicos': 'Analógicos',
     'sub-digital': 'Digitales',
@@ -297,128 +305,12 @@ herramental: {}
     'step-lista': 'Catálogo',
     'step-resumen': 'Resumen'
   };
-
   document.getElementById('nav-subtitle').innerText = subs[id] || 'Bio-Fix';
 }
 
-        function goBack() {
-  // Si estamos en el catálogo y hay historial interno, volvemos 1 nivel
-  const visibleIsCatalog = !document.getElementById('step-lista').classList.contains('hidden');
-
-  if (visibleIsCatalog && catalogStack.length > 1) {
-    catalogStack.pop();
-    const prevLevel = catalogStack[catalogStack.length - 1];
-    loadProducts(prevLevel, false);
-    return;
-  }
-
-  // Si no, volvemos normal por pantallas
-  if (stack.length <= 1) return;
-  stack.pop();
-  const prev = stack[stack.length - 1];
-  showSection(prev, false);
-
-  // si salimos del catálogo, limpiamos historial del catálogo
-  if (prev !== 'step-lista') {
-    catalogStack = [];
-  }
-}
-
-        function validateStart(type) {
-            const n = type === 'old' ? document.getElementById('old_nom').value : document.getElementById('new_nom').value;
-            const d = type === 'old' ? document.getElementById('old_dni').value : document.getElementById('new_dni').value;
-            if(!n || !d) return alert("Faltan datos");
-            clientData = { nombre: n, id: d, tipo: type === 'old' ? 'REGISTRADO' : 'NUEVO' };
-            if(type === 'new') { 
-                clientData.matricula = document.getElementById('new_mat').value;
-                clientData.loc = document.getElementById('new_loc').value;
-                clientData.prov = document.getElementById('new_prov').value;
-            }
-            showSection('step-menu');
-        }
-
-        function openSub(id) { showSection(id); }
-
-        // --- NAVEGACIÓN POR CATEGORÍAS (LO QUE YA TENEMOS) ---
-        let catalogStack = [];
-
-function loadProducts(data, pushCatalog = true) {
-  showSection('step-lista', false); // NO push al stack general
-  const container = document.getElementById('step-lista');
-  container.innerHTML = "";
-
-  const currentLevel = (typeof data === 'string') ? DB[data] : data;
-  if (!currentLevel) return;
-
-  // si entramos por primera vez al catálogo, reseteamos stack interno
-  if (catalogStack.length === 0) {
-    catalogStack = [currentLevel];
-  } else if (pushCatalog) {
-    catalogStack.push(currentLevel);
-  }
-
-  // 1) Producto final: string
-  if (typeof currentLevel === 'string') {
-    container.innerHTML = renderItem(currentLevel);
-    return;
-  }
-
-  // 2) Lista de productos: array
-  if (Array.isArray(currentLevel)) {
-    currentLevel.forEach(prod => {
-      container.innerHTML += renderItem(prod);
-    });
-    return;
-  }
-
-  // 3) Es objeto:
-  const keys = Object.keys(currentLevel);
-
-  // si todos los valores son strings → son productos finales
-  const allValuesAreStrings =
-    keys.length > 0 && keys.every(k => typeof currentLevel[k] === "string");
-
-  if (allValuesAreStrings) {
-    keys.forEach(k => {
-      container.innerHTML += renderItem(currentLevel[k]);
-    });
-    return;
-  }
-
-  // navegación normal
-  keys.forEach(key => {
-  const val = currentLevel[key];
-
-  // ✅ Si el valor es un string, ES UN PRODUCTO FINAL: lo mostramos con +/-
-  if (typeof val === "string") {
-    container.innerHTML += renderItem(val);
-    return;
-  }
-
-  // ✅ Si no, es navegación (objeto o array)
-  const btn = document.createElement('button');
-  btn.className =
-    "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-[11px] border border-slate-100 flex justify-between items-center px-8 active:scale-95 transition-all";
-
-  btn.innerHTML = `<span>${key}</span> <span class="text-blue-500 font-bold">→</span>`;
-  btn.onclick = () => loadProducts(val, true);
-
-  container.appendChild(btn);
-});
-}
-        // --- FUNCIÓN DE BÚSQUEDA (AGREGALA AQUÍ) ---
-function searchProduct(query) {
-  const container = document.getElementById('step-lista');
-  const searchTerm = query.toLowerCase();
-  if (searchTerm === "") return;
-
-  showSection('step-lista');
-  container.innerHTML = "";
-  let found = false;
-
-  function renderItem(prod) {
+function renderItem(prod) {
   const q = cart[prod] || 0;
-  const safeProd = JSON.stringify(prod); // evita romperse con O'ring, comillas, etc.
+  const safeProd = JSON.stringify(prod); // soporta O'ring, comillas, etc.
 
   return `
     <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
@@ -431,77 +323,148 @@ function searchProduct(query) {
     </div>
   `;
 }
-  function lookInside(obj) {
-    for (let key in obj) {
 
-      if (Array.isArray(obj[key])) {
-        obj[key].forEach(prod => {
-          if (String(prod).toLowerCase().includes(searchTerm)) {
-            found = true;
-            const q = cart[prod] || 0;
-            container.innerHTML += renderItem(prod, q);
-          }
-        });
+function goBack() {
+  const visibleIsCatalog = !document.getElementById('step-lista').classList.contains('hidden');
 
-      } else if (typeof obj[key] === "string") {
-        const prod = obj[key];
-        if (prod.toLowerCase().includes(searchTerm)) {
-          found = true;
-          const q = cart[prod] || 0;
-          container.innerHTML += renderItem(prod, q);
-        }
+  if (visibleIsCatalog && catalogStack.length > 1) {
+    catalogStack.pop();
+    const prevLevel = catalogStack[catalogStack.length - 1];
+    loadProducts(prevLevel, false);
+    return;
+  }
 
-      } else if (typeof obj[key] === "object" && obj[key]) {
-        lookInside(obj[key]);
-      }
+  if (stack.length <= 1) return;
+  stack.pop();
+  const prev = stack[stack.length - 1];
+  showSection(prev, false);
 
+  if (prev !== 'step-lista') catalogStack = [];
+}
+
+function validateStart(type) {
+  const n = type === 'old' ? document.getElementById('old_nom').value : document.getElementById('new_nom').value;
+  const d = type === 'old' ? document.getElementById('old_dni').value : document.getElementById('new_dni').value;
+
+  if (!n || !d) return alert("Faltan datos");
+
+  clientData = { nombre: n, id: d, tipo: type === 'old' ? 'REGISTRADO' : 'NUEVO' };
+
+  if (type === 'new') {
+    clientData.matricula = document.getElementById('new_mat').value;
+    clientData.loc = document.getElementById('new_loc').value;
+    clientData.prov = document.getElementById('new_prov').value;
+  }
+
+  showSection('step-menu');
+}
+
+function openSub(id) {
+  showSection(id);
+}
+
+function loadProducts(data, pushCatalog = true) {
+  showSection('step-lista', false);
+  const container = document.getElementById('step-lista');
+  container.innerHTML = "";
+
+  const currentLevel = (typeof data === 'string') ? DB[data] : data;
+
+  if (!currentLevel) {
+    container.innerHTML = "<p class='text-center p-10 text-slate-400'>Sin datos</p>";
+    return;
+  }
+
+  if (catalogStack.length === 0) {
+    catalogStack = [currentLevel];
+  } else if (pushCatalog) {
+    catalogStack.push(currentLevel);
+  }
+
+  // STRING = producto final
+  if (typeof currentLevel === "string") {
+    container.innerHTML = renderItem(currentLevel);
+    return;
+  }
+
+  // ARRAY = lista de productos finales
+  if (Array.isArray(currentLevel)) {
+    currentLevel.forEach(prod => container.innerHTML += renderItem(prod));
+    return;
+  }
+
+  // OBJETO (mixto): puede tener subcategorías y productos sueltos (string)
+  const keys = Object.keys(currentLevel);
+
+  keys.forEach(key => {
+    const val = currentLevel[key];
+
+    // si es producto suelto (string): +/-
+    if (typeof val === "string") {
+      container.innerHTML += renderItem(val);
+      return;
     }
-  }
 
-  lookInside(DB);
+    // si es subnivel: botón con flecha
+    const btn = document.createElement('button');
+    btn.className =
+      "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-[11px] border border-slate-100 flex justify-between items-center px-8 active:scale-95 transition-all";
+    btn.innerHTML = `<span>${key}</span> <span class="text-blue-500 font-bold">→</span>`;
+    btn.onclick = () => loadProducts(val, true);
 
-  if (!found) {
-    container.innerHTML =
-      "<p class='text-center p-10 text-slate-400'>No hay resultados</p>";
-  }
+    container.appendChild(btn);
+  });
 }
-        function update(item, delta, btn) {
-            cart[item] = (cart[item] || 0) + delta;
-            if(cart[item] <= 0) delete cart[item];
-            btn.parentElement.querySelector('span').innerText = cart[item] || 0;
-            updateNavCount();
-        }
 
-        function updateNavCount() {
-            document.getElementById('cart-count').innerText = Object.values(cart).reduce((a,b)=>a+b, 0);
-        }
+function update(item, delta, btn) {
+  cart[item] = (cart[item] || 0) + delta;
+  if (cart[item] <= 0) delete cart[item];
 
-        function goToResumen() {
-            showSection('step-resumen');
-            const container = document.getElementById('cart-items');
-            container.innerHTML = `<div class="bg-blue-50 p-6 rounded-[32px] border border-blue-100 mb-6">
-                <p class="text-sm font-black text-slate-800">${clientData.nombre.toUpperCase()}</p>
-                <p class="text-[10px] text-slate-500 font-bold">DNI: ${clientData.id}</p>
-            </div>`;
-            Object.entries(cart).forEach(([n, q]) => {
-                container.innerHTML += `<div class="flex justify-between items-center p-6 bg-white rounded-[30px] card-shadow border border-slate-100">
-                    <div class="flex flex-col"><span class="text-[10px] text-blue-600 font-black">CANT: ${q}</span><span class="text-xs font-black text-slate-800 uppercase">${n}</span></div>
-                    <button onclick="delete cart['${n}']; goToResumen(); updateNavCount();" class="text-red-500 font-black text-xl">×</button>
-                </div>`;
-            });
-        }
-
-        function sendWA() {
-    // El formato debe ser sin el "+", ni espacios, ni guiones: 5491134019090
-    let m = `*PEDIDO BIO-FIX®*\n*PROFESIONAL:* ${clientData.nombre.toUpperCase()}\n\n*PRODUCTOS:*\n`;
-    Object.entries(cart).forEach(([n,q])=> m+=`✅ ${q} x ${n}\n`);
-    
-    // Aquí cambiamos el número:
-    window.open(`https://wa.me/5491134019090?text=${encodeURIComponent(m)}`);
+  btn.parentElement.querySelector('span').innerText = cart[item] || 0;
+  updateNavCount();
 }
-    </script>
+
+function updateNavCount() {
+  document.getElementById('cart-count').innerText =
+    Object.values(cart).reduce((a, b) => a + b, 0);
+}
+
+function goToResumen() {
+  showSection('step-resumen');
+
+  const container = document.getElementById('cart-items');
+  container.innerHTML = `
+    <div class="bg-blue-50 p-6 rounded-[32px] border border-blue-100 mb-6">
+      <p class="text-sm font-black text-slate-800">${(clientData.nombre || "").toUpperCase()}</p>
+      <p class="text-[10px] text-slate-500 font-bold">DNI: ${clientData.id || ""}</p>
+    </div>
+  `;
+
+  Object.entries(cart).forEach(([n, q]) => {
+    const safeName = JSON.stringify(n);
+    container.innerHTML += `
+      <div class="flex justify-between items-center p-6 bg-white rounded-[30px] card-shadow border border-slate-100">
+        <div class="flex flex-col">
+          <span class="text-[10px] text-blue-600 font-black">CANT: ${q}</span>
+          <span class="text-xs font-black text-slate-800 uppercase">${n}</span>
+        </div>
+        <button onclick="delete cart[${safeName}]; goToResumen(); updateNavCount();" class="text-red-500 font-black text-xl">×</button>
+      </div>
+    `;
+  });
+}
+
+function sendWA() {
+  let m = `*PEDIDO BIO-FIX®*\n*PROFESIONAL:* ${(clientData.nombre || "").toUpperCase()}\n\n*PRODUCTOS:*\n`;
+  Object.entries(cart).forEach(([n,q])=> m += `✅ ${q} x ${n}\n`);
+  window.open(`https://wa.me/5491134019090?text=${encodeURIComponent(m)}`);
+}
+
+/* Si querés buscador, lo agregamos después (pero primero dejemos estable el catálogo) */
+</script>
 </body>
 </html>
+
 
 
 

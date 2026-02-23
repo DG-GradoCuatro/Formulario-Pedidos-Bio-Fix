@@ -218,20 +218,13 @@
     // Obtenemos los datos de la DB
     const currentLevel = typeof data === 'string' ? DB[data] : data;
 
+    // REGLA DE ORO: Recorremos las llaves del nivel actual
     for (const key in currentLevel) {
         const value = currentLevel[key];
-        
-        // Si el valor es otro objeto (como los diámetros Ø3.0, Ø3.5...)
-        // Creamos los botones grandes que te gustaban
-        if (!Array.isArray(value)) {
-            const btn = document.createElement('button');
-            btn.className = "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-xs border border-slate-100 active:scale-95 transition-transform";
-            btn.innerText = key;
-            btn.onclick = () => loadProducts(value);
-            container.appendChild(btn);
-        } else {
-            // Si el valor ya es la lista de medidas, las mostramos todas
-            // Aquí NO ponemos break, para que muestre todos los diámetros si fuera necesario
+
+        // CASO A: Si el valor es una lista de medidas (Array), las dibujamos (Ej: Ø3.0 de Monopieza)
+        if (Array.isArray(value)) {
+            // Solo dibujamos la lista si entramos directamente al nivel que tiene el array
             value.forEach(prod => {
                 const q = cart[prod] || 0;
                 const row = `
@@ -245,6 +238,15 @@
                 </div>`;
                 container.innerHTML += row;
             });
+            // Importante: Si encontramos un array, asumimos que este nivel es de productos y no queremos botones de otras cosas mezclados
+        } 
+        // CASO B: Si el valor es otra carpeta (Objeto), creamos un BOTÓN (Ej: CMU, Ø3.0 en Basales, etc.)
+        else {
+            const btn = document.createElement('button');
+            btn.className = "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-xs border border-slate-100 active:scale-95 transition-transform";
+            btn.innerText = key;
+            btn.onclick = () => loadProducts(value);
+            container.appendChild(btn);
         }
     }
 }
@@ -282,6 +284,7 @@
     </script>
 </body>
 </html>
+
 
 
 

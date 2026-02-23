@@ -30,7 +30,9 @@
                 <span id="nav-title" class="text-[9px] font-black uppercase text-blue-500 tracking-tighter">Bio-Fix Portal</span>
                 <span id="nav-subtitle" class="text-sm font-black text-slate-900 uppercase">Bienvenido</span>
             </div>
-            <button onclick='delete cart[${safeName}]; goToResumen(); updateNavCount();' class="text-red-500 font-black text-xl">×</button>
+            <button onclick="goToResumen()" class="bg-slate-900 text-white px-4 py-2 rounded-xl font-black text-xs">
+  PEDIDO ( <span id="cart-count">0</span> )
+</button>
         </nav>
 
         <main class="p-6 mt-6 flex-grow">
@@ -527,6 +529,7 @@ function sendWA(){
 </script>
 </body>
 </html>
+
 
 
 

@@ -128,55 +128,55 @@
 
     <script>
         const DB = {
-    monopieza: { 
-        "Ø3.0": ["MP Ø3.0x6mm","MP Ø3.0x8mm","MP Ø3.0x10mm","MP Ø3.0x11.5mm","MP Ø3.0x13mm","MP Ø3.0x15mm","MP Ø3.0x18mm","MP Ø3.0x20mm"], 
-        "Ø3.5": ["MP Ø3.5x6mm","MP Ø3.5x8mm","MP Ø3.5x10mm","MP Ø3.5x11.5mm","MP Ø3.5x13mm","MP Ø3.5x15mm","MP Ø3.5x18mm","MP Ø3.5x20mm"], 
-        "Ø4.0": ["MP Ø4.0x6mm","MP Ø4.0x8mm","MP Ø4.0x10mm","MP Ø4.0x11.5mm","MP Ø4.0x13mm","MP Ø4.0x15mm","MP Ø4.0x18mm","MP Ø4.0x20mm"], 
-        "Ø4.5": ["MP Ø4.5x6mm","MP Ø4.5x8mm","MP Ø4.5x10mm","MP Ø4.5x11.5mm","MP Ø4.5x13mm","MP Ø4.5x15mm","MP Ø4.5x18mm","MP Ø4.5x20mm"], 
-        "Ø5.0": ["MP Ø5.0x6mm","MP Ø5.0x8mm","MP Ø5.0x10mm","MP Ø5.0x11.5mm","MP Ø5.0x13mm"], 
-        "Ø5.5": ["MP Ø5.5x6mm","MP Ø5.5x8mm","MP Ø5.5x10mm","MP Ø5.5x11.5mm","MP Ø5.5x13mm"] 
+    monopieza: {
+        "Ø3.0": ["MP Ø3.0x6mm","MP Ø3.0x8mm","MP Ø3.0x10mm","MP Ø3.0x11.5mm","MP Ø3.0x13mm","MP Ø3.0x15mm","MP Ø3.0x18mm","MP Ø3.0x20mm"],
+        "Ø3.5": ["MP Ø3.5x6mm","MP Ø3.5x8mm","MP Ø3.5x10mm","MP Ø3.5x11.5mm","MP Ø3.5x13mm","MP Ø3.5x15mm","MP Ø3.5x18mm","MP Ø3.5x20mm"],
+        "Ø4.0": ["MP Ø4.0x6mm","MP Ø4.0x8mm","MP Ø4.0x10mm","MP Ø4.0x11.5mm","MP Ø4.0x13mm","MP Ø4.0x15mm","MP Ø4.0x18mm","MP Ø4.0x20mm"],
+        "Ø4.5": ["MP Ø4.5x6mm","MP Ø4.5x8mm","MP Ø4.5x10mm","MP Ø4.5x11.5mm","MP Ø4.5x13mm","MP Ø4.5x15mm","MP Ø4.5x18mm","MP Ø4.5x20mm"],
+        "Ø5.0": ["MP Ø5.0x6mm","MP Ø5.0x8mm","MP Ø5.0x10mm","MP Ø5.0x11.5mm","MP Ø5.0x13mm"],
+        "Ø5.5": ["MP Ø5.5x6mm","MP Ø5.5x8mm","MP Ø5.5x10mm","MP Ø5.5x11.5mm","MP Ø5.5x13mm"]
     },
-    he: { 
-        "Ø3.30 (Plat. 3.4)": ["HE Ø3.30x8.5mm","HE Ø3.30x10mm","HE Ø3.30x11.5mm","HE Ø3.30x13mm","HE Ø3.30x15mm"], 
-        "Ø3.75 (Plat. 4.1)": ["HE Ø3.75x8mm","HE Ø3.75x10mm","HE Ø3.75x11.5mm","HE Ø3.75x13mm","HE Ø3.75x15mm"], 
-        "Ø4.0 (Plat. 4.1)": ["HE Ø4.0x6mm","HE Ø4.0x8.5mm","HE Ø4.0x10mm","HE Ø4.0x11.5mm","HE Ø4.0x13mm","HE Ø4.0x15mm"], 
-        "Ø5.0 (Plat. 5.1)": ["HE Ø5.0x6mm","HE Ø5.0x8.5mm","HE Ø5.0x10mm","HE Ø5.0x11.5mm","HE Ø5.0x13mm","HE Ø5.0x15mm"] 
+    he: {
+        "Ø3.30 (Plat. 3.4)": ["HE Ø3.30x8.5mm","HE Ø3.30x10mm","HE Ø3.30x11.5mm","HE Ø3.30x13mm","HE Ø3.30x15mm"],
+        "Ø3.75 (Plat. 4.1)": ["HE Ø3.75x8mm","HE Ø3.75x10mm","HE Ø3.75x11.5mm","HE Ø3.75x13mm","HE Ø3.75x15mm"],
+        "Ø4.0 (Plat. 4.1)": ["HE Ø4.0x6mm","HE Ø4.0x8.5mm","HE Ø4.0x10mm","HE Ø4.0x11.5mm","HE Ø4.0x13mm","HE Ø4.0x15mm"],
+        "Ø5.0 (Plat. 5.1)": ["HE Ø5.0x6mm","HE Ø5.0x8.5mm","HE Ø5.0x10mm","HE Ø5.0x11.5mm","HE Ø5.0x13mm","HE Ø5.0x15mm"]
     },
-    hi: {
-        "Ø3.30": ["HI Ø3.30x6.5mm","HI Ø3.30x8.0mm","HI Ø3.30x10mm","HI Ø3.30x11.5mm","HI Ø3.30x13mm","HI Ø3.30x16mm"],
-        "Ø3.75": ["HI Ø3.75x6.5mm","HI Ø3.75x8.0mm","HI Ø3.75x10mm","HI Ø3.75x11.5mm","HI Ø3.75x13mm","HI Ø3.75x16mm"],
-        "Ø4.20": ["HI Ø4.2x6.5mm","HI Ø4.2x8.0mm","HI Ø4.2x10mm","HI Ø4.2x11.5mm","HI Ø4.2x13mm","HI Ø4.2x16mm"],
-        "Ø5.00": ["HI Ø5.0x6.5mm","HI Ø5.0x8.0mm","HI Ø5.0x10mm","HI Ø5.0x11.5mm","HI Ø5.0x13mm","HI Ø5.0x16mm"]
+    basales: {
+        "IB - PULIDO": {
+            "Ø3.5": ["IB Ø3.5x10mm","IB Ø3.5x12mm","IB Ø3.5x14mm","IB Ø3.5x15mm","IB Ø3.5x18mm","IB Ø3.5x21mm","IB Ø3.5x23mm","IB Ø3.5x26mm","IB Ø3.5x28mm","IB Ø3.5x24 C14","IB Ø3.5x26 C16","IB Ø3.5x28 C18"],
+            "Ø4.5": ["IB Ø4.5x10mm","IB Ø4.5x12mm","IB Ø4.5x15mm","IB Ø4.5x18mm","IB Ø4.5x21mm","IB Ø4.5x23mm","IB Ø4.5x26mm","IB Ø4.5x28mm","IB Ø4.5x24 C14","IB Ø4.5x26 C16","IB Ø4.5x28 C18"],
+            "Ø5.5": ["IB Ø5.5x9mm","IB Ø5.5x10mm","IB Ø5.5x12mm","IB Ø5.5x15mm","IB Ø5.5x18mm"],
+            "Ø6.5": ["IB Ø6.5x9mm","IB Ø6.5x10mm","IB Ø6.5x12mm","IB Ø6.5x15mm"],
+            "Ø8.5": ["IB Ø8.5x9mm","IB Ø8.5x10mm","IB Ø8.5x12mm","IB Ø8.5x15mm"]
+        },
+        "IBT - TRATADO": {
+            "Ø3.5": ["IBT Ø3.5x10mm","IBT Ø3.5x12mm","IBT Ø3.5x14mm","IBT Ø3.5x15mm","IBT Ø3.5x18mm","IBT Ø3.5x21mm","IBT Ø3.5x23mm","IBT Ø3.5x26mm","IBT Ø3.5x28mm","IBT Ø3.5x24 C14","IBT Ø3.5x26 C16","IBT Ø3.5x28 C18"],
+            "Ø4.5": ["IBT Ø4.5x10mm","IBT Ø4.5x12mm","IBT Ø4.5x15mm","IBT Ø4.5x18mm","IBT Ø4.5x21mm","IBT Ø4.5x23mm","IBT Ø4.5x26mm","IBT Ø4.5x28mm","IBT Ø4.5x24 C14","IBT Ø4.5x26 C16","IBT Ø4.5x28 C18"],
+            "Ø5.5": ["IBT Ø5.5x9mm","IBT Ø5.5x10mm","IBT Ø5.5x12mm","IBT Ø5.5x15mm","IBT Ø5.5x18mm"],
+            "Ø6.5": ["IBT Ø6.5x9mm","IBT Ø6.5x10mm","IBT Ø6.5x12mm","IBT Ø6.5x15mm"],
+            "Ø8.5": ["IBT Ø8.5x9mm","IBT Ø8.5x10mm","IBT Ø8.5x12mm","IBT Ø8.5x15mm"]
+        }
     },
-    cmhi: {
-        "Ø3.30": ["CMHI Ø3.30x8mm","CMHI Ø3.30x10mm","CMHI Ø3.30x11.5mm","CMHI Ø3.30x13mm","CMHI Ø3.30x16mm"],
-        "Ø3.75": ["CMHI Ø3.75x8mm","CMHI Ø3.75x10mm","CMHI Ø3.75x11.5mm","CMHI Ø3.75x13mm","CMHI Ø3.75x16mm"],
-        "Ø4.20": ["CMHI Ø4.20x8mm","CMHI Ø4.20x10mm","CMHI Ø4.20x11.5mm","CMHI Ø4.20x13mm","CMHI Ø4.20x16mm"],
-        "Ø5.00": ["CMHI Ø5.0x8mm","CMHI Ø5.0x10mm","CMHI Ø5.0x11.5mm","CMHI Ø5.0x13mm","CMHI Ø5.0x16mm"]
-    },
-    basales: { 
-        "IB Ø3.5 (Pulido)": ["IB Ø3.5x10mm","IB Ø3.5x12mm","IB Ø3.5x14mm","IB Ø3.5x15mm","IB Ø3.5x18mm","IB Ø3.5x21mm","IB Ø3.5x23mm","IB Ø3.5x26mm","IB Ø3.5x28mm","IB Ø3.5x24 C14","IB Ø3.5x26 C16","IB Ø3.5x28 C18"],
-        "IB Ø4.5 (Pulido)": ["IB Ø4.5x10mm","IB Ø4.5x12mm","IB Ø4.5x15mm","IB Ø4.5x18mm","IB Ø4.5x21mm","IB Ø4.5x23mm","IB Ø4.5x26mm","IB Ø4.5x28mm","IB Ø4.5x24 C14","IB Ø4.5x26 C16","IB Ø4.5x28 C18"],
-        "IB Ø5.5+ (Pulido)": ["IB Ø5.5x9mm","IB Ø5.5x10mm","IB Ø5.5x12mm","IB Ø5.5x15mm","IB Ø5.5x18mm","IB Ø6.5x9mm","IB Ø6.5x10mm","IB Ø6.5x12mm","IB Ø6.5x15mm","IB Ø8.5x9mm","IB Ø8.5x10mm","IB Ø8.5x12mm","IB Ø8.5x15mm"],
-        "IBT Ø3.5 (Tratado)": ["IBT Ø3.5x10mm","IBT Ø3.5x12mm","IBT Ø3.5x14mm","IBT Ø3.5x15mm","IBT Ø3.5x18mm","IBT Ø3.5x21mm","IBT Ø3.5x23mm","IBT Ø3.5x26mm","IBT Ø3.5x28mm","IBT Ø3.5x24 C14","IBT Ø3.5x26 C16","IBT Ø3.5x28 C18"],
-        "IBT Ø4.5 (Tratado)": ["IBT Ø4.5x10mm","IBT Ø4.5x12mm","IBT Ø4.5x15mm","IBT Ø4.5x18mm","IBT Ø4.5x21mm","IBT Ø4.5x23mm","IBT Ø4.5x26mm","IBT Ø4.5x28mm","IBT Ø4.5x24 C14","IBT Ø4.5x26 C16","IBT Ø4.5x28 C18"],
-        "IBT Ø5.5+ (Tratado)": ["IBT Ø5.5x9mm","IBT Ø5.5x10mm","IBT Ø5.5x12mm","IBT Ø5.5x15mm","IBT Ø5.5x18mm","IBT Ø6.5x9mm","IBT Ø6.5x10mm","IBT Ø6.5x12mm","IBT Ø6.5x15mm","IBT Ø8.5x9mm","IBT Ø8.5x10mm","IBT Ø8.5x12mm","IBT Ø8.5x15mm"]
-    },
-    compresivos: { 
-        "CMU Ø3.0": ["CMU Ø3.0x6mm","CMU Ø3.0x8mm","CMU Ø3.0x10mm","CMU Ø3.0x11.5mm","CMU Ø3.0x13mm","CMU Ø3.0x15mm","CMU Ø3.0x18mm","CMU Ø3.0x20mm"],
-        "CMU Ø3.5": ["CMU Ø3.5x6mm","CMU Ø3.5x8mm","CMU Ø3.5x10mm","CMU Ø3.5x11.5mm","CMU Ø3.5x13mm","CMU Ø3.5x15mm","CMU Ø3.5x18mm","CMU Ø3.5x20mm"],
-        "CMU Ø4.0+": ["CMU Ø4.0x6mm","CMU Ø4.0x8mm","CMU Ø4.0x10mm","CMU Ø4.0x11.5mm","CMU Ø4.0x13mm","CMU Ø4.0x15mm","CMU Ø4.0x18mm","CMU Ø4.0x20mm","CMU Ø4.5x6mm","CMU Ø4.5x8mm","CMU Ø4.5x10mm","CMU Ø4.5x11.5mm","CMU Ø4.5x13mm","CMU Ø4.5x15mm","CMU Ø4.5x18mm","CMU Ø4.5x20mm","CMU Ø5.0x6mm","CMU Ø5.0x8mm","CMU Ø5.0x10mm","CMU Ø5.0x11.5mm","CMU Ø5.0x13mm","CMU Ø5.5x6mm","CMU Ø5.5x8mm","CMU Ø5.5x10mm","CMU Ø5.5x11.5mm","CMU Ø5.5x13mm"],
-        "C3MU Ø3.0": ["C3MU Ø3.0x6mm","C3MU Ø3.0x8mm","C3MU Ø3.0x10mm","C3MU Ø3.0x11.5mm","C3MU Ø3.0x13mm","C3MU Ø3.0x15mm","C3MU Ø3.0x18mm","C3MU Ø3.0x20mm"],
-        "C3MU Ø3.5": ["C3MU Ø3.5x6mm","C3MU Ø3.5x8mm","C3MU Ø3.5x10mm","C3MU Ø3.5x11.5mm","C3MU Ø3.5x13mm","C3MU Ø3.5x15mm","C3MU Ø3.5x18mm","C3MU Ø3.5x20mm"],
-        "C3MU Ø4.0+": ["C3MU Ø4.0x6mm","C3MU Ø4.0x8mm","C3MU Ø4.0x10mm","C3MU Ø4.0x11.5mm","C3MU Ø4.0x13mm","C3MU Ø4.0x15mm","C3MU Ø4.0x18mm","C3MU Ø4.0x20mm","C3MU Ø4.5x6mm","C3MU Ø4.5x8mm","C3MU Ø4.5x10mm","C3MU Ø4.5x11.5mm","C3MU Ø4.5x13mm","C3MU Ø4.5x15mm","C3MU Ø4.5x18mm","C3MU Ø4.5x20mm","C3MU Ø5.0x6mm","C3MU Ø5.0x8mm","C3MU Ø5.0x10mm","C3MU Ø5.0x11.5mm","C3MU Ø5.0x13mm","C3MU Ø5.5x6mm","C3MU Ø5.5x8mm","C3MU Ø5.5x10mm","C3MU Ø5.5x11.5mm","C3MU Ø5.5x13mm"]
-    },
-    multiunit: { 
-        "PILARES CMHI": ["Pilar MU CM H0.8","Pilar MU CM H1.5","Pilar MU CM H2.5","Pilar MU CM H3.5","Pilar MU CM H4.5"],
-        "PILARES HI": ["Pilar MU HI H1","Pilar MU HI H2","Pilar MU HI H3","Pilar MU HI H4"],
-        "PILARES HE": ["Pilar MU HE H1","Pilar MU HE H2","Pilar MU HE H3"]
+    compresivos: {
+        "CMU": {
+            "Ø3.0": ["CMU Ø3.0x6mm","CMU Ø3.0x8mm","CMU Ø3.0x10mm","CMU Ø3.0x11.5mm","CMU Ø3.0x13mm","CMU Ø3.0x15mm","CMU Ø3.0x18mm","CMU Ø3.0x20mm"],
+            "Ø3.5": ["CMU Ø3.5x6mm","CMU Ø3.5x8mm","CMU Ø3.5x10mm","CMU Ø3.5x11.5mm","CMU Ø3.5x13mm","CMU Ø3.5x15mm","CMU Ø3.5x18mm","CMU Ø3.5x20mm"],
+            "Ø4.0": ["CMU Ø4.0x6mm","CMU Ø4.0x8mm","CMU Ø4.0x10mm","CMU Ø4.0x11.5mm","CMU Ø4.0x13mm","CMU Ø4.0x15mm","CMU Ø4.0x18mm","CMU Ø4.0x20mm"],
+            "Ø4.5": ["CMU Ø4.5x6mm","CMU Ø4.5x8mm","CMU Ø4.5x10mm","CMU Ø4.5x11.5mm","CMU Ø4.5x13mm","CMU Ø4.5x15mm","CMU Ø4.5x18mm","CMU Ø4.5x20mm"],
+            "Ø5.0": ["CMU Ø5.0x6mm","CMU Ø5.0x8mm","CMU Ø5.0x10mm","CMU Ø5.0x11.5mm","CMU Ø5.0x13mm"],
+            "Ø5.5": ["CMU Ø5.5x6mm","CMU Ø5.5x8mm","CMU Ø5.5x10mm","CMU Ø5.5x11.5mm","CMU Ø5.5x13mm"]
+        },
+        "C3MU": {
+            "Ø3.0": ["C3MU Ø3.0x6mm","C3MU Ø3.0x8mm","C3MU Ø3.0x10mm","C3MU Ø3.0x11.5mm","C3MU Ø3.0x13mm","C3MU Ø3.0x15mm","C3MU Ø3.0x18mm","C3MU Ø3.0x20mm"],
+            "Ø3.5": ["C3MU Ø3.5x6mm","C3MU Ø3.5x8mm","C3MU Ø3.5x10mm","C3MU Ø3.5x11.5mm","C3MU Ø3.5x13mm","C3MU Ø3.5x15mm","C3MU Ø3.5x18mm","C3MU Ø3.5x20mm"],
+            "Ø4.0": ["C3MU Ø4.0x6mm","C3MU Ø4.0x8mm","C3MU Ø4.0x10mm","C3MU Ø4.0x11.5mm","C3MU Ø4.0x13mm","C3MU Ø4.0x15mm","C3MU Ø4.0x18mm","C3MU Ø4.0x20mm"],
+            "Ø4.5": ["C3MU Ø4.5x6mm","C3MU Ø4.5x8mm","C3MU Ø4.5x10mm","C3MU Ø4.5x11.5mm","C3MU Ø4.5x13mm","C3MU Ø4.5x15mm","C3MU Ø4.5x18mm","C3MU Ø4.5x20mm"],
+            "Ø5.0": ["C3MU Ø5.0x6mm","C3MU Ø5.0x8mm","C3MU Ø5.0x10mm","C3MU Ø5.0x11.5mm","C3MU Ø5.0x13mm"],
+            "Ø5.5": ["C3MU Ø5.5x6mm","C3MU Ø5.5x8mm","C3MU Ø5.5x10mm","C3MU Ø5.5x11.5mm","C3MU Ø5.5x13mm"]
+        }
     }
 };
-
         let cart = {}; let stack = ['step-choice']; let clientData = {};
 
         function showSection(id, push = true) {
@@ -210,34 +210,41 @@
 
         function openSub(id) { showSection(id); }
 
-        function loadProducts(key) {
+        function loadProducts(data) {
     showSection('step-lista');
     const container = document.getElementById('step-lista');
     container.innerHTML = "";
     
-    for (const sub in DB[key]) {
-        let html = `
-        <div class="bg-white rounded-[30px] overflow-hidden mb-3 card-shadow border border-slate-100">
-            <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.icon').innerText = this.nextElementSibling.classList.contains('hidden') ? '+' : '-'" 
-                class="w-full bg-white text-slate-800 p-6 font-black text-left text-[11px] uppercase flex justify-between items-center px-8 transition-all">
-                <span class="tracking-widest">${sub}</span>
-                <span class="icon text-blue-600 text-xl">+</span>
-            </button>
-            <div class="divide-y divide-slate-50 hidden bg-slate-50/50">`;
-            
-        DB[key][sub].forEach(item => {
-            const q = cart[item] || 0;
-            html += `
-            <div class="flex justify-between items-center p-4 px-8">
-                <span class="text-[10px] font-bold text-slate-500 uppercase">${item}</span>
-                <div class="flex items-center gap-4 bg-white p-1 rounded-2xl border border-slate-100 shadow-sm">
-                    <button onclick="update('${item}',-1,this)" class="w-9 h-9 flex items-center justify-center bg-slate-50 rounded-xl font-bold text-slate-400">-</button>
-                    <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
-                    <button onclick="update('${item}',1,this)" class="w-9 h-9 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
-                </div>
-            </div>`;
-        });
-        container.innerHTML += html + "</div></div>";
+    const currentLevel = typeof data === 'string' ? DB[data] : data;
+
+    for (const key in currentLevel) {
+        const value = currentLevel[key];
+        
+        if (!Array.isArray(value)) {
+            // NIVEL CATEGORÍA O DIÁMETRO (Crea botones limpios)
+            const btn = document.createElement('button');
+            btn.className = "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-xs border border-slate-100 active:scale-95 transition-transform";
+            btn.innerText = key;
+            btn.onclick = () => loadProducts(value);
+            container.appendChild(btn);
+        } else {
+            // NIVEL MEDIDAS (Muestra la lista final)
+            container.innerHTML = ""; 
+            value.forEach(prod => {
+                const q = cart[prod] || 0;
+                const row = `
+                <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase">${prod}</span>
+                    <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
+                        <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
+                        <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
+                        <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold active:scale-90">+</button>
+                    </div>
+                </div>`;
+                container.innerHTML += row;
+            });
+            break; 
+        }
     }
 }
         function update(item, delta, btn) {
@@ -274,5 +281,6 @@
     </script>
 </body>
 </html>
+
 
 

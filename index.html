@@ -201,7 +201,7 @@ const DB = {
         "MINIPILAR CONO MORSE": ["Minipilar Altura 0,8 - Cono Morse","Minipilar Altura 1,5 - Cono Morse","Minipilar Altura 2,5 - Cono Morse","Minipilar Altura 3,5 - Cono Morse","Minipilar Altura 4,5 - Cono Morse"],
         "MINIPILAR HEXÁGONO INTERNO": ["Minipilar Altura 1 - Hexágono Interno","Minipilar Altura 2 - Hexágono Interno","Minipilar Altura 3 - Hexágono Interno","Minipilar Altura 4 - Hexágono Interno"],
         "MINIPILAR HEXÁGONO EXTERNO": ["Minipilar Altura 1 - Hexágono Externo","Minipilar Altura 2 - Hexágono Externo","Minipilar Altura 3 - Hexágono Externo","Minipilar Altura 4 - Hexágono Externo"]
-    }
+    },
     analogicos: {},
     digital: {},
     herramental: {}
@@ -218,15 +218,18 @@ const DB = {
         }
 
         function updateLabels(id) {
-            const subs = {
-  'step-choice': 'Inicio',
-  'sub-implantes': 'Implantes',
-  'sub-analogicos': 'Analógicos',
-  'sub-digital': 'Digitales',
-  'sub-herramental': 'Herramental',
-  'step-lista': 'Catálogo',
-  'step-resumen': 'Resumen'
-};
+  const subs = {
+    'step-choice': 'Inicio',
+    'sub-implantes': 'Implantes',
+    'sub-analogicos': 'Analógicos',
+    'sub-digital': 'Digitales',
+    'sub-herramental': 'Herramental',
+    'step-lista': 'Catálogo',
+    'step-resumen': 'Resumen'
+  };
+
+  document.getElementById('nav-subtitle').innerText = subs[id] || 'Bio-Fix';
+}
 
         function goBack() { if(stack.length > 1) { stack.pop(); showSection(stack.pop()); } }
 
@@ -363,6 +366,7 @@ const DB = {
     </script>
 </body>
 </html>
+
 
 
 

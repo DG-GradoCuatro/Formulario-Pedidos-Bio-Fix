@@ -101,12 +101,12 @@
             </section>
 
             <section id="sub-analogicos" class="hidden grid grid-cols-2 gap-4">
-               <button onclick="loadProducts(DB.analogicos.mp)" class="btn-choice bg-white !py-8"><span>MP</span></button>
-                <button onclick="loadProducts('analog_cmu')" class="btn-choice bg-white !py-8"><span>CMU</span></button>
-                <button onclick="loadProducts('analog_hi')" class="btn-choice bg-white !py-8"><span>HI</span></button>
-                <button onclick="loadProducts('analog_he')" class="btn-choice bg-white !py-8"><span>HE</span></button>
-                <button onclick="loadProducts('analog_cm')" class="btn-choice bg-white !py-8"><span>CM</span></button>
-                <button onclick="loadProducts('analog_mu')" class="btn-choice bg-white border-amber-100 !py-8"><span>MU</span></button>
+               <button onclick="loadProducts(DB.analogicos.mp)">MP</button>
+               <button onclick="loadProducts(DB.analogicos.cmu)">CMU</button>
+               <button onclick="loadProducts(DB.analogicos.hi)">HI</button>
+               <button onclick="loadProducts(DB.analogicos.he)">HE</button>
+               <button onclick="loadProducts(DB.analogicos.cm)">CM</button>
+               <button onclick="loadProducts(DB.analogicos.mu)">MU</button>
             </section>
 
              <section id="sub-digital" class="hidden grid grid-cols-2 gap-4">
@@ -213,8 +213,76 @@ const DB = {
     "Transfers": [
       "Transfer plastico rotacional para implantes Monopieza"
     ]
+},
+  cmu: {
+  "Cicatrizales": [
+    "Cicatrizal Altura de 2mm - Compresivo Multi Unit",
+    "Cicatrizal Altura de 3mm - Compresivo Multi Unit",
+    "Cicatrizal Altura de 4mm - Compresivo Multi Unit"
+  ],
+
+  "Ball Attach": [
+    "Ball Attach Altura (h)2mm - Compresivo Multi Unit",
+    "Ball Attach Altura (h)3mm - Compresivo Multi Unit"
+  ],
+
+  "Pilar recto": "Pilar Recto Hombro 1 - Compresivo Multi Unit",
+  "Tornillo M2": "Tornillo M2 para implante Compresivo Multi Unit"
   }
 },
+  hi: {
+  "Cicatrizales": [
+    "Cicatrizal Altura 1mm -Hexágono Interno",
+    "Cicatrizal Altura 2mm -Hexágono Interno",
+    "Cicatrizal Altura 3mm -Hexágono Interno",
+    "Cicatrizal Altura 4mm -Hexágono Interno"
+  ],
+
+  "Ball Attach": [
+    "Ball attach y cazoleta con O'ring Altura 1 - Hexágono Interno",
+    "Ball attach y cazoleta con O'ring Altura 2 - Hexágono Interno",
+    "Ball attach y cazoleta con O'ring Altura 3 - Hexágono Interno",
+    "Ball attach y cazoleta con O'ring Altura 4 - Hexágono Interno"
+  ],
+
+  "Pilares": {
+    "Rectos": [
+      "Pilar recto y tornillo M1.8 Altura 1 - Hexágono Interno",
+      "Pilar recto y tornillo M1.8 Altura 2 - Hexágono Interno",
+      "Pilar recto y tornillo M1.8 Altura 3 - Hexágono Interno"
+    ],
+    "Angulados": [
+      "Pilar angulado 15°-Hexágono Interno",
+      "Pilar angulado 25°-Hexágono Interno"
+    ]
+  },
+
+  "Transfers": {
+    "Cubeta abierta": "Transfer cubeta abierta y tornillo - Hexágono Interno",
+    "Cubeta cerrada": "Transfer cubeta cerrada y tornillo - Hexágono Interno"
+  },
+
+  "UCLAs": {
+    "Rotacional": "Ucla calcinable rotacional y tornillo M1.8- Hexágono Interno",
+    "Anti-rotacional": "Ucla calcinable Anti-rotacional y tornillo M1.8- Hexágono Interno"
+  },
+
+  "Tornillos": {
+    "Fijación cuadrado": "Tornillo de fijación cuadrado M1,8",
+    "Fijación hexagonal": "Tornillo de fijación hexoganal M1,8"
+  },
+
+  "Digital": {
+    "Análogo digital": "Análogo digital - Hexágono Interno",
+    "Cuerpo de escaneo": "Cuerpo de escaneo - Hexágono Interno",
+    "Ti Bases": {
+      "Anti-rotacional": "Ti Base Anti-Rotacional y tornillo M1.8 - Hexágono Interno",
+      "Rotacional": "Ti Base Rotacional y tornillo M1.8- Hexágono Interno"
+      }
+    }
+  }
+
+},  
     digital: {},
     herramental: {}
 };
@@ -270,6 +338,20 @@ const DB = {
   const currentLevel = (typeof data === 'string') ? DB[data] : data;
 
   if (!currentLevel) return;
+  if (typeof currentLevel === 'string') {
+  const prod = currentLevel;
+  const q = cart[prod] || 0;
+  container.innerHTML = `
+    <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
+      <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
+      <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
+        <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
+        <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
+        <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
+      </div>
+    </div>`;
+  return;
+}          
 
   // ✅ CASO FINAL: si currentLevel es un ARRAY, entonces son productos
   if (Array.isArray(currentLevel)) {
@@ -378,6 +460,7 @@ const DB = {
     </script>
 </body>
 </html>
+
 
 
 

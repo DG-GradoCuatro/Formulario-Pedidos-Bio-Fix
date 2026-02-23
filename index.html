@@ -142,6 +142,18 @@ const DB = {
         "Ø4.0 (Plat. 4.1)": ["HE Ø4.0x6mm","HE Ø4.0x8.5mm","HE Ø4.0x10mm","HE Ø4.0x11.5mm","HE Ø4.0x13mm","HE Ø4.0x15mm"],
         "Ø5.0 (Plat. 5.1)": ["HE Ø5.0x6mm","HE Ø5.0x8.5mm","HE Ø5.0x10mm","HE Ø5.0x11.5mm","HE Ø5.0x13mm","HE Ø5.0x15mm"]
     },
+    hi: {
+        "Ø3.30": ["HI Ø3.30x6.5mm","HI Ø3.30x8.0mm","HI Ø3.30x10mm","HI Ø3.30x11.5mm","HI Ø3.30x13mm","HI Ø3.30x16mm"],
+        "Ø3.75": ["HI Ø3.75x6.5mm","HI Ø3.75x8.0mm","HI Ø3.75x10mm","HI Ø3.75x11.5mm","HI Ø3.75x13mm","HI Ø3.75x16mm"],
+        "Ø4.20": ["HI Ø4.2x6.5mm","HI Ø4.2x8.0mm","HI Ø4.2x10mm","HI Ø4.2x11.5mm","HI Ø4.2x13mm","HI Ø4.2x16mm"],
+        "Ø5.00": ["HI Ø5.0x6.5mm","HI Ø5.0x8.0mm","HI Ø5.0x10mm","HI Ø5.0x11.5mm","HI Ø5.0x13mm","HI Ø5.0x16mm"]
+    },
+    cmhi: {
+        "Ø3.30": ["CMHI Ø3.30x8mm","CMHI Ø3.30x10mm","CMHI Ø3.30x11.5mm","CMHI Ø3.30x13mm","CMHI Ø3.30x16mm"],
+        "Ø3.75": ["CMHI Ø3.75x8mm","CMHI Ø3.75x10mm","CMHI Ø3.75x11.5mm","CMHI Ø3.75x13mm","CMHI Ø3.75x16mm"],
+        "Ø4.20": ["CMHI Ø4.20x8mm","CMHI Ø4.20x10mm","CMHI Ø4.20x11.5mm","CMHI Ø4.20x13mm","CMHI Ø4.20x16mm"],
+        "Ø5.00": ["CMHI Ø5.0x8mm","CMHI Ø5.0x10mm","CMHI Ø5.0x11.5mm","CMHI Ø5.0x13mm","CMHI Ø5.0x16mm"]
+    },
     basales: {
         "IB - PULIDO": {
             "Ø3.5": ["IB Ø3.5x10mm","IB Ø3.5x12mm","IB Ø3.5x14mm","IB Ø3.5x15mm","IB Ø3.5x18mm","IB Ø3.5x21mm","IB Ø3.5x23mm","IB Ø3.5x26mm","IB Ø3.5x28mm","IB Ø3.5x24 C14","IB Ø3.5x26 C16","IB Ø3.5x28 C18"],
@@ -216,51 +228,37 @@ const DB = {
         function openSub(id) { showSection(id); }
 
         function loadProducts(data) {
-    // 1. Preparamos el contenedor
     showSection('step-lista');
     const container = document.getElementById('step-lista');
     container.innerHTML = "";
     
-    // 2. Obtenemos los datos (si es un string como "monopieza" busca en la DB, si no, usa el objeto)
     const currentLevel = typeof data === 'string' ? DB[data] : data;
     if (!currentLevel) return;
 
-    // 3. Lógica de Diseño (UX): ¿Hay subcarpetas o es la lista final?
     const keys = Object.keys(currentLevel);
-    // Revisamos si el primer elemento es un Array (productos) o un Objeto (más botones)
-    const isProductList = Array.isArray(currentLevel[keys[0]]);
+    // Si lo que hay adentro NO es una lista, creamos botones
+    const isNavigation = !Array.isArray(currentLevel[keys[0]]);
 
-    if (!isProductList) {
-        // --- VISTA DE BOTONES (Navegación limpia) ---
+    if (isNavigation) {
         keys.forEach(key => {
             const btn = document.createElement('button');
-            btn.className = "w-full bg-white p-7 mb-4 rounded-[30px] card-shadow font-black text-slate-800 uppercase tracking-widest text-[11px] border border-slate-100 active:scale-95 transition-all flex justify-between items-center px-10";
-            btn.innerHTML = `
-                <span>${key}</span>
-                <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path>
-                </svg>
-            `;
-            // Al hacer clic, se llama a sí misma con el siguiente nivel
+            btn.className = "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-[11px] border border-slate-100 flex justify-between items-center px-8 active:scale-95 transition-all";
+            btn.innerHTML = `<span>${key}</span> <span class="text-slate-300">→</span>`;
             btn.onclick = () => loadProducts(currentLevel[key]);
             container.appendChild(btn);
         });
     } else {
-        // --- VISTA DE SELECCIÓN (Lista final de medidas) ---
+        // Si ya es el nivel de medidas, mostramos los productos
         keys.forEach(key => {
-            const products = currentLevel[key];
-            products.forEach(prod => {
+            currentLevel[key].forEach(prod => {
                 const q = cart[prod] || 0;
                 const row = `
                 <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
-                    <div class="flex flex-col">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Producto</span>
-                        <span class="text-[11px] font-black text-slate-700 uppercase">${prod}</span>
-                    </div>
-                    <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100 shadow-inner">
-                        <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400 active:bg-red-50">-</button>
-                        <span class="font-black text-xs min-w-[20px] text-center text-slate-700">${q}</span>
-                        <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-lg font-bold active:scale-90">+</button>
+                    <span class="text-[10px] font-bold text-slate-500 uppercase">${prod}</span>
+                    <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
+                        <button onclick="update('${prod}',-1,this)" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
+                        <span class="font-black text-xs w-4 text-center text-slate-700">${q}</span>
+                        <button onclick="update('${prod}',1,this)" class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold active:scale-90">+</button>
                     </div>
                 </div>`;
                 container.innerHTML += row;
@@ -302,6 +300,7 @@ const DB = {
     </script>
 </body>
 </html>
+
 
 
 

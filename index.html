@@ -202,6 +202,9 @@ const DB = {
         "MINIPILAR HEXÁGONO INTERNO": ["Minipilar Altura 1 - Hexágono Interno","Minipilar Altura 2 - Hexágono Interno","Minipilar Altura 3 - Hexágono Interno","Minipilar Altura 4 - Hexágono Interno"],
         "MINIPILAR HEXÁGONO EXTERNO": ["Minipilar Altura 1 - Hexágono Externo","Minipilar Altura 2 - Hexágono Externo","Minipilar Altura 3 - Hexágono Externo","Minipilar Altura 4 - Hexágono Externo"]
     }
+    analogicos: {},
+    digital: {},
+    herramental: {}
 };
         let cart = {}; let stack = ['step-choice']; let clientData = {};
 
@@ -215,9 +218,15 @@ const DB = {
         }
 
         function updateLabels(id) {
-            const subs = { 'step-choice': 'Inicio', 'sub-implantes': 'Implantes', 'sub-analogicos': 'Analógicos', 'sub-digital': 'Digital', 'step-lista': 'Catálogo', 'step-resumen': 'Resumen' };
-            document.getElementById('nav-subtitle').innerText = subs[id] || 'Bio-Fix';
-        }
+            const subs = {
+  'step-choice': 'Inicio',
+  'sub-implantes': 'Implantes',
+  'sub-analogicos': 'Analógicos',
+  'sub-digital': 'Digitales',
+  'sub-herramental': 'Herramental',
+  'step-lista': 'Catálogo',
+  'step-resumen': 'Resumen'
+};
 
         function goBack() { if(stack.length > 1) { stack.pop(); showSection(stack.pop()); } }
 
@@ -354,6 +363,7 @@ const DB = {
     </script>
 </body>
 </html>
+
 
 
 

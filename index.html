@@ -83,7 +83,10 @@
                     <span class="text-2xl">🔩</span><span class="ml-4">Componentes Analógicos</span>
                 </button>
                 <button onclick="openSub('sub-digital')" class="btn-choice bg-white border-slate-100 text-slate-900 flex-row !py-6 !justify-start px-8">
-                    <span class="text-2xl">💻</span><span class="ml-4">Flujo Digital</span>
+                    <span class="text-2xl">💻</span><span class="ml-4">Componentes Digitales</span>
+                </button>
+                <button onclick="openSub('sub-herramental')" class="btn-choice bg-white border-slate-100 text-slate-900 flex-row !py-6 !justify-start px-8">
+                <span class="text-2xl">🧰</span><span class="ml-4">Herramental</span>
                 </button>
             </section>
 
@@ -111,6 +114,12 @@
                 <button onclick="loadProducts('dig_hi')" class="btn-choice bg-white !py-8"><span>HI</span></button>
                 <button onclick="loadProducts('dig_he')" class="btn-choice bg-white !py-8"><span>HE</span></button>
                 <button onclick="loadProducts('dig_cm')" class="btn-choice bg-white !py-8"><span>CM</span></button>
+            </section>
+
+            <section id="sub-herramental" class="hidden grid grid-cols-2 gap-4">
+                <button onclick="loadProducts('herramental')" class="btn-choice bg-white !py-8">
+                  <span>HERRAMENTAL</span>
+                </button>
             </section>
 
             <section id="step-lista" class="hidden"></section>
@@ -345,6 +354,7 @@ const DB = {
     </script>
 </body>
 </html>
+
 
 
 

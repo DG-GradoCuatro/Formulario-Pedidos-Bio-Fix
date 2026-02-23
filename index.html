@@ -215,16 +215,16 @@
     const container = document.getElementById('step-lista');
     container.innerHTML = "";
     
-    // Obtenemos los datos de la DB
+    // Si recibimos un texto (ej: "monopieza"), buscamos en la DB. 
+    // Si recibimos un objeto, lo usamos directamente.
     const currentLevel = typeof data === 'string' ? DB[data] : data;
 
-    // REGLA DE ORO: Recorremos las llaves del nivel actual
     for (const key in currentLevel) {
         const value = currentLevel[key];
 
-        // CASO A: Si el valor es una lista de medidas (Array), las dibujamos (Ej: Ø3.0 de Monopieza)
         if (Array.isArray(value)) {
-            // Solo dibujamos la lista si entramos directamente al nivel que tiene el array
+            // --- NIVEL 3 (MEDIDAS) ---
+            // Si el valor es una lista, dibujamos los productos con sus selectores
             value.forEach(prod => {
                 const q = cart[prod] || 0;
                 const row = `
@@ -238,14 +238,13 @@
                 </div>`;
                 container.innerHTML += row;
             });
-            // Importante: Si encontramos un array, asumimos que este nivel es de productos y no queremos botones de otras cosas mezclados
-        } 
-        // CASO B: Si el valor es otra carpeta (Objeto), creamos un BOTÓN (Ej: CMU, Ø3.0 en Basales, etc.)
-        else {
+        } else {
+            // --- NIVEL 1 y 2 (BOTONES) ---
+            // Si el valor NO es una lista, creamos un botón para profundizar
             const btn = document.createElement('button');
             btn.className = "w-full bg-white p-6 mb-3 rounded-[25px] card-shadow font-black text-slate-800 uppercase text-xs border border-slate-100 active:scale-95 transition-transform";
             btn.innerText = key;
-            btn.onclick = () => loadProducts(value);
+            btn.onclick = () => loadProducts(value); // Al tocarlo, entra al siguiente nivel (ej: de CMU a los diámetros)
             container.appendChild(btn);
         }
     }
@@ -284,6 +283,7 @@
     </script>
 </body>
 </html>
+
 
 
 

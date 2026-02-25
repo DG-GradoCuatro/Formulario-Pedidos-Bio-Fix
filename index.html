@@ -2,26 +2,43 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Bio-Fix | Sistema Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        .card-shadow { box-shadow: 0 4px 25px -5px rgba(0,0,0,0.05); }
-        .hidden { display: none; }
-        .btn-choice { @apply w-full py-8 rounded-[32px] font-black uppercase text-xs tracking-widest shadow-lg transition-all active:scale-[0.97] flex flex-col items-center justify-center gap-3 border-2; }
-        .input-premium { @apply w-full p-5 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-500 focus:bg-white font-bold text-slate-700 transition-all uppercase placeholder:normal-case; }
-    </style>
+  body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+  .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+  .card-shadow { box-shadow: 0 4px 25px -5px rgba(0,0,0,0.05); }
+  .hidden { display: none; }
+  .btn-choice { @apply w-full py-8 rounded-[32px] font-black uppercase text-xs tracking-widest shadow-lg transition-all active:scale-[0.97] flex flex-col items-center justify-center gap-3 border-2; }
+  .input-premium { @apply w-full p-5 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-500 focus:bg-white font-bold text-slate-700 transition-all uppercase placeholder:normal-case; }
+
+  /* ✅ Esto es lo NUEVO (anti-zoom por toques rápidos) */
+  button { touch-action: manipulation; }
+
+  /* ✅ Esto es lo NUEVO (anti-zoom al enfocar inputs en iPhone) */
+  input, textarea, select { font-size: 16px; }
+</style>
 </head>
 <body class="min-h-screen pb-10">
 
     <div class="max-w-xl mx-auto min-h-screen flex flex-col relative">
         
         <header class="bg-slate-900 text-white p-10 pt-14 rounded-b-[50px] shadow-2xl text-center relative overflow-hidden">
-            <h1 class="text-4xl font-black tracking-tighter italic relative">BIO-FIX<span class="text-blue-500">®</span></h1>
-            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-[0.5em] mt-3 relative">Professional Implant Systems</p>
+            <div class="flex flex-col items-center gap-3 relative">
+  <img
+    src="logo biofix blanco.png"
+    alt="Bio-Fix"
+    class="h-14 object-contain"
+  />
+
+  <p class="text-[11px] text-slate-300 font-black uppercase tracking-[0.35em] flex items-center gap-2">
+    <span>Formulario de pedidos</span>
+    <span class="text-blue-400 text-sm">📝</span>
+  </p>
+                
+</div>
         </header>
 
         <nav class="glass sticky top-4 mx-6 mt-[-25px] p-4 rounded-[24px] shadow-xl z-50 flex justify-between items-center border border-white/40">
@@ -126,13 +143,22 @@
             <section id="step-resumen" class="hidden space-y-5">
                 <div id="cart-items" class="space-y-4"></div>
                 <textarea id="obs" class="w-full p-6 bg-white rounded-[32px] border border-slate-100 card-shadow font-bold text-sm outline-none" placeholder="Notas..."></textarea>
-                <button onclick="sendWA()" class="w-full bg-green-600 text-white py-7 rounded-[32px] font-black uppercase shadow-xl flex items-center justify-center gap-3">
-                    <span>Enviar a Bio-Fix</span>
-                </button>
-            </section>
+                <div class="bg-amber-50 border border-amber-200 rounded-[28px] p-6 card-shadow flex gap-4 items-start">
+  
+  <div class="text-2xl">⚠️</div>
+  
+  <div>
+    <p class="text-xs font-black uppercase tracking-wide text-amber-800">
+      Confirmación de stock
+    </p>
+    <p class="text-sm font-bold text-slate-700 mt-2 leading-snug">
+      La disponibilidad de los productos y el presupuesto final
+      quedan sujetos a verificación de stock.
+      El presupuesto formal será enviado luego de la confirmación.
+    </p>
+  </div>
 
-        </main>
-    </div>
+</div>
 
     <script>
 const DB = {
@@ -643,16 +669,25 @@ function openSub(id) {
 function renderItem(prod) {
   const q = cart[prod] || 0;
   const safeProd = JSON.stringify(prod);
+  const inputId = uid("qty");
 
   return `
     <div class="flex justify-between items-center p-5 px-8 bg-white mb-3 rounded-[25px] border border-slate-50 card-shadow">
       <span class="text-[10px] font-black text-slate-600 uppercase">${prod}</span>
 
-      <div class="flex items-center gap-4 bg-slate-50 p-1 rounded-2xl border border-slate-100">
+      <div class="flex items-center gap-2 bg-slate-50 p-1 rounded-2xl border border-slate-100">
         <button type="button" onclick='update(${safeProd},-1,this)'
           class="w-10 h-10 flex items-center justify-center bg-white rounded-xl font-bold text-slate-400">-</button>
 
-        <span class="font-black text-xs w-6 text-center text-slate-700">${q}</span>
+        <input
+          id="${inputId}"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          value="${q}"
+          onchange='setQty(${safeProd}, this.value)'
+          class="w-16 h-10 text-center font-black text-xs text-slate-700 bg-white rounded-xl border border-slate-100 outline-none"
+        />
 
         <button type="button" onclick='update(${safeProd},1,this)'
           class="w-10 h-10 flex items-center justify-center bg-slate-900 text-white rounded-xl shadow-md font-bold">+</button>
@@ -662,20 +697,37 @@ function renderItem(prod) {
 }
 
 function update(item, delta, btn) {
-  cart[item] = (cart[item] || 0) + delta;
-  if (cart[item] <= 0) delete cart[item];
+  const newQty = (cart[item] || 0) + delta;
 
-  // el span de cantidad es el del medio
-  const qtySpan = btn.parentElement.querySelector("span");
-  qtySpan.innerText = cart[item] || 0;
+  if (newQty <= 0) {
+    delete cart[item];
+  } else {
+    cart[item] = newQty;
+  }
+
+  // actualizar el input del medio
+  const qtyInput = btn.parentElement.querySelector("input[type='number']");
+  if (qtyInput) qtyInput.value = cart[item] || 0;
 
   updateNavCount();
 }
-
 function updateNavCount() {
   const el = document.getElementById("cart-count");
   if (!el) return; // por si lo borran sin querer
   el.innerText = Object.values(cart).reduce((a, b) => a + b, 0);
+}
+function setQty(item, value) {
+  let n = parseInt(value, 10);
+
+  if (isNaN(n) || n < 0) n = 0;
+
+  if (n === 0) {
+    delete cart[item];
+  } else {
+    cart[item] = n;
+  }
+
+  updateNavCount();
 }
 
 // ========== CATÁLOGO (ACORDEÓN RECUSIVO) ==========
@@ -806,6 +858,7 @@ function sendWA() {
 </script>
 </body>
 </html>
+
 
 
 

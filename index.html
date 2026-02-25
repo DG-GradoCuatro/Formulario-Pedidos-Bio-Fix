@@ -148,11 +148,30 @@ select.input-premium {
             </section>
 
             <section id="sub-implantes" class="hidden grid grid-cols-2 gap-4">
-                <button onclick="loadProducts('monopieza')" class="btn-choice bg-white !py-10"><span class="text-xs text-cyan-500 font-black">SISTEMA</span><span class="text-lg">MP</span></button>
-                <button onclick="loadProducts('basales')" class="btn-choice bg-white !py-10"><span class="text-xs text-slate-400 font-black">SISTEMA</span><span class="text-lg">BASAL</span></button>
-                <button onclick="loadProducts('compresivos')" class="btn-choice bg-white !py-10"><span class="text-xs text-fuchsia-500 font-black">SISTEMA</span><span class="text-lg">CMU</span></button>
-                <button onclick="loadProducts('hi')" class="btn-choice bg-white !py-10"><span class="text-xs text-red-500 font-black">SISTEMA</span><span class="text-lg">HI</span></button>
-                <button onclick="loadProducts('multiunit')" class="btn-choice bg-white border-amber-200 !py-10 grid-cols-span-2"><span class="text-xs text-amber-600 font-black">SISTEMA</span><span class="text-lg">MULTIUNIT</span></button>
+                <button onclick="loadProducts('monopieza')" class="btn-choice bg-white !py-10">
+  <span class="text-xs text-cyan-500 font-black">SISTEMA</span>
+  <span class="text-lg">MP</span>
+</button>
+
+<button onclick="loadProducts('basales')" class="btn-choice bg-white !py-10">
+  <span class="text-xs text-slate-500 font-black">SISTEMA</span>
+  <span class="text-lg">BASAL</span>
+</button>
+
+<button onclick="loadProducts('compresivos')" class="btn-choice bg-white !py-10">
+  <span class="text-xs text-fuchsia-500 font-black">SISTEMA</span>
+  <span class="text-lg">CMU</span>
+</button>
+
+<button onclick="loadProducts('hi')" class="btn-choice bg-white !py-10">
+  <span class="text-xs text-red-500 font-black">SISTEMA</span>
+  <span class="text-lg">HI</span>
+</button>
+
+<button onclick="loadProducts('multiunit')" class="btn-choice bg-white border-amber-200 !py-10 grid-cols-span-2">
+  <span class="text-xs text-amber-600 font-black">SISTEMA</span>
+  <span class="text-lg">MULTIUNIT</span>
+</button>
             </section>
 
             <section id="sub-analogicos" class="hidden grid grid-cols-2 gap-4">
@@ -177,6 +196,10 @@ select.input-premium {
   <button onclick="loadProducts(DB.digital.hi)" class="btn-choice bg-white !py-10">
     <span class="text-xs text-slate-400 font-black">SISTEMA</span><span class="text-lg">HI</span>
   </button>
+  <button onclick="loadProducts(DB.digital.mu)" class="btn-choice bg-white !py-10">
+  <span class="text-xs text-slate-400 font-black">SISTEMA</span>
+  <span class="text-lg">MU</span>
+</button>              
             </section>
 
             <section id="sub-herramental" class="hidden grid grid-cols-2 gap-4">
@@ -521,10 +544,40 @@ const DB = {
   "Transfers": [
     "Transfer cubeta abierta CM"
   ]
- }       
-},
+ },       
+
+   mu: {
+    "Pilares": {
+      "Rotacional": [
+        "Pilar para Minipilar Rotacional y microtornillo"
+      ],
+      "Anti-rotacional": [
+        "Pilar para Minipilar Anti-rotacional y microtornillo"
+      ]
+    },
+    "UCLAs": [
+      "Ucla calcinable para Minipilar rotacional"
+    ],
+    "Cicatrizales": [
+      "Cicatrizal para Minipilar"
+    ],
+    "Transfers": {
+      "Cubeta Abierta": [
+        "Transfer para minipilar Cubeta Abierta"
+      ],
+      "Cubeta Cerrada": [
+        "Transfer para minipilar Cubeta Cerrada"
+      ]
+    },
+    "Tornillos": [
+      "Micro tornillo"
+    ]
+  }
+
+},      
 digital: {
-    hi: {
+
+  hi: {
     "Ti Bases": {
       "Rotacional": [
         "Ti Base Rotacional y tornillo M1.8 - Hexágono Interno"
@@ -548,8 +601,17 @@ digital: {
     "Ti Base": [
       "Ti Base y tornillo M2 - Compresivo Multi Unit"
     ]
-   }
   },
+
+  mu: {
+    "MU": [
+      "Analogo Digital - MU",
+      "Ti-Base y microtornillo - MU",
+      "Cuerpo de Escaneo - MU"
+    ]
+  }
+
+},
 herramental: {
 
   "Fresas": {
@@ -951,6 +1013,7 @@ function sendWA() {
 </script>
 </body>
 </html>
+
 
 
 

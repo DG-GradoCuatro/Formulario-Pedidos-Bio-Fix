@@ -62,7 +62,7 @@
                 <div class="grid grid-cols-1 gap-5">
                     <button onclick="showSection('step-login-old')" class="btn-choice bg-white border-slate-100 text-slate-900">
                         <span class="text-4xl">👨‍⚕️</span>
-                        <span>Soy Cliente Registrado</span>
+                        <span>Ya Soy Cliente</span>
                     </button>
                     <button onclick="showSection('step-login-new')" class="btn-choice bg-blue-600 border-blue-500 text-white">
                         <span class="text-4xl">✨</span>
@@ -111,25 +111,32 @@
                 <button onclick="loadProducts('monopieza')" class="btn-choice bg-white !py-10"><span class="text-xs text-cyan-500 font-black">SISTEMA</span><span class="text-lg">MP</span></button>
                 <button onclick="loadProducts('basales')" class="btn-choice bg-white !py-10"><span class="text-xs text-slate-400 font-black">SISTEMA</span><span class="text-lg">BASAL</span></button>
                 <button onclick="loadProducts('compresivos')" class="btn-choice bg-white !py-10"><span class="text-xs text-fuchsia-500 font-black">SISTEMA</span><span class="text-lg">CMU</span></button>
-                <button onclick="loadProducts('hi')" class="btn-choice bg-white !py-10"><span class="text-xs text-red-500 font-black">CONEXIÓN</span><span class="text-lg">HI</span></button>
-                <button onclick="loadProducts('he')" class="btn-choice bg-white !py-10"><span class="text-xs text-green-500 font-black">CONEXIÓN</span><span class="text-lg">HE</span></button>
-                <button onclick="loadProducts('cmhi')" class="btn-choice bg-white !py-10"><span class="text-xs text-purple-500 font-black">CONEXIÓN</span><span class="text-lg">CM</span></button>
+                <button onclick="loadProducts('hi')" class="btn-choice bg-white !py-10"><span class="text-xs text-red-500 font-black">SISTEMA</span><span class="text-lg">HI</span></button>
                 <button onclick="loadProducts('multiunit')" class="btn-choice bg-white border-amber-200 !py-10 grid-cols-span-2"><span class="text-xs text-amber-600 font-black">SISTEMA</span><span class="text-lg">MULTIUNIT</span></button>
             </section>
 
             <section id="sub-analogicos" class="hidden grid grid-cols-2 gap-4">
-               <button onclick="loadProducts(DB.analogicos.mp)">MP</button>
-               <button onclick="loadProducts(DB.analogicos.cmu)">CMU</button>
-               <button onclick="loadProducts(DB.analogicos.hi)">HI</button>
-               <button onclick="loadProducts(DB.analogicos.he)">HE</button>
-               <button onclick="loadProducts(DB.analogicos.cmhi)">CMHI</button>
-            </section>
+  <button onclick="loadProducts(DB.analogicos.mp)" class="btn-choice bg-white !py-10">
+    <span class="text-xs text-slate-400 font-black">SISTEMA</span><span class="text-lg">MP</span>
+  </button>
 
-             <section id="sub-digital" class="hidden grid grid-cols-2 gap-4">
-                <button onclick="loadProducts(DB.digital.cmu)" class="btn-choice bg-white !py-8"><span>CMU</span></button>
-                <button onclick="loadProducts(DB.digital.hi)" class="btn-choice bg-white !py-8"><span>HI</span></button>
-                <button onclick="loadProducts(DB.digital.he)" class="btn-choice bg-white !py-8"><span>HE</span></button>
-                <button onclick="loadProducts(DB.digital.cm)" class="btn-choice bg-white !py-8"><span>CM</span></button>
+  <button onclick="loadProducts(DB.analogicos.cmu)" class="btn-choice bg-white !py-10">
+    <span class="text-xs text-slate-400 font-black">SISTEMA</span><span class="text-lg">CMU</span>
+  </button>
+
+  <button onclick="loadProducts(DB.analogicos.hi)" class="btn-choice bg-white !py-10">
+    <span class="text-xs text-slate-400 font-black">SISTEMA</span><span class="text-lg">HI</span>
+  </button>
+
+</section>
+
+            <section id="sub-digital" class="hidden grid grid-cols-2 gap-4">
+  <button onclick="loadProducts(DB.digital.cmu)" class="btn-choice bg-white !py-10">
+    <span class="text-xs text-slate-400 font-black">SISTEMA</span><span class="text-lg">CMU</span>
+  </button>
+  <button onclick="loadProducts(DB.digital.hi)" class="btn-choice bg-white !py-10">
+    <span class="text-xs text-slate-400 font-black">SISTEMA</span><span class="text-lg">HI</span>
+  </button>
             </section>
 
             <section id="sub-herramental" class="hidden grid grid-cols-2 gap-4">
@@ -141,24 +148,37 @@
             <section id="step-lista" class="hidden"></section>
 
             <section id="step-resumen" class="hidden space-y-5">
-                <div id="cart-items" class="space-y-4"></div>
-                <textarea id="obs" class="w-full p-6 bg-white rounded-[32px] border border-slate-100 card-shadow font-bold text-sm outline-none" placeholder="Notas..."></textarea>
-                <div class="bg-amber-50 border border-amber-200 rounded-[28px] p-6 card-shadow flex gap-4 items-start">
-  
-  <div class="text-2xl">⚠️</div>
-  
-  <div>
-    <p class="text-xs font-black uppercase tracking-wide text-amber-800">
-      Confirmación de stock
-    </p>
-    <p class="text-sm font-bold text-slate-700 mt-2 leading-snug">
-      La disponibilidad de los productos y el presupuesto final
-      quedan sujetos a verificación de stock.
-      El presupuesto formal será enviado luego de la confirmación.
-    </p>
-  </div>
 
-</div>
+    <div id="cart-items" class="space-y-4"></div>
+
+    <textarea id="obs"
+      class="w-full p-6 bg-white rounded-[32px] border border-slate-100 card-shadow font-bold text-sm outline-none"
+      placeholder="Notas..."></textarea>
+
+    <div class="bg-amber-50 border border-amber-200 rounded-[28px] p-6 card-shadow flex gap-4 items-start">
+
+        <div class="text-2xl">⚠️</div>
+
+        <div>
+            <p class="text-xs font-black uppercase tracking-wide text-amber-800">
+                Confirmación de stock
+            </p>
+            <p class="text-sm font-bold text-slate-700 mt-2 leading-snug">
+                La disponibilidad de los productos y el presupuesto final
+                quedan sujetos a verificación de stock.
+                El presupuesto formal será enviado luego de la confirmación.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- 🔹 BOTÓN AQUÍ 🔹 -->
+    <button onclick="sendWA()" 
+      class="w-full bg-green-600 text-white py-7 rounded-[32px] font-black uppercase shadow-xl flex items-center justify-center gap-3 mt-4">
+      <span>Enviar Pedido por WhatsApp</span>
+    </button>
+
+</section>
 
     <script>
 const DB = {
@@ -851,13 +871,38 @@ function goToResumen() {
 }
 
 function sendWA() {
-  let m = `*PEDIDO BIO-FIX®*\n*PROFESIONAL:* ${(clientData.nombre || "").toUpperCase()}\n\n*PRODUCTOS:*\n`;
-  Object.entries(cart).forEach(([n, q]) => m += `✅ ${q} x ${n}\n`);
-  window.open(`https://wa.me/5491134019090?text=${encodeURIComponent(m)}`);
+
+  if (Object.keys(cart).length === 0) {
+    alert("No hay productos en el pedido.");
+    return;
+  }
+
+  let message = `*PEDIDO BIO-FIX®*\n\n`;
+  message += `*PROFESIONAL:* ${(clientData.nombre || "").toUpperCase()}\n`;
+  message += `DNI: ${clientData.id || ""}\n\n`;
+
+  message += `*PRODUCTOS:*\n`;
+
+  Object.entries(cart).forEach(([name, qty]) => {
+    message += `• ${qty} x ${name}\n`;
+  });
+
+  const obs = document.getElementById("obs")?.value;
+  if (obs) {
+    message += `\n*OBSERVACIONES:*\n${obs}\n`;
+  }
+
+  message += `\n—\nPedido sujeto a confirmación de stock.`;
+
+  const phone = "5491134019090"; // ← poné tu número acá
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
 }
 </script>
 </body>
 </html>
+
 
 
 

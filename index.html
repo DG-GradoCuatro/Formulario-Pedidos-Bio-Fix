@@ -878,10 +878,19 @@ function sendWA() {
   }
 
   let message = `*PEDIDO BIO-FIX®*\n\n`;
-  message += `*PROFESIONAL:* ${(clientData.nombre || "").toUpperCase()}\n`;
-  message += `DNI: ${clientData.id || ""}\n\n`;
 
-  message += `*PRODUCTOS:*\n`;
+  message += `*DATOS DEL PROFESIONAL*\n`;
+  message += `Nombre: ${clientData.nombre || ""}\n`;
+  message += `DNI: ${clientData.id || ""}\n`;
+
+  // Si es cliente nuevo, agregamos más datos
+  if (clientData.tipo === "NUEVO") {
+    message += `Matrícula: ${clientData.matricula || ""}\n`;
+    message += `Localidad: ${clientData.loc || ""}\n`;
+    message += `Provincia: ${clientData.prov || ""}\n`;
+  }
+
+  message += `\n*PRODUCTOS SOLICITADOS*\n`;
 
   Object.entries(cart).forEach(([name, qty]) => {
     message += `• ${qty} x ${name}\n`;
@@ -889,12 +898,12 @@ function sendWA() {
 
   const obs = document.getElementById("obs")?.value;
   if (obs) {
-    message += `\n*OBSERVACIONES:*\n${obs}\n`;
+    message += `\n*OBSERVACIONES*\n${obs}\n`;
   }
 
   message += `\n—\nPedido sujeto a confirmación de stock.`;
 
-  const phone = "5491134019090"; // ← poné tu número acá
+  const phone = "5491134019090"; // ← tu número
   const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
   window.open(url, "_blank");
@@ -902,6 +911,7 @@ function sendWA() {
 </script>
 </body>
 </html>
+
 
 
 

@@ -13,7 +13,21 @@
   .hidden { display: none; }
   .btn-choice { @apply w-full py-8 rounded-[32px] font-black uppercase text-xs tracking-widest shadow-lg transition-all active:scale-[0.97] flex flex-col items-center justify-center gap-3 border-2; }
   .input-premium { @apply w-full p-5 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-blue-500 focus:bg-white font-bold text-slate-700 transition-all uppercase placeholder:normal-case; }
+.input-premium {
+  width: 100%;
+  box-sizing: border-box;
+}
 
+select.input-premium {
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* 🔧 asegura que NADA se salga de los contenedores */
+* {
+  box-sizing: border-box;
+}
   /* ✅ Esto es lo NUEVO (anti-zoom por toques rápidos) */
   button { touch-action: manipulation; }
 
@@ -937,6 +951,7 @@ function sendWA() {
 </script>
 </body>
 </html>
+
 
 
 

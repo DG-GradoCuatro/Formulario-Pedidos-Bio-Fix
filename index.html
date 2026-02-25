@@ -100,6 +100,7 @@ select.input-premium {
                     <input type="text" id="new_dni" placeholder="DNI *" class="input-premium">
                     <input type="text" id="new_mat" placeholder="Matrícula Profesional *" class="input-premium">
                     <input type="text" id="new_loc" placeholder="Localidad *" class="input-premium">
+                    <input type="text" id="new_cp" inputmode="numeric" pattern="[0-9]*" placeholder="Código Postal *" class="input-premium">
                     <select id="new_prov" class="input-premium">
   <option value="" selected disabled>Provincia *</option>
   <option>Buenos Aires</option>
@@ -792,6 +793,7 @@ function validateStart(type) {
     clientData.matricula = document.getElementById("new_mat").value;
     clientData.loc = document.getElementById("new_loc").value;
     clientData.prov = document.getElementById("new_prov").value;
+    clientData.cp = document.getElementById("new_cp").value;
   }
 
   showSection("step-menu");
@@ -1004,6 +1006,7 @@ function sendWA() {
     message += `Matrícula: ${clientData.matricula || ""}\n`;
     message += `Localidad: ${clientData.loc || ""}\n`;
     message += `Provincia: ${clientData.prov || ""}\n`;
+    message += `CP: ${clientData.cp || ""}\n`;
   }
 
   message += `\n*PRODUCTOS SOLICITADOS*\n`;
@@ -1027,6 +1030,7 @@ function sendWA() {
 </script>
 </body>
 </html>
+
 
 
 

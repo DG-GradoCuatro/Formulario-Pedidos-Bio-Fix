@@ -109,10 +109,10 @@
             </section>
 
              <section id="sub-digital" class="hidden grid grid-cols-2 gap-4">
-                <button onclick="loadProducts('dig_cmu')" class="btn-choice bg-white !py-8"><span>CMU</span></button>
-                <button onclick="loadProducts('dig_hi')" class="btn-choice bg-white !py-8"><span>HI</span></button>
-                <button onclick="loadProducts('dig_he')" class="btn-choice bg-white !py-8"><span>HE</span></button>
-                <button onclick="loadProducts('dig_cm')" class="btn-choice bg-white !py-8"><span>CM</span></button>
+                <button onclick="loadProducts(DB.digital.cmu)" class="btn-choice bg-white !py-8"><span>CMU</span></button>
+                <button onclick="loadProducts(DB.digital.hi)" class="btn-choice bg-white !py-8"><span>HI</span></button>
+                <button onclick="loadProducts(DB.digital.he)" class="btn-choice bg-white !py-8"><span>HE</span></button>
+                <button onclick="loadProducts(DB.digital.cm)" class="btn-choice bg-white !py-8"><span>CM</span></button>
             </section>
 
             <section id="sub-herramental" class="hidden grid grid-cols-2 gap-4">
@@ -437,8 +437,143 @@ const DB = {
   ]
  }       
 },
-digital: {},
-herramental: {}
+digital: {
+    hi: {
+    "Ti Bases": {
+      "Rotacional": [
+        "Ti Base Rotacional y tornillo M1.8 - Hexágono Interno"
+      ],
+      "Anti-Rotacional": [
+        "Ti Base Anti-Rotacional y tornillo M1.8  - Hexágono Interno"
+      ]
+    },
+    "Análogo digital": [
+      "Análogo digital - Hexágono Interno"
+    ],
+    "Cuerpo de escaneo": [
+      "Cuerpo de escaneo y tornillo M1.8 - Hexágono Interno"
+    ]
+  },
+
+  cmu: {
+    "Cuerpo de escaneo": [
+      "Cuerpo de escaneo y tornillo M2 P/Implante Compresivo Multi Unit"
+    ],
+    "Ti Base": [
+      "Ti Base y tornillo M2 - Compresivo Multi Unit"
+    ]
+   }
+  },
+herramental: {
+
+  "Fresas": {
+    "Convencionales": [
+      "Fresa Lanza Corta Ø2,0",
+      "Fresa Lanza Larga Ø2,0"
+    ],
+    "Guiadas": [
+      "Fresa Lanza Guiada Corta Ø2,0",
+      "Fresa Lanza Guiada Larga Ø2,0"
+    ],
+    "Helicoidales": [
+      "Fresa Helicoidal Ø5,3",
+      "Fresa Helicoidal Ø5,0",
+      "Fresa Helicoidal Ø4,6",
+      "Fresa Helicoidal Ø4,3",
+      "Fresa Helicoidal Ø4,0",
+      "Fresa Helicoidal Ø3,6",
+      "Fresa Helicoidal Ø3,2",
+      "Fresa Helicoidal Ø2,8",
+      "Fresa Helicoidal Ø2,5",
+      "Fresa Helicoidal Ø2,0"
+    ]
+  },
+
+  "Kit´s Expansores": {
+    "General": [
+      "Kit 3 Expansores de Hueso",
+      "Kit 3 Expansores de Hueso Sistema Monopieza"
+    ]
+  },
+
+  "Instrumental colocación": [
+    "Torquímetro Dinamométrico",
+    "Mango Rígido (punta 4x4) para expansor óseo",
+    "Extractor de raíz residual",
+    "Mango para angulación de pilar MP",
+    "Driver Retráctil"
+  ],
+
+  "Puntas Driver Retráctil": [
+    "Punta Driver Monopieza corta",
+    "Punta Driver Monopieza Larga"
+  ],
+
+  "Destornilladores": {
+    "Cuadrado": [
+      "Destornillador cuadrado 0.050\" Standar",
+      "Destornillador cuadrado 0.050\" Corto",
+      "Destornillador cuadrado 0.050\" Largo",
+      "Destornillador cuadrado 0.050\" Extra Largo"
+    ],
+    "Hexagonal": [
+      "Destornillador Hexagonal 0.048\" Standar",
+      "Destornillador Hexagonal 0.048\" Corto",
+      "Destornillador Hexagonal 0.048\" Largo",
+      "Destornillador Hexagonal 0.048\" Extra Largo"
+    ]
+  },
+
+  "Complementos de fresado": {
+    "Prolongador 4x4": [
+      "Prolongador 4x4 corto Ø6",
+      "Prolongador 4x4 Largo Ø6"
+    ],
+    "Prolongador de fresa": [
+      "Prolongador de fresa"
+    ],
+    "Punch": [
+      "Punch 0.050\" corto",
+      "Punch 0.050\" Standar",
+      "Punch 0.050\" largo"
+    ],
+    "Llave conectora MP para contra ángulo": [
+      "Llave conectora MP para contra angulo Larga",
+      "Llave conectora MP para contra angulo Corta"
+    ]
+  },
+
+  "Llaves conectoras": {
+    "Monopieza": [
+      "Llave conectora Monopieza para Torquímetro Corta",
+      "Llave conectora Monopieza para Torquímetro Larga"
+    ],
+    "CMU": [
+      "Llave CMU para Torquímetro corta",
+      "Llave CMU para Torquímetro Larga"
+    ]
+  },
+
+  "Llave Digital para Multiunit": [
+    "Llave Digital para Multiunit"
+  ],
+
+  "Anillas para guía quirúrgica": {
+    "Sistema Monopieza": [
+      "Anilla Para guía Quirúrgica Ø5,5-Ø2,1",
+      "Anilla para guía Quirúrgica Ø4,1-Ø3,0"
+    ],
+    "Sistema Bifásico": [
+      "Anilla Para guía Quirúrgica Ø5,5-Ø4,2"
+    ]
+  },
+
+  "Protocolo Guiado Bio-Fix": [
+    "Anilla Para Pin",
+    "Fresa lanza Ø1,3",
+    "Pin de Fijación"
+  ]
+}
 };
         // ========== ESTADO ==========
 let cart = {};
@@ -671,6 +806,7 @@ function sendWA() {
 </script>
 </body>
 </html>
+
 
 
 

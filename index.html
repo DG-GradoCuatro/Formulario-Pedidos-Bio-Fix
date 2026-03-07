@@ -259,9 +259,6 @@ select.input-premium {
 </section>
 
     <script>
-
-const API_URL = "https://script.google.com/macros/s/AKfycbzrfOIll8fWbBCNGP7Tq-QottJ1Qar7vztFuyDrlFJSDw2JC08nX2TdRKOjWzLIoNuAPQ/exec";
-        
 const DB = {
     monopieza: {
         "Ø3.0": ["MP Ø3.0x6mm","MP Ø3.0x8mm","MP Ø3.0x10mm","MP Ø3.0x11.5mm","MP Ø3.0x13mm","MP Ø3.0x15mm","MP Ø3.0x18mm","MP Ø3.0x20mm"],
@@ -990,10 +987,10 @@ function goToResumen() {
     `;
   });
 }
-            
+
 function sendWA() {
 
-  if (!cart || Object.keys(cart).length === 0) {
+  if (Object.keys(cart).length === 0) {
     alert("No hay productos en el pedido.");
     return;
   }
@@ -1004,6 +1001,7 @@ function sendWA() {
   message += `Nombre: ${clientData.nombre || ""}\n`;
   message += `DNI: ${clientData.id || ""}\n`;
 
+  // Si es cliente nuevo, agregamos más datos
   if (clientData.tipo === "NUEVO") {
     message += `Matrícula: ${clientData.matricula || ""}\n`;
     message += `Localidad: ${clientData.loc || ""}\n`;
@@ -1018,37 +1016,13 @@ function sendWA() {
   });
 
   const obs = document.getElementById("obs")?.value;
-
   if (obs) {
     message += `\n*OBSERVACIONES*\n${obs}\n`;
   }
 
   message += `\n—\nPedido sujeto a confirmación de stock.`;
 
-
-  // GUARDAR EN GOOGLE SHEETS
-
-  const data = {
-    nombre: clientData.nombre || "",
-    dni: clientData.id || "",
-    matricula: clientData.matricula || "",
-    localidad: clientData.loc || "",
-    provincia: clientData.prov || "",
-    productos: JSON.stringify(cart),
-    observaciones: obs || ""
-  };
-
-fetch(API_URL, {
-  method: "POST",
-  mode: "no-cors",
-  body: JSON.stringify(data)
-});
-
-
-
-  // ABRIR WHATSAPP
-
-  const phone = "5491134019090";
+  const phone = "5491164336112"; // ← tu número
   const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
   window.open(url, "_blank");
@@ -1056,6 +1030,7 @@ fetch(API_URL, {
 </script>
 </body>
 </html>
+
 
 
 

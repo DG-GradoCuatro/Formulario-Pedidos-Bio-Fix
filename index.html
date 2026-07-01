@@ -50,22 +50,43 @@
 
         <main class="p-6 mt-6 flex-grow">
             
-            <section id="step-choice" class="space-y-6">
-                <div class="text-center mb-10">
-                    <h2 class="font-black text-2xl text-slate-800">¿Ya realizó un pedido con Bio-Fix?</h2>
-                    <p class="text-slate-400 text-sm font-medium">Seleccione una opción para continuar</p>
-                </div>
-                <div class="grid grid-cols-1 gap-5">
-                    <button onclick="showSection('step-login-old')" class="btn-choice bg-white border-slate-100 text-slate-900">
-                        <span class="text-4xl">👨‍⚕️</span>
-                        <span>Ya Soy Cliente</span>
-                    </button>
-                    <button onclick="showSection('step-login-new')" class="btn-choice bg-blue-600 border-blue-500 text-white">
-                        <span class="text-4xl">✨</span>
-                        <span>Soy Cliente Nuevo</span>
-                    </button>
-                </div>
-            </section>
+            <section id="step-vendedor" class="space-y-6">
+    <div class="text-center mb-10">
+        <h2 class="font-black text-2xl text-slate-800">Seleccione vendedor</h2>
+        <p class="text-slate-400 text-sm font-medium">Elegí quién gestionará el pedido</p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-5">
+        <button onclick="seleccionarVendedor('fabrica')" class="btn-choice bg-white border-slate-100 text-slate-900">
+            <span class="text-4xl">🏭</span>
+            <span>Fábrica</span>
+        </button>
+
+        <button onclick="seleccionarVendedor('vendedor1')" class="btn-choice bg-blue-600 border-blue-500 text-white">
+            <span class="text-4xl">👤</span>
+            <span>Vendedor 1</span>
+        </button>
+    </div>
+</section>
+
+<section id="step-choice" class="hidden space-y-6">
+    <div class="text-center mb-10">
+    <h2 class="font-black text-2xl text-slate-800">¿Ya realizó un pedido con Bio-Fix?</h2>
+    <p class="text-slate-400 text-sm font-medium">Seleccione una opción para continuar</p>
+</div>
+
+<div class="grid grid-cols-1 gap-5">
+    <button onclick="showSection('step-login-old')" class="btn-choice bg-white border-slate-100 text-slate-900">
+        <span class="text-4xl">👨‍⚕️</span>
+        <span>Ya Soy Cliente</span>
+    </button>
+
+    <button onclick="showSection('step-login-new')" class="btn-choice bg-blue-600 border-blue-500 text-white">
+        <span class="text-4xl">✨</span>
+        <span>Soy Cliente Nuevo</span>
+    </button>
+</div>
+</section>
 
             <section id="step-login-old" class="hidden space-y-6">
                 <div class="bg-white p-8 rounded-[40px] card-shadow border border-slate-100">
@@ -220,6 +241,29 @@
     </div>
 
     <script>
+    let vendedorSeleccionado = null;
+
+const VENDEDORES = {
+    fabrica: {
+        nombre: "Fábrica",
+        numero: "5491164336112"
+    },
+    vendedor1: {
+        nombre: "Vendedor 1",
+        numero: "5493518036875"
+    }
+};
+
+function seleccionarVendedor(vendedor) {
+    vendedorSeleccionado = VENDEDORES[vendedor];
+
+    if (!vendedorSeleccionado) {
+        alert("Seleccioná un vendedor válido.");
+        return;
+    }
+
+    showSection("step-choice");
+}
 const DB = {
     monopieza: {
         "Ø3.0": ["MP Ø3.0x6mm","MP Ø3.0x8mm","MP Ø3.0x10mm","MP Ø3.0x11.5mm","MP Ø3.0x13mm","MP Ø3.0x15mm","MP Ø3.0x18mm","MP Ø3.0x20mm"],
@@ -966,15 +1010,26 @@ function goToResumen() {
 
 // ========== TRANSACCION FINAL (PLANILLA + WHATSAPP) ==========
 function sendWA() {
+
+    if (!vendedorSeleccionado) {
+        alert("Primero seleccioná el vendedor.");
+        showSection("step-vendedor");
+        return;
+    }
+
     let textoPedido = "";
+
     Object.keys(cart).forEach(prod => {
         if (cart[prod] > 0) {
             textoPedido += `(Cant: ${cart[prod]}) ${prod} | `;
         }
     });
 
-    if (!textoPedido) return alert("No seleccionaste ningún producto aún.");
-    
+    if (!textoPedido) {
+        alert("No seleccionaste ningún producto aún.");
+        return;
+    }
+
     const observaciones = document.getElementById("obs").value || "";
 
     // Armado exacto según tu Google Apps Script
@@ -995,11 +1050,27 @@ function sendWA() {
     jsonpCall(parametrosPedido, function(respuesta) {
         if (respuesta && respuesta.ok) {
             // El backend guardó la fila con éxito -> Disparar WhatsApp de envío
-            const numeroTelefono = "5491112345678"; // <-- INSERTAR ACÁ EL TELÉFONO DE BIO-FIX
-            const mensajeWA = `Hola Bio-Fix, adjunto el resumen de mi pedido:\n\n👤 Profesional: ${clientData.nombreSolo} ${clientData.apellidoSolo}\n🆔 ID/CUIL: ${clientData.id}\n\n📦 Detalle:\n${textoPedido.replace(/ \| /g, '\n')}\n📝 Notas: ${observaciones}`;
-            
-            const urlWA = `https://api.whatsapp.com/send?phone=${numeroTelefono}&text=${encodeURIComponent(mensajeWA)}`;
-            window.open(urlWA, '_blank');
+            const mensajeWA = `Hola Bio-Fix, adjunto el resumen de mi pedido:
+
+👤 Profesional: ${clientData.nombreSolo} ${clientData.apellidoSolo}
+🆔 ID/CUIL: ${clientData.id}
+
+📦 Detalle:
+${textoPedido.replace(/ \| /g, '\n')}
+📝 Notas: ${observaciones}
+
+Pedido gestionado por ${vendedorSeleccionado.nombre}.`;
+
+const urlVendedor = `https://wa.me/${vendedorSeleccionado.numero}?text=${encodeURIComponent(mensajeWA)}`;
+const urlFabrica = `https://wa.me/${VENDEDORES.fabrica.numero}?text=${encodeURIComponent(mensajeWA)}`;
+
+window.open(urlVendedor, "_blank");
+
+if (vendedorSeleccionado.nombre !== "Fábrica") {
+    setTimeout(() => {
+        window.open(urlFabrica, "_blank");
+    }, 700);
+}
         } else {
             alert("Hubo un error al registrar el pedido en la planilla de Google. Por favor, intente de nuevo.");
             console.error("Error devuelto por Apps Script:", respuesta);

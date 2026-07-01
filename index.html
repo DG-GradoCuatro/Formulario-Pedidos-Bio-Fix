@@ -1034,17 +1034,18 @@ function sendWA() {
 
     // Armado exacto según tu Google Apps Script
     const parametrosPedido = {
-        tipo: clientData.tipo || "NUEVO",
-        nombre: clientData.nombreSolo || "",
-        apellido: clientData.apellidoSolo || "",
-        cuil: clientData.id || "",
-        matricula: clientData.matricula || "-",
-        localidad: clientData.loc || "-",
-        cp: clientData.cp || "-",
-        provincia: clientData.prov || "-",
-        pedido: textoPedido,
-        observaciones: observaciones
-    };
+    tipo: clientData.tipo || "NUEVO",
+    nombre: clientData.nombreSolo || "",
+    apellido: clientData.apellidoSolo || "",
+    cuil: clientData.id || "",
+    matricula: clientData.matricula || "-",
+    localidad: clientData.loc || "-",
+    cp: clientData.cp || "-",
+    provincia: clientData.prov || "-",
+    pedido: mensajeWA,
+    observaciones: observaciones,
+    vendedor: vendedorSeleccionado.nombre
+}
 
     // Llamada JSONP a la API Web de Google Sheets
     jsonpCall(parametrosPedido, function(respuesta) {

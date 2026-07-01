@@ -354,10 +354,28 @@ function loadProducts(key) {
                 <div class="flex justify-between items-center p-4 bg-white rounded-2xl card-shadow border border-slate-100">
                     <span class="text-xs font-bold text-slate-800 uppercase max-w-[65%]">${prod}</span>
                     <div class="flex items-center gap-2 bg-slate-100 p-1 rounded-xl">
-                        <button onclick="updateQty('${prod}', -1)" class="w-8 h-8 font-black bg-white rounded-lg shadow-sm text-slate-800">-</button>
-                        <span id="qty-${btoa(prod).replace(/=/g,'')}" class="w-6 text-center font-black text-xs">${currentQty}</span>
-                        <button onclick="updateQty('${prod}', 1)" class="w-8 h-8 font-black bg-white rounded-lg shadow-sm text-slate-800">+</button>
-                    </div>
+
+    <button onclick="updateQty('${prod}', -1)"
+        class="w-8 h-8 font-black bg-white rounded-lg shadow-sm text-slate-800">
+        -
+    </button>
+
+    <input
+        id="qty-${btoa(prod).replace(/=/g,'')}"
+        type="number"
+        min="0"
+        value="${currentQty}"
+        inputmode="numeric"
+        class="w-14 h-8 text-center font-black text-xs border rounded-lg bg-white"
+        onchange="setQty('${prod}', this.value)"
+    >
+
+    <button onclick="updateQty('${prod}', 1)"
+        class="w-8 h-8 font-black bg-white rounded-lg shadow-sm text-slate-800">
+        +
+    </button>
+
+</div>
                 </div>`;
         });
     });
@@ -365,16 +383,38 @@ function loadProducts(key) {
 }
 
 function updateQty(prod, change) {
+
     if (!cart[prod]) cart[prod] = 0;
+
     cart[prod] += change;
+
     if (cart[prod] < 0) cart[prod] = 0;
 
     const elementId = "qty-" + btoa(prod).replace(/=/g,'');
+
     const el = document.getElementById(elementId);
-    if(el) el.innerText = cart[prod];
+
+    if(el) el.value = cart[prod];
 
     let totalItems = 0;
+
     Object.keys(cart).forEach(k => totalItems += cart[k]);
+
+    document.getElementById("cart-count").innerText = totalItems;
+}
+    function setQty(prod, value){
+
+    let cantidad = parseInt(value);
+
+    if(isNaN(cantidad) || cantidad < 0)
+        cantidad = 0;
+
+    cart[prod] = cantidad;
+
+    let totalItems = 0;
+
+    Object.keys(cart).forEach(k => totalItems += cart[k]);
+
     document.getElementById("cart-count").innerText = totalItems;
 }
 

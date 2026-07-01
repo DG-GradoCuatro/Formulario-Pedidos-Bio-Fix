@@ -746,7 +746,7 @@ herramental: {
 
 // ========== ESTADO ==========
 let cart = {};
-let stack = ["step-choice"];
+let stack = ["step-vendedor"];
 let clientData = {};
 
 // ===== URL DEL APPS SCRIPT =====
@@ -786,7 +786,7 @@ function showSection(id, push = true) {
 
 function updateLabels(id) {
     const subs = {
-        "step-choice": "Inicio", "step-login-old": "Identificación", "step-login-new": "Identificación",
+        "step-vendedor": "Vendedor", "step-choice": "Inicio", "step-login-old": "Identificación", "step-login-new": "Identificación",
         "step-menu": "Menú", "sub-implantes": "Implantes", "sub-analogicos": "Analógicos",
         "sub-digital": "Digitales", "sub-herramental": "Herramental", "step-lista": "Catálogo", "step-resumen": "Resumen"
     };
@@ -1067,33 +1067,6 @@ Pedido gestionado por ${vendedorSeleccionado.nombre}.`;
         }
     });
 }
-
-    // Llamada JSONP a la API Web de Google Sheets
-    jsonpCall(parametrosPedido, function(respuesta) {
-        if (respuesta && respuesta.ok) {
-            // El backend guardó la fila con éxito -> Disparar WhatsApp de envío
-            const mensajeWA = `Hola Bio-Fix, adjunto el resumen de mi pedido:
-
-Profesional: ${clientData.nombreSolo} ${clientData.apellidoSolo}
-ID/CUIL: ${clientData.id}
-
-Detalle:
-${textoPedido.replace(/ \| /g, '\n')}
-Notas: ${observaciones}
-
-Pedido gestionado por ${vendedorSeleccionado.nombre}.`;
-
-const urlWA = `https://wa.me/${vendedorSeleccionado.numero}?text=${encodeURIComponent(mensajeWA)}`;
-
-window.location.href = urlWA;
-        } else {
-            alert("Hubo un error al registrar el pedido en la planilla de Google. Por favor, intente de nuevo.");
-            console.error("Error devuelto por Apps Script:", respuesta);
-        }
-    });
-}
-    </script>
+</script>
 </body>
 </html>
-
-```

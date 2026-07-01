@@ -1032,19 +1032,40 @@ function sendWA() {
 
     const observaciones = document.getElementById("obs").value || "";
 
-    // Armado exacto según tu Google Apps Script
+    const mensajeWA = `Hola Bio-Fix, adjunto el resumen de mi pedido:
+
+Profesional: ${clientData.nombreSolo} ${clientData.apellidoSolo}
+ID/CUIL: ${clientData.id}
+
+Detalle:
+${textoPedido.replace(/ \| /g, '\n')}
+Notas: ${observaciones}
+
+Pedido gestionado por ${vendedorSeleccionado.nombre}.`;
+
     const parametrosPedido = {
-    tipo: clientData.tipo || "NUEVO",
-    nombre: clientData.nombreSolo || "",
-    apellido: clientData.apellidoSolo || "",
-    cuil: clientData.id || "",
-    matricula: clientData.matricula || "-",
-    localidad: clientData.loc || "-",
-    cp: clientData.cp || "-",
-    provincia: clientData.prov || "-",
-    pedido: mensajeWA,
-    observaciones: observaciones,
-    vendedor: vendedorSeleccionado.nombre
+        tipo: clientData.tipo || "NUEVO",
+        nombre: clientData.nombreSolo || "",
+        apellido: clientData.apellidoSolo || "",
+        cuil: clientData.id || "",
+        matricula: clientData.matricula || "-",
+        localidad: clientData.loc || "-",
+        cp: clientData.cp || "-",
+        provincia: clientData.prov || "-",
+        pedido: mensajeWA,
+        observaciones: observaciones,
+        vendedor: vendedorSeleccionado.nombre
+    };
+
+    jsonpCall(parametrosPedido, function(respuesta) {
+        if (respuesta && respuesta.ok) {
+            const urlWA = `https://wa.me/${vendedorSeleccionado.numero}?text=${encodeURIComponent(mensajeWA)}`;
+            window.location.href = urlWA;
+        } else {
+            alert("Hubo un error al registrar el pedido en la planilla de Google. Por favor, intente de nuevo.");
+            console.error("Error devuelto por Apps Script:", respuesta);
+        }
+    });
 }
 
     // Llamada JSONP a la API Web de Google Sheets

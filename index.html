@@ -1061,16 +1061,9 @@ ${textoPedido.replace(/ \| /g, '\n')}
 
 Pedido gestionado por ${vendedorSeleccionado.nombre}.`;
 
-const urlVendedor = `https://wa.me/${vendedorSeleccionado.numero}?text=${encodeURIComponent(mensajeWA)}`;
-const urlFabrica = `https://wa.me/${VENDEDORES.fabrica.numero}?text=${encodeURIComponent(mensajeWA)}`;
+const urlWA = `https://wa.me/${vendedorSeleccionado.numero}?text=${encodeURIComponent(mensajeWA)}`;
 
-window.open(urlVendedor, "_blank");
-
-if (vendedorSeleccionado.nombre !== "Fábrica") {
-    setTimeout(() => {
-        window.open(urlFabrica, "_blank");
-    }, 700);
-}
+window.location.href = urlWA;
         } else {
             alert("Hubo un error al registrar el pedido en la planilla de Google. Por favor, intente de nuevo.");
             console.error("Error devuelto por Apps Script:", respuesta);

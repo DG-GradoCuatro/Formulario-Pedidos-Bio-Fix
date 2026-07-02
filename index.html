@@ -809,22 +809,85 @@ function validateStart(type) {
     if (!n || !d) return alert("Por favor complete los campos obligatorios.");
 
     const np = separarNombre(n);
-    clientData = { 
-        nombreSolo: np.nombre, 
-        apellidoSolo: np.apellido, 
-        id: d, 
-        tipo: type === "old" ? "REGISTRADO" : "NUEVO" 
+
+    if (type === "old") {
+        jsonpCall({
+            accion: "buscarCliente",
+            cuil: d
+        }, function(res) {
+
+            if (!res || !res.ok) {
+                alert("No se pudo validar el cliente. Intentá nuevamente.");
+                return;
+            }
+
+            if (!res.encontrado) {
+                alert("No encontramos tus datos registrados. Por favor completá tus datos como cliente nuevo.");
+                showSection("step-login-new");
+
+                document.getElementById("new_nom").value = n;
+                document.getElementById("new_cuil").value = d;
+                return;
+            }
+
+            if (!res.completo) {
+                alert("Encontramos tu registro, pero faltan datos obligatorios. Completalos para continuar.");
+                showSection("step-login-new");
+
+                document.getElementById("new_nom").value = `${res.cliente.nombre || ""} ${res.cliente.apellido || ""}`.trim();
+                document.getElementById("new_cuil").value = res.cliente.cuil || d;
+                document.getElementById("new_mat").value = res.cliente.matricula || "";
+                document.getElementById("new_loc").value = res.cliente.localidad || "";
+                document.getElementById("new_cp").value = res.cliente.cp || "";
+
+                const provincia = res.cliente.provincia || "";
+                if (provincia && provincia !== "-") {
+                    document.getElementById("new_prov").value = provincia;
+                }
+
+                return;
+            }
+
+            clientData = {
+                nombreSolo: res.cliente.nombre,
+                apellidoSolo: res.cliente.apellido,
+                id: res.cliente.cuil,
+                matricula: res.cliente.matricula,
+                loc: res.cliente.localidad,
+                cp: res.cliente.cp,
+                prov: res.cliente.provincia,
+                tipo: "REGISTRADO"
+            };
+
+            showSection("step-menu");
+        });
+
+        return;
+    }
+
+    const matricula = document.getElementById("new_mat").value;
+    const localidad = document.getElementById("new_loc").value;
+    const provincia = document.getElementById("new_prov").value;
+    const cp = document.getElementById("new_cp").value;
+
+    if (!matricula || !localidad || !provincia || !cp) {
+        alert("Para continuar, completá todos los datos obligatorios.");
+        return;
+    }
+
+    clientData = {
+        nombreSolo: np.nombre,
+        apellidoSolo: np.apellido,
+        id: d,
+        tipo: "NUEVO",
+        matricula: matricula,
+        loc: localidad,
+        prov: provincia,
+        cp: cp
     };
 
-    if (type === "new") {
-        clientData.matricula = document.getElementById("new_mat").value;
-        clientData.loc = document.getElementById("new_loc").value;
-        clientData.prov = document.getElementById("new_prov").value;
-        clientData.cp = document.getElementById("new_cp").value;
-    }
     showSection("step-menu");
 }
-
 // ========== MOTOR DEL CATÁLOGO Y INTERFAZ ==========
 function loadProducts(dataOrKey) {
     const currentLevel = (typeof dataOrKey === "string") ? DB[dataOrKey] : dataOrKey;
@@ -1044,18 +1107,20 @@ Notas: ${observaciones}
 Pedido gestionado por ${vendedorSeleccionado.nombre}.`;
 
     const parametrosPedido = {
-        tipo: clientData.tipo || "NUEVO",
-        nombre: clientData.nombreSolo || "",
-        apellido: clientData.apellidoSolo || "",
-        cuil: clientData.id || "",
-        matricula: clientData.matricula || "-",
-        localidad: clientData.loc || "-",
-        cp: clientData.cp || "-",
-        provincia: clientData.prov || "-",
-        pedido: mensajeWA,
-        observaciones: observaciones,
-        vendedor: vendedorSeleccionado.nombre
-    };
+    accion: "registrarPedido",
+
+    tipo: clientData.tipo || "NUEVO",
+    nombre: clientData.nombreSolo || "",
+    apellido: clientData.apellidoSolo || "",
+    cuil: clientData.id || "",
+    matricula: clientData.matricula || "-",
+    localidad: clientData.loc || "-",
+    cp: clientData.cp || "-",
+    provincia: clientData.prov || "-",
+    pedido: mensajeWA,
+    observaciones: observaciones,
+    vendedor: vendedorSeleccionado.nombre
+};
 
     jsonpCall(parametrosPedido, function(respuesta) {
         if (respuesta && respuesta.ok) {

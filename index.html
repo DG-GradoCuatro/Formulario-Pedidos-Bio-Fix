@@ -848,6 +848,7 @@ function validateStart(type) {
 
             if (!res.encontrado) {
     alert("No encontramos tus datos registrados. Por favor completá tus datos como cliente nuevo.");
+
     showSection("step-login-new");
 
     document.getElementById("new_nom").value = "";
@@ -860,23 +861,20 @@ function validateStart(type) {
     return;
 }
 
-            if (!res.completo) {
-                alert("Encontramos tu registro, pero faltan datos obligatorios. Completalos para continuar.");
-                showSection("step-login-new");
+           if (!res.completo) {
+    alert("Encontramos tu registro, pero faltan datos obligatorios. Completalos para continuar.");
 
-                document.getElementById("new_nom").value = `${res.cliente.nombre || ""} ${res.cliente.apellido || ""}`.trim();
-                document.getElementById("new_cuil").value = res.cliente.cuil || d;
-                document.getElementById("new_mat").value = res.cliente.matricula || "";
-                document.getElementById("new_loc").value = res.cliente.localidad || "";
-                document.getElementById("new_cp").value = res.cliente.cp || "";
+    showSection("step-login-new");
 
-                const provincia = res.cliente.provincia || "";
-                if (provincia && provincia !== "-") {
-                    document.getElementById("new_prov").value = provincia;
-                }
+    document.getElementById("new_nom").value = "";
+    document.getElementById("new_cuil").value = "";
+    document.getElementById("new_mat").value = "";
+    document.getElementById("new_loc").value = "";
+    document.getElementById("new_cp").value = "";
+    document.getElementById("new_prov").selectedIndex = 0;
 
-                return;
-            }
+    return;
+}
 
             clientData = {
                 nombreSolo: res.cliente.nombre,

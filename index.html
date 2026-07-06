@@ -774,6 +774,16 @@ function separarNombre(completo) {
     return { nombre: partes[0], apellido: partes.slice(1).join(' ') };
 }
 
+    function extraerDni(cuil) {
+    const limpio = String(cuil || "").replace(/\D/g, "");
+
+    if (limpio.length === 11) {
+        return limpio.substring(2, 10);
+    }
+
+    return limpio;
+}
+
 // ========== UI NAV ==========
 function showSection(id, push = true) {
     document.querySelectorAll("section").forEach(s => s.classList.add("hidden"));
@@ -1136,6 +1146,7 @@ Pedido gestionado por ${vendedorSeleccionado.nombre}.`;
         nombre: nombreFinal,
         apellido: apellidoFinal,
         cuil: cuilFinal,
+        dni: extraerDni(cuilFinal),
         matricula: matriculaFinal,
         localidad: localidadFinal,
         cp: cpFinal,

@@ -100,7 +100,7 @@
             <section id="step-login-new" class="hidden space-y-6">
                 <div class="bg-white p-8 rounded-[40px] card-shadow border border-slate-100 space-y-3">
                     <input type="text" id="new_nom" placeholder="Nombre y Apellido *" class="input-premium">
-                    <input type="text" id="new_cuil" placeholder="CUIL *" class="input-premium">
+                    <input type="text" id="new_cuil" inputmode="numeric" maxlength="13" placeholder="CUIL * Ej: 20-12345678-3" class="input-premium" oninput="formatearCuilInput(this)">
                     <input type="text" id="new_mat" placeholder="Matrícula Profesional *" class="input-premium">
                     <input type="text" id="new_loc" placeholder="Localidad *" class="input-premium">
                     <input type="text" id="new_cp" inputmode="numeric" pattern="[0-9]*" placeholder="Código Postal *" class="input-premium">
@@ -782,6 +782,21 @@ function separarNombre(completo) {
     }
 
     return limpio;
+}
+
+    function formatearCuilInput(input) {
+    let numeros = input.value.replace(/\D/g, "").slice(0, 11);
+
+    if (numeros.length > 10) {
+        input.value = numeros.slice(0, 2) + "-" +
+                      numeros.slice(2, 10) + "-" +
+                      numeros.slice(10);
+    } else if (numeros.length > 2) {
+        input.value = numeros.slice(0, 2) + "-" +
+                      numeros.slice(2);
+    } else {
+        input.value = numeros;
+    }
 }
 
 // ========== UI NAV ==========

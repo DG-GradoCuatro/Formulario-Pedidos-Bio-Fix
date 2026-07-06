@@ -847,13 +847,18 @@ function validateStart(type) {
             }
 
             if (!res.encontrado) {
-                alert("No encontramos tus datos registrados. Por favor completá tus datos como cliente nuevo.");
-                showSection("step-login-new");
+    alert("No encontramos tus datos registrados. Por favor completá tus datos como cliente nuevo.");
+    showSection("step-login-new");
 
-                document.getElementById("new_nom").value = n;
-                document.getElementById("new_cuil").value = d;
-                return;
-            }
+    document.getElementById("new_nom").value = "";
+    document.getElementById("new_cuil").value = "";
+    document.getElementById("new_mat").value = "";
+    document.getElementById("new_loc").value = "";
+    document.getElementById("new_cp").value = "";
+    document.getElementById("new_prov").selectedIndex = 0;
+
+    return;
+}
 
             if (!res.completo) {
                 alert("Encontramos tu registro, pero faltan datos obligatorios. Completalos para continuar.");

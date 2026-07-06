@@ -1093,12 +1093,36 @@ function sendWA() {
         return;
     }
 
+    const nombreCompleto = `${clientData.nombreSolo || ""} ${clientData.apellidoSolo || ""}`.trim();
+    const npFinal = separarNombre(nombreCompleto);
+
+    const nombreFinal = npFinal.nombre || "";
+    const apellidoFinal = npFinal.apellido || "";
+    const cuilFinal = clientData.id || "";
+    const matriculaFinal = clientData.matricula || "";
+    const localidadFinal = clientData.loc || "";
+    const cpFinal = clientData.cp || "";
+    const provinciaFinal = clientData.prov || "";
+
+    if (
+        !nombreFinal ||
+        !cuilFinal ||
+        !matriculaFinal ||
+        !localidadFinal ||
+        !cpFinal ||
+        !provinciaFinal
+    ) {
+        alert("Faltan datos del cliente. Volvé al formulario y tocá REALIZAR MI PRIMER PEDIDO.");
+        showSection("step-login-new");
+        return;
+    }
+
     const observaciones = document.getElementById("obs").value || "";
 
     const mensajeWA = `Hola Bio-Fix, adjunto el resumen de mi pedido:
 
-Profesional: ${clientData.nombreSolo} ${clientData.apellidoSolo}
-ID/CUIL: ${clientData.id}
+Profesional: ${nombreFinal} ${apellidoFinal}
+ID/CUIL: ${cuilFinal}
 
 Detalle:
 ${textoPedido.replace(/ \| /g, '\n')}
@@ -1107,27 +1131,26 @@ Notas: ${observaciones}
 Pedido gestionado por ${vendedorSeleccionado.nombre}.`;
 
     const parametrosPedido = {
-    accion: "registrarPedido",
-
-    tipo: clientData.tipo || "NUEVO",
-    nombre: clientData.nombreSolo || "",
-    apellido: clientData.apellidoSolo || "",
-    cuil: clientData.id || "",
-    matricula: clientData.matricula || "-",
-    localidad: clientData.loc || "-",
-    cp: clientData.cp || "-",
-    provincia: clientData.prov || "-",
-    pedido: mensajeWA,
-    observaciones: observaciones,
-    vendedor: vendedorSeleccionado.nombre
-};
+        accion: "registrarPedido",
+        tipo: clientData.tipo || "NUEVO",
+        nombre: nombreFinal,
+        apellido: apellidoFinal,
+        cuil: cuilFinal,
+        matricula: matriculaFinal,
+        localidad: localidadFinal,
+        cp: cpFinal,
+        provincia: provinciaFinal,
+        pedido: mensajeWA,
+        observaciones: observaciones,
+        vendedor: vendedorSeleccionado.nombre
+    };
 
     jsonpCall(parametrosPedido, function(respuesta) {
         if (respuesta && respuesta.ok) {
             const urlWA = `https://wa.me/${vendedorSeleccionado.numero}?text=${encodeURIComponent(mensajeWA)}`;
             window.location.href = urlWA;
         } else {
-            alert("Hubo un error al registrar el pedido en la planilla de Google. Por favor, intente de nuevo.");
+            alert(respuesta?.error || "Hubo un error al registrar el pedido en la planilla de Google.");
             console.error("Error devuelto por Apps Script:", respuesta);
         }
     });

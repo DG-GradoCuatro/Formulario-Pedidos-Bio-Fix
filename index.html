@@ -223,6 +223,36 @@
             <section id="step-resumen" class="hidden space-y-5">
                 <div id="cart-items" class="space-y-4"></div>
                 <textarea id="obs" class="w-full p-6 bg-white rounded-[32px] border border-slate-100 card-shadow font-bold text-sm outline-none" placeholder="Notas..."></textarea>
+                <div class="bg-white p-6 rounded-[32px] border border-slate-100 card-shadow space-y-4">
+
+    <p class="text-xs font-black uppercase text-slate-900">
+        Forma de entrega *
+    </p>
+
+    <label class="flex items-center gap-3 font-bold text-sm">
+        <input
+            type="radio"
+            name="entrega"
+            value="Domicilio"
+            onchange="toggleDireccionEntrega()">
+        Enviar a domicilio
+    </label>
+
+    <textarea
+        id="direccion_entrega"
+        class="hidden w-full p-4 bg-slate-50 rounded-2xl border border-slate-200"
+        placeholder="Ingrese la dirección completa..."></textarea>
+
+    <label class="flex items-center gap-3 font-bold text-sm">
+        <input
+            type="radio"
+            name="entrega"
+            value="Retiro por sucursal Via Cargo"
+            onchange="toggleDireccionEntrega()">
+        Retirar por sucursal de Via Cargo
+    </label>
+
+</div>
                 <div class="bg-amber-50 border border-amber-200 rounded-[28px] p-6 card-shadow flex gap-4 items-start">
                     <div class="text-2xl">⚠️</div>
                     <div>
@@ -1100,6 +1130,27 @@ function goToResumen() {
 }
 
 // ========== TRANSACCION FINAL (PLANILLA + WHATSAPP) ==========
+
+    function toggleDireccionEntrega() {
+
+    const entrega = document.querySelector('input[name="entrega"]:checked')?.value;
+
+    const direccion = document.getElementById("direccion_entrega");
+
+    if (entrega === "Domicilio") {
+
+        direccion.classList.remove("hidden");
+
+    } else {
+
+        direccion.classList.add("hidden");
+
+        direccion.value = "";
+
+    }
+
+}
+
 function sendWA() {
 
     if (!vendedorSeleccionado) {
@@ -1147,6 +1198,28 @@ function sendWA() {
 
     const observaciones = document.getElementById("obs").value || "";
 
+    const entregaSeleccionada = document.querySelector('input[name="entrega"]:checked');
+
+if (!entregaSeleccionada) {
+
+    alert("Seleccioná la forma de entrega.");
+
+    return;
+
+}
+
+const formaEntrega = entregaSeleccionada.value;
+
+const direccionEntrega = document.getElementById("direccion_entrega").value.trim();
+
+if (formaEntrega === "Domicilio" && direccionEntrega === "") {
+
+    alert("Ingresá la dirección de entrega.");
+
+    return;
+
+}
+
     const mensajeWA = `Hola Bio-Fix, adjunto el resumen de mi pedido:
 
 Profesional: ${nombreFinal} ${apellidoFinal}
@@ -1154,6 +1227,9 @@ ID/CUIL: ${cuilFinal}
 
 Detalle:
 ${textoPedido.replace(/ \| /g, '\n')}
+Forma de entrega: ${formaEntrega}
+${formaEntrega === "Domicilio" ? "Dirección: " + direccionEntrega : ""}
+
 Notas: ${observaciones}
 
 Pedido gestionado por ${vendedorSeleccionado.nombre}.`;
@@ -1171,6 +1247,8 @@ Pedido gestionado por ${vendedorSeleccionado.nombre}.`;
         provincia: provinciaFinal,
         pedido: mensajeWA,
         observaciones: observaciones,
+        formaEntrega: formaEntrega,
+        direccionEntrega: direccionEntrega,
         vendedor: vendedorSeleccionado.nombre
     };
 
